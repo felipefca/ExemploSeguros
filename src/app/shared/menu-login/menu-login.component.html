@@ -1,0 +1,17 @@
+<ul [ngSwitch]="usuarioLogado()" class="nav navbar-nav pull-right navbar-menu hidden-xs">
+  <li *ngSwitchCase="false" class="active">
+    <button [routerLink]="['/login']" class="btn btn-md btn-transparent">
+             <i class="fa fa-user"></i> Login 
+    </button>
+  </li>
+  <li *ngSwitchCase="false" class="divider"></li> 
+  <li *ngSwitchCase="false" class="active">
+    <button [routerLink]="['/registro']" class="btn btn-md btn-transparent">
+             <i class="fa fa-home"></i> Registrar 
+    </button>
+  </li>
+
+  <li *ngSwitchCase="true"><a href="#"><strong><font size="2">Olá {{email}}</font></strong></a></li>
+  <li *ngSwitchCase="true" class="divider"></li>
+  <li class="hidden-xs" *ngSwitchCase="true"><a href="" (click)="logout()"><i class="glyphicon glyphicon-off"></i></a></li>
+</ul>

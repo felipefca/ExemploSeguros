@@ -1,0 +1,101 @@
+<div class="container">
+  <br/>
+  <app-menu-cotacao></app-menu-cotacao>
+  <br/><br/>
+  <div class="row">
+    <div class="col-md-9">
+      <div class="col-xl-7 col-xl-offset-1">
+        <section widget class="widget">
+          <header>
+            <h4>
+              <i class="fa fa-windows"></i> Cotação Automóvel
+            </h4>
+          </header>
+          <legend class="section">
+          </legend>
+          <div class="widget-body">
+            <div class="form-actions">
+              <form class="form-horizontal form-label-left parsleyjs" novalidate (ngSubmit)="adicionarCotacao()" [formGroup]="cotacaoForm">
+                <fieldset>
+                  <legend class="section">
+                    Dados do Seguro
+                  </legend>
+                  <div class="form-group row">
+                    <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Tipo de Seguro * </font></label>
+                    <div class="col-sm-12">
+                      <select class="form-control" formControlName="tipoSeguroId" id="tipoSeguroId" style="width: 300px;">
+
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6">
+                      <label class="font-noraml"><font face="Eagle Lake"> Tipo de Cálculo * </font></label>
+                      <select class="form-control" formControlName="tipoCalculoId" id="tipoCalculoId" style="width: 300px;">
+                        
+                      </select> 
+                    </div>
+                    <div class="col-sm-3">
+                      <label class="font-noraml"><font face="Eagle Lake"> Vigência Inicial *</font></label>
+                      <my-date-picker name="dataInicio" [options]="myDatePickerOptions" formControlName="dataInicio"></my-date-picker>
+                    </div>
+                    <div class="col-sm-3">
+                      <label class="font-noraml"><font face="Eagle Lake"> Vigência Final *</font></label>
+                      <my-date-picker name="dataFim" [options]="myDatePickerOptions" formControlName="dataFim"></my-date-picker>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+              <label class="font-noraml"><font face="Eagle Lake" size="1"> * Campos Obrigatórios </font></label>
+            </div>
+            <div class="form-actions">
+              <ul class="pager wizard">
+                <li class="previous">
+                  <button class="btn btn-primary"><i class="fa fa-caret-left"></i> Previous</button>
+                </li>
+                <li class="next">
+                  <button class="btn btn-primary">Next <i class="fa fa-caret-right"></i></button>
+                </li>
+                <li class="finish" style="display: none">
+                  <button class="btn btn-success">Finish <i class="fa fa-check"></i></button>
+                </li>
+                <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="col-xl-7 col-xl-offset-1">
+        <section widget class="widget">
+          <header>
+            <h4>
+              <i class="fa fa-windows"></i> Resumo do Seguro
+            </h4>
+            <p class="text-muted">An example of complete wizard form in widget.</p>
+          </header>
+        </section>
+      </div>
+    </div>
+    <div class="col-md-9" *ngIf="errors.length > 0">
+      <div class="col-xl-7 col-xl-offset-1">
+        <section widget class="widget-body">
+          <div class="widget-body">
+            <div class="alert alert-danger">
+              <header>
+                <h4>
+                  <i class="fa fa-windows"></i> Avisos
+                </h4>
+              </header>
+              <h5 id="msgRetorno">Opa! Os seguintes erros foram encontrados:</h5>
+              <ul>
+                <li *ngFor="let error of errors">{{ error }}</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

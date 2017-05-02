@@ -1,0 +1,65 @@
+<div class="single-widget-container">
+  <section widget class="widget login-widget">
+    <header class="text-center">
+      <h4>Create a new User</h4>
+    </header>
+    <div class="widget-body">
+      <form novalidate (ngSubmit)="registrarUsuario()" [formGroup]="registroForm" class="no-margin" action="index.html" method="get">
+        <fieldset class="login-form">
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <div class="input-group input-group-lg">
+              <span class="input-group-addon">
+                <i class="fa fa-user"></i>
+              </span>
+              <input id="email" type="email" class="form-control input-lg input-transparent" placeholder="Seu Email" formControlName="email">
+            </div>
+            <span class="text-danger" *ngIf="displayMessage.email">
+                 <P [innerHTML]="displayMessage.email"></P>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="password">Password *</label>
+
+            <div class="input-group input-group-lg">
+              <span class="input-group-addon">
+                <i class="fa fa-lock"></i>
+              </span>
+              <input id="password" type="password" class="form-control input-lg input-transparent" placeholder="Sua Senha" formControlName="password">
+            </div>
+            <span class="text-danger" *ngIf="displayMessage.password">
+                 <P [innerHTML]="displayMessage.password"></P>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="password">Confirm Password *</label>
+
+            <div class="input-group input-group-lg">
+              <span class="input-group-addon">
+                <i class="fa fa-lock"></i>
+              </span>
+              <input id="confirmPassword" type="password" class="form-control input-lg input-transparent" placeholder="Confirme sua Senha" formControlName="confirmPassword">
+            </div>
+            <span class="text-danger" *ngIf="displayMessage.confirmPassword">
+                <P [innerHTML]="displayMessage.confirmPassword"></P>
+            </span>
+          </div>
+        </fieldset>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-lg btn-block btn-success" [disabled]='!registroForm.valid'>
+            <span class="small-circle"><i class="fa fa-caret-right"></i></span>
+            <small>Register</small>
+          </button>
+          <a class="forgot" href="#">Forgot Username or Password?</a>
+        </div>
+        <br/>
+        <div class="alert alert-danger" *ngIf="errors.length > 0">
+          <h4 id="msgRetorno">Opa! Alguma coisa não deu certo:</h4>
+          <ul>
+            <li *ngFor="let error of errors">{{ error }}</li>
+          </ul>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
