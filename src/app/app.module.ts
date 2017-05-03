@@ -37,6 +37,7 @@ import { AutomovelPanelComponent } from './automovel-panel/automovel-panel.compo
 // Services
 import { UsuarioService } from "app/usuario/usuario.service";
 import { AuthService } from "app/shared/AuthService";
+import { CotacaoService } from "app/cotacao/services/cotacao.services";
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { AuthService } from "app/shared/AuthService";
   ],
   providers: [
     UsuarioService,
+    CotacaoService,
     AuthService
   ],
   bootstrap: [AppComponent]

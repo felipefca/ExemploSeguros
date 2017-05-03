@@ -18,6 +18,8 @@ import { Cotacao } from "app/cotacao/models/cotacao";
 import { TipoSeguro } from "app/cotacao/models/tipoSeguro";
 import { TipoCalculo } from "app/cotacao/models/tipoCalculo";
 
+import { CotacaoService } from "app/cotacao/services/cotacao.services";
+
 @Component({
   selector: 'app-automovel-panel',
   templateUrl: './automovel-panel.component.html',
@@ -26,7 +28,7 @@ import { TipoCalculo } from "app/cotacao/models/tipoCalculo";
 export class AutomovelPanelComponent implements OnInit {
   // Diretivas
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
-  
+
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
   // Coleção vazia
@@ -42,7 +44,9 @@ export class AutomovelPanelComponent implements OnInit {
   private validationMessages: { [key: string]: { [key: string]: string } };
   private GenericValidator: GenericValidator;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder,
+    private router: Router,
+    private cotacaoService: CotacaoService) {
 
     this.validationMessages = {
       tipoSeguroId: {
@@ -70,18 +74,47 @@ export class AutomovelPanelComponent implements OnInit {
       dataInicio: ['', Validators.required],
       dataFim: ['', Validators.required]
     });
+
+    this.cotacaoService.obterTiposCalculo()
+      .subscribe(
+      tipoCalculo => this.tipoCalculo = tipoCalculo,
+      error => this.errors
+      );
+
+    this.cotacaoService.obterTipoSeguro()
+      .subscribe(
+      tipoSeguro => this.tipoSeguro = tipoSeguro,
+      error => this.errors
+      );
   }
 
   adicionarCotacao() {
     if (this.cotacaoForm.dirty && this.cotacaoForm.valid) {
-      let p = Object.assign({}, this.cotacao, this.cotacaoForm.value);
+      let user = this.cotacaoService.obterUsuario();
+      let c = Object.assign({}, this.cotacao, this.cotacaoForm.value);
 
-      /*      this.usuarioService.registrarUsuario(p)
-              .subscribe(
-              result => { this.onSaveComplete(result) },
-              error => {
-                this.errors = JSON.parse(error._body).errors;
-              });*/
+      c.userId = user.id;
+      //c.numCotacao = this.cotacaoService.gerarNumCotacaoRandomico();
+      c.dataVigenciaInicial = DateUtils.getMyDatePickerDate(c.dataVigenciaInicial);
+      c.dataVigenciaFinal = DateUtils.getMyDatePickerDate(c.dataVigenciaFinal);
+      //c.tipoCalculoId = 
+      //c.tipoSeguroId = 
+
+      this.cotacaoService.registrarCotacao(c)
+        .subscribe(
+        result => { this.onSaveComplete() },
+        error => { this.onError(error) });
     }
   }
+
+  onSaveComplete(): void {
+    this.cotacaoForm.reset();
+    this.errors = [];
+  }
+
+  onError(error): void {
+    this.errors = JSON.parse(error._body).errors;
+    console.log(error);
+  }
 }
+
