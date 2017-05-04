@@ -24,7 +24,7 @@
                     <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Tipo de Seguro * </font></label>
                     <div class="col-sm-12">
                       <select class="form-control" formControlName="tipoSeguroId" id="tipoSeguroId" style="width: 300px;">
-                        <option *ngFor="let tipoSeguro of tiposSeguro" value="{{tipoSeguro.TipoSeguroId}}" >{{ tipoSeguro.Descricao }}</option>
+                        <option *ngFor="let tipoSeguro of tiposSeguro" value="{{tipoSeguro.tipoSeguroId}}" >{{ tipoSeguro.descricao }}</option>
                       </select>
                     </div>
                   </div>
@@ -32,7 +32,7 @@
                     <div class="col-sm-6">
                       <label class="font-noraml"><font face="Eagle Lake"> Tipo de Cálculo * </font></label>
                       <select class="form-control" formControlName="tipoCalculoId" id="tipoCalculoId" style="width: 300px;">
-                        <option *ngFor="let tipoCalculo of tiposCalculo" value="{{tipoCalculo.TipoCalculoId}}" >{{ tipoCalculo.Descricao }}</option>
+                        <option *ngFor="let tipoCalculo of tiposCalculo" value="{{tipoCalculo.tipoCalculoId}}" >{{ tipoCalculo.descricao }}</option>
                       </select>
                     </div>
                     <div class="col-sm-3">
@@ -66,7 +66,7 @@
         </section>
       </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3"> 
       <div class="col-xl-7 col-xl-offset-1">
         <section widget class="widget">
           <header>

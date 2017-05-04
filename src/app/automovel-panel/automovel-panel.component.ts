@@ -100,7 +100,7 @@ export class AutomovelPanelComponent implements OnInit {
       //c.tipoCalculoId = 
       //c.tipoSeguroId = 
 
-      this.cotacaoService.registrarCotacao(c)
+      this.cotacaoService.registrarCotacao(c) 
         .subscribe(
         result => { this.onSaveComplete() },
         error => { this.onError(error) });

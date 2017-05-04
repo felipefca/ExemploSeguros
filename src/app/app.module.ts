@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { rootRouterConfig } from './app.routes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Bootstrap
 import { CollapseModule } from 'ng2-Bootstrap/collapse';
@@ -14,6 +15,7 @@ import { TabsModule } from 'ng2-bootstrap/tabs';
 
 // Others
 import { MyDatePickerModule } from "mydatepicker";
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 // Shared Components
 import { MenuSuperiorComponent } from './shared/menu-superior/menu-superior.component';
@@ -38,6 +40,7 @@ import { AutomovelPanelComponent } from './automovel-panel/automovel-panel.compo
 import { UsuarioService } from "app/usuario/usuario.service";
 import { AuthService } from "app/shared/AuthService";
 import { CotacaoService } from "app/cotacao/services/cotacao.services";
+import { ToastrCustomOption } from "app/utils/ToastrCustomOption";
 
 @NgModule({
   declarations: [
@@ -59,10 +62,12 @@ import { CotacaoService } from "app/cotacao/services/cotacao.services";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     ReactiveFormsModule,
     MyDatePickerModule,
+    ToastModule.forRoot(),
     CollapseModule.forRoot(),
     CarouselModule.forRoot(),
     TabsModule.forRoot(),
@@ -73,7 +78,8 @@ import { CotacaoService } from "app/cotacao/services/cotacao.services";
   providers: [
     UsuarioService,
     CotacaoService,
-    AuthService
+    AuthService,
+    { provide : ToastOptions, useClass: ToastrCustomOption}
   ],
   bootstrap: [AppComponent]
 })
