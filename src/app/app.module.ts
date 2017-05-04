@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { rootRouterConfig } from './app.routes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Bootstrap
 import { CollapseModule } from 'ng2-Bootstrap/collapse';
@@ -64,7 +63,6 @@ import { CotacaoService } from "app/cotacao/services/cotacao.services";
     HttpModule,
     ReactiveFormsModule,
     MyDatePickerModule,
-    BrowserAnimationsModule,
     CollapseModule.forRoot(),
     CarouselModule.forRoot(),
     TabsModule.forRoot(),
