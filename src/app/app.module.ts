@@ -16,6 +16,7 @@ import { TabsModule } from 'ng2-bootstrap/tabs';
 // Others
 import { MyDatePickerModule } from "mydatepicker";
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { SelectModule } from 'ng2-select';
 
 // Shared Components
 import { MenuSuperiorComponent } from './shared/menu-superior/menu-superior.component';
@@ -67,6 +68,7 @@ import { ToastrCustomOption } from "app/utils/ToastrCustomOption";
     HttpModule,
     ReactiveFormsModule,
     MyDatePickerModule,
+    SelectModule,
     ToastModule.forRoot(),
     CollapseModule.forRoot(),
     CarouselModule.forRoot(),
