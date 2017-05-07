@@ -9,6 +9,7 @@ import 'rxjs/add/observable/merge';
 import { IMyOptions, IMyDateModel } from 'mydatepicker';
 import { DateUtils } from "app/utils/date-utils";
 import { SelectModule, SelectComponent, SelectItem } from 'ng2-select';
+import { TabsModule, TabsetComponent  } from 'ng2-bootstrap/tabs';
 
 import { CustomValidators, CustomFormsModule } from "ng2-validation";
 import { GenericValidator } from "app/utils/generic-form-validator";
