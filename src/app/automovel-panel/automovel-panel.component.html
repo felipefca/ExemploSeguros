@@ -20,22 +20,12 @@
                   <legend class="section">
                     Dados do Seguro
                   </legend>
-<!--                  <div class="form-group row">
+                  <div class="form-group row">
                     <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Tipo de Seguro * </font></label>
                     <div class="form-group row" style="width: 330px; margin-left: 0px">
                       <div class="col-sm-12">
                         <ng-select #SelectTipoSeguroId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoSeguroId">
                         </ng-select>
-                      </div>
-                    </div>
-                  </div>-->
-                  <div class="form-group row">
-                    <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Tipo de Seguro * </font></label>
-                    <div class="form-group row" style="width: 330px; margin-left: 0px">
-                      <div class="col-sm-12">
-                      <select class="form-control" formControlName="tipoSeguroId" id="tipoSeguroId" style="width: 300px;">
-                        <option *ngFor="let tseg of tipoSeguro" value="{{tseg.tipoSeguroId}}" >{{ tseg.descricao }}</option>
-                      </select>
                       </div>
                     </div>
                   </div>
@@ -48,11 +38,11 @@
                     </div>
                     <div class="col-sm-3">
                       <label class="font-noraml"><font face="Eagle Lake"> Vigência Inicial *</font></label>
-                      <my-date-picker name="dataInicio" [options]="myDatePickerOptions" formControlName="dataInicio"></my-date-picker>
+                      <my-date-picker name="dataVigenciaInicial" [options]="myDatePickerOptions" formControlName="dataVigenciaInicial"></my-date-picker>
                     </div>
                     <div class="col-sm-3">
                       <label class="font-noraml"><font face="Eagle Lake"> Vigência Final *</font></label>
-                      <my-date-picker name="dataFim" [options]="myDatePickerOptions" formControlName="dataFim"></my-date-picker>
+                      <my-date-picker name="dataVigenciaFinal" [options]="myDatePickerOptions" formControlName="dataVigenciaFinal"></my-date-picker>
                     </div>
                   </div>
                 </fieldset>

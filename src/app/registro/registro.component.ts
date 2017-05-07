@@ -95,6 +95,8 @@ export class RegistroComponent implements OnInit, AfterViewInit {
 
     localStorage.setItem('exs.token', response.result.access_token);
     localStorage.setItem('exs.user', JSON.stringify(response.result.user));
+
+    this.router.navigate(['/home']);
   }
 
   ngOnDestroy(): void {

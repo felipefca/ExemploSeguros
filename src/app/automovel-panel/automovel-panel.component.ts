@@ -57,10 +57,10 @@ export class AutomovelPanelComponent implements OnInit {
       tipoCalculoId: {
         required: 'Informe o Tipo de Cálculo.'
       },
-      dataInicio: {
+      dataVigenciaInicial: {
         required: 'Informe a Data de Vigência Inicial'
       },
-      dataFim: {
+      dataVigenciaFinal: {
         required: 'Informe a Data de Vigência Final'
       }
     };
@@ -73,8 +73,8 @@ export class AutomovelPanelComponent implements OnInit {
     this.cotacaoForm = this.fb.group({
       tipoSeguroId: ['', Validators.required],
       tipoCalculoId: ['', Validators.required],
-      dataInicio: ['', Validators.required],
-      dataFim: ['', Validators.required]
+      dataVigenciaInicial: ['', Validators.required],
+      dataVigenciaFinal: ['', Validators.required]
     });
 
     this.cotacaoService.obterTiposCalculo()
@@ -85,20 +85,15 @@ export class AutomovelPanelComponent implements OnInit {
 
     this.cotacaoService.obterTipoSeguro()
       .subscribe(
-      apiTipoSeguro => this.tipoSeguro = apiTipoSeguro,
+      apiTipoSeguro => {
+        this.tipoSeguro = apiTipoSeguro;
+        this.tipoSeguro.forEach(item => {
+          item.tipoSeguroId = item.tipoSeguroId.toString();
+          this.selectTS.itemObjects.push(new SelectItem({ id: item.tipoSeguroId, text: item.descricao }))
+        });
+      },
       error => this.errors
       );
-
-    /*    this.cotacaoService.obterTipoSeguro()
-          .subscribe(
-          apiTipoSeguro => {
-            this.tipoSeguro = apiTipoSeguro;
-            this.tipoSeguro.forEach(item => {
-              this.selectTS.itemObjects.push(new SelectItem({ id: item.tipoSeguroId, text: item.descricao }))
-            });
-          },
-          error => this.errors
-          );*/
   }
 
   adicionarCotacao() {
@@ -107,11 +102,10 @@ export class AutomovelPanelComponent implements OnInit {
       let c = Object.assign({}, this.cotacao, this.cotacaoForm.value);
 
       c.userId = user.id;
+      c.tipoSeguroId = this.selectTS.activeOption.id;
       //c.numCotacao = this.cotacaoService.gerarNumCotacaoRandomico();
       c.dataVigenciaInicial = DateUtils.getMyDatePickerDate(c.dataVigenciaInicial);
       c.dataVigenciaFinal = DateUtils.getMyDatePickerDate(c.dataVigenciaFinal);
-      //c.tipoCalculoId = 
-      //c.tipoSeguroId = 
 
       this.cotacaoService.registrarCotacao(c)
         .subscribe(
