@@ -3706,20 +3706,21 @@ fieldset[disabled] a.btn {
 }
 
 .btn-default {
-  color: #ffffff;
-  background-color: #666;
+  color: #333;
+  background-color: #EBEBEB;
   border-color: rgba(0, 0, 0, 0.15);
+  -webkit-text-fill-color: #000000;
 }
 
 .btn-default:focus, .btn-default.focus {
   color: #ffffff;
-  background-color: #4d4d4d;
+  background-color: #EBEBEB;
   border-color: rgba(0, 0, 0, 0.15);
 }
 
 .btn-default:hover {
   color: #ffffff;
-  background-color: #4d4d4d;
+  background-color: #a5bdce;
   border-color: rgba(0, 0, 0, 0.15);
 }
 

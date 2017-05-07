@@ -1,4 +1,4 @@
 export class TipoCalculo{
-    id: string;
+    tipoCalculoId: string;
     descricao: string;
 }

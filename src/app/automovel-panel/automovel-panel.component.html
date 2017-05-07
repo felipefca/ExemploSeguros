@@ -20,12 +20,23 @@
                   <legend class="section">
                     Dados do Seguro
                   </legend>
+<!--                  <div class="form-group row">
+                    <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Tipo de Seguro * </font></label>
+                    <div class="form-group row" style="width: 330px; margin-left: 0px">
+                      <div class="col-sm-12">
+                        <ng-select #SelectTipoSeguroId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoSeguroId">
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>-->
                   <div class="form-group row">
                     <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Tipo de Seguro * </font></label>
-                    <div class="col-sm-12">
+                    <div class="form-group row" style="width: 330px; margin-left: 0px">
+                      <div class="col-sm-12">
                       <select class="form-control" formControlName="tipoSeguroId" id="tipoSeguroId" style="width: 300px;">
                         <option *ngFor="let tseg of tipoSeguro" value="{{tseg.tipoSeguroId}}" >{{ tseg.descricao }}</option>
                       </select>
+                      </div>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -45,8 +56,11 @@
                     </div>
                   </div>
                 </fieldset>
+                <label class="font-noraml"><font face="Eagle Lake" size="1"> * Campos Obrigatórios </font></label>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
+                </div>
               </form>
-              <label class="font-noraml"><font face="Eagle Lake" size="1"> * Campos Obrigatórios </font></label>
             </div>
             <div class="form-actions">
               <ul class="pager wizard">
@@ -59,14 +73,13 @@
                 <li class="finish" style="display: none">
                   <button class="btn btn-success">Finish <i class="fa fa-check"></i></button>
                 </li>
-                <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
               </ul>
             </div>
           </div>
         </section>
       </div>
     </div>
-    <div class="col-md-3"> 
+    <div class="col-md-3">
       <div class="col-xl-7 col-xl-offset-1">
         <section widget class="widget">
           <header>

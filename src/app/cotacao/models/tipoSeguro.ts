@@ -1,4 +1,4 @@
 export class TipoSeguro{
-    id: string;
+    tipoSeguroId: string;
     descricao: string;
 }

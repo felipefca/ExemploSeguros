@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChildren, ElementRef, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, ElementRef, ViewContainerRef, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup, FormArray, Validators, FormControlName } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -8,7 +8,7 @@ import 'rxjs/add/observable/merge';
 
 import { IMyOptions, IMyDateModel } from 'mydatepicker';
 import { DateUtils } from "app/utils/date-utils";
-import { SelectModule } from 'ng2-select';
+import { SelectModule, SelectComponent, SelectItem } from 'ng2-select';
 
 import { CustomValidators, CustomFormsModule } from "ng2-validation";
 import { GenericValidator } from "app/utils/generic-form-validator";
@@ -29,6 +29,7 @@ import { CotacaoService } from "app/cotacao/services/cotacao.services";
 export class AutomovelPanelComponent implements OnInit {
   // Diretivas
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
+  @ViewChild('SelectTipoSeguroId') public selectTS: SelectComponent
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
@@ -84,9 +85,20 @@ export class AutomovelPanelComponent implements OnInit {
 
     this.cotacaoService.obterTipoSeguro()
       .subscribe(
-      tipoSeguro => this.tipoSeguro = tipoSeguro,
+      apiTipoSeguro => this.tipoSeguro = apiTipoSeguro,
       error => this.errors
       );
+
+    /*    this.cotacaoService.obterTipoSeguro()
+          .subscribe(
+          apiTipoSeguro => {
+            this.tipoSeguro = apiTipoSeguro;
+            this.tipoSeguro.forEach(item => {
+              this.selectTS.itemObjects.push(new SelectItem({ id: item.tipoSeguroId, text: item.descricao }))
+            });
+          },
+          error => this.errors
+          );*/
   }
 
   adicionarCotacao() {
