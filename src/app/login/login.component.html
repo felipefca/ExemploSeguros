@@ -3,16 +3,16 @@
     <header class="text-center">
       <h4>Login to your account</h4>
     </header>
-    <div class="widget-body">
+    <div class="body">
       <form novalidate (ngSubmit)="logarUsuario()" [formGroup]="loginForm" class="no-margin" action="index.html" method="get">
-        <fieldset class="login-form">
+        <fieldset>
           <div class="form-group">
             <label for="email">Email</label>
             <div class="input-group input-group-lg">
               <span class="input-group-addon">
                 <i class="fa fa-user"></i>
               </span>
-              <input id="email" type="email" class="form-control input-lg input-transparent" placeholder="Your Email" formControlName="email">
+              <input id="email" type="email" class="form-control input-lg" placeholder="Your Email" formControlName="email">
             </div>
             <span class="text-danger" *ngIf="displayMessage.email">
                  <P [innerHTML]="displayMessage.email"></P>
@@ -25,11 +25,17 @@
               <span class="input-group-addon">
                 <i class="fa fa-lock"></i>
               </span>
-              <input id="password" type="password" class="form-control input-lg input-transparent" placeholder="Your Password" formControlName="password">
+              <input id="password" type="password" class="form-control input-lg" placeholder="Your Password" formControlName="password">
             </div>
             <span class="text-danger" *ngIf="displayMessage.password">
                  <P [innerHTML]="displayMessage.password"></P>
             </span>
+          </div>
+          <div class="alert alert-danger" *ngIf="errors.length > 0">
+            <h4 id="msgRetorno">Opa! Alguma coisa não deu certo:</h4>
+            <ul>
+              <li *ngFor="let error of errors">{{ error }}</li>
+            </ul>
           </div>
         </fieldset>
         <div class="form-actions">
@@ -40,13 +46,6 @@
           <a class="forgot" href="#">Forgot Username or Password?</a>
         </div>
       </form>
-    </div>
-    <br/>
-    <div class="alert alert-danger" *ngIf="errors.length > 0">
-      <h4 id="msgRetorno">Opa! Alguma coisa não deu certo:</h4>
-      <ul>
-        <li *ngFor="let error of errors">{{ error }}</li>
-      </ul>
     </div>
     <footer>
       <div class="facebook-login">

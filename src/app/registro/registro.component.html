@@ -3,7 +3,7 @@
     <header class="text-center">
       <h4>Create a new User</h4>
     </header>
-    <div class="widget-body">
+    <div class="body">
       <form novalidate (ngSubmit)="registrarUsuario()" [formGroup]="registroForm" class="no-margin" action="index.html" method="get">
         <fieldset class="login-form">
           <div class="form-group">
@@ -12,7 +12,7 @@
               <span class="input-group-addon">
                 <i class="fa fa-user"></i>
               </span>
-              <input id="email" type="email" class="form-control input-lg input-transparent" placeholder="Seu Email" formControlName="email">
+              <input id="email" type="email" class="form-control input-lg" placeholder="Seu Email" formControlName="email">
             </div>
             <span class="text-danger" *ngIf="displayMessage.email">
                  <P [innerHTML]="displayMessage.email"></P>
@@ -25,7 +25,7 @@
               <span class="input-group-addon">
                 <i class="fa fa-lock"></i>
               </span>
-              <input id="password" type="password" class="form-control input-lg input-transparent" placeholder="Sua Senha" formControlName="password">
+              <input id="password" type="password" class="form-control input-lg" placeholder="Sua Senha" formControlName="password">
             </div>
             <span class="text-danger" *ngIf="displayMessage.password">
                  <P [innerHTML]="displayMessage.password"></P>
@@ -38,7 +38,7 @@
               <span class="input-group-addon">
                 <i class="fa fa-lock"></i>
               </span>
-              <input id="confirmPassword" type="password" class="form-control input-lg input-transparent" placeholder="Confirme sua Senha" formControlName="confirmPassword">
+              <input id="confirmPassword" type="password" class="form-control input-lg" placeholder="Confirme sua Senha" formControlName="confirmPassword">
             </div>
             <span class="text-danger" *ngIf="displayMessage.confirmPassword">
                 <P [innerHTML]="displayMessage.confirmPassword"></P>
@@ -52,7 +52,6 @@
           </button>
           <a class="forgot" href="#">Forgot Username or Password?</a>
         </div>
-        <br/>
         <div class="alert alert-danger" *ngIf="errors.length > 0">
           <h4 id="msgRetorno">Opa! Alguma coisa não deu certo:</h4>
           <ul>
