@@ -16,6 +16,7 @@ import { TabsModule } from 'ng2-bootstrap/tabs';
 // Others
 import { MyDatePickerModule } from "mydatepicker";
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrCustomOption } from "app/utils/ToastrCustomOption";
 import { SelectModule } from 'ng2-select';
 
 // Shared Components
@@ -41,7 +42,8 @@ import { AutomovelPanelComponent } from './automovel-panel/automovel-panel.compo
 import { UsuarioService } from "app/usuario/usuario.service";
 import { AuthService } from "app/shared/AuthService";
 import { CotacaoService } from "app/cotacao/services/cotacao.services";
-import { ToastrCustomOption } from "app/utils/ToastrCustomOption";
+import { ClienteService } from "app/cotacao/services/cliente.services";
+
 
 @NgModule({
   declarations: [
@@ -80,6 +82,7 @@ import { ToastrCustomOption } from "app/utils/ToastrCustomOption";
   providers: [
     UsuarioService,
     CotacaoService,
+    ClienteService,
     AuthService,
     { provide : ToastOptions, useClass: ToastrCustomOption}
   ],

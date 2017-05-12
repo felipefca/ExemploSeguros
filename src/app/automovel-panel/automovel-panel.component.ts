@@ -9,18 +9,25 @@ import 'rxjs/add/observable/merge';
 import { IMyOptions, IMyDateModel } from 'mydatepicker';
 import { DateUtils } from "app/utils/date-utils";
 import { SelectModule, SelectComponent, SelectItem } from 'ng2-select';
-import { TabsModule, TabsetComponent  } from 'ng2-bootstrap/tabs';
+import { TabsModule, TabsetComponent } from 'ng2-bootstrap/tabs';
 
 import { CustomValidators, CustomFormsModule } from "ng2-validation";
 import { GenericValidator } from "app/utils/generic-form-validator";
 import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 
+// Models
 import { Cotacao } from "app/cotacao/models/cotacao";
+import { Endereco } from "app/cotacao/models/endereco";
+import { Cliente } from "app/cotacao/models/cliente";
 import { TipoSeguro } from "app/cotacao/models/tipoSeguro";
 import { TipoCalculo } from "app/cotacao/models/tipoCalculo";
+import { Profissao } from "app/cotacao/models/profissao";
+import { PaisResidencia } from "app/cotacao/models/paisResidencia";
 
+// Services
 import { CotacaoService } from "app/cotacao/services/cotacao.services";
+import { ClienteService } from "app/cotacao/services/cliente.services";
 
 @Component({
   selector: 'app-automovel-panel',
@@ -40,8 +47,13 @@ export class AutomovelPanelComponent implements OnInit {
 
   // Variáveis 
   public cotacao: Cotacao;
+  public cliente: Cliente;
+  public endereco: Endereco;
   public tipoSeguro: TipoSeguro[];
   public tipoCalculo: TipoCalculo[];
+  public profissoes: Profissao[];
+  public paises: PaisResidencia[];
+
 
   displayMessage: { [key: string]: string } = {};
   private validationMessages: { [key: string]: { [key: string]: string } };
@@ -49,7 +61,8 @@ export class AutomovelPanelComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private router: Router,
-    private cotacaoService: CotacaoService) {
+    private cotacaoService: CotacaoService,
+    private clienteService: ClienteService) {
 
     this.validationMessages = {
       tipoSeguroId: {
@@ -63,11 +76,48 @@ export class AutomovelPanelComponent implements OnInit {
       },
       dataVigenciaFinal: {
         required: 'Informe a Data de Vigência Final'
+      },
+      nome: {
+        required: "Informe o Nome",
+        minlength: 'O Nome precisa ter no mínimo 2 caracteres',
+        maxlength: 'O Nome precisa ter no máximo 150 caracteres'
+      },
+      sobrenome: {
+        required: "Informe o SobreNome",
+        minlength: 'O SobreNome precisa ter no mínimo 2 caracteres',
+        maxlength: 'O SobreNome precisa ter no máximo 150 caracteres'
+      },
+      email: {
+        required: 'Informe o e-mail',
+        email: 'Email invalido'
+      },
+      cpf: {
+        required: 'Informe o CPF',
+        rangeLength: 'CPF deve conter 11 caracteres'
+      },
+      telefone: {
+        required: "Informe o Telefone",
+        rangeLength: 'O Telefone deve conter 8 ou 9 caracteres'
+      },
+      rg: {
+        required: 'Informe o RG',
+        rangeLength: 'RG deve conter 7 caracteres'
+      },
+      dataNascimento: {
+        required: 'Informe a data de Nascimento'
+      },
+      profissaoId: {
+        required: 'Informe a Profissão.'
+      },
+      paisResidenciaId: {
+        required: 'Informe o Pais de Residencia.'
       }
     };
 
     this.GenericValidator = new GenericValidator(this.validationMessages);
-    this.cotacao = new Cotacao()
+    this.cotacao = new Cotacao();
+    this.cliente = new Cliente();
+    this.endereco = new Endereco();
   }
 
   ngOnInit() {
@@ -75,7 +125,16 @@ export class AutomovelPanelComponent implements OnInit {
       tipoSeguroId: ['', Validators.required],
       tipoCalculoId: ['', Validators.required],
       dataVigenciaInicial: ['', Validators.required],
-      dataVigenciaFinal: ['', Validators.required]
+      dataVigenciaFinal: ['', Validators.required],
+      nome: ['', [Validators.required, Validators.minLength(2),  Validators.maxLength(150)]],
+      sobrenome: ['', [Validators.required, Validators.minLength(2),  Validators.maxLength(150)]],
+      email: ['', [Validators.required, CustomValidators.email]],
+      cpf: ['', [Validators.required, CustomValidators.rangeLength([11, 11])]],
+      telefone: ['', [Validators.required, CustomValidators.rangeLength([8,9])]],
+      rg: ['', [Validators.required, CustomValidators.rangeLength([7, 7])]],
+      dataNascimento: ['', Validators.required],
+      profissaoId: ['', Validators.required],
+      paisResidenciaId: ['', Validators.required]
     });
 
     this.cotacaoService.obterTiposCalculo()
