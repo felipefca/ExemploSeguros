@@ -23,11 +23,11 @@
     "@angular/router": "^4.1.0",
     "core-js": "^2.4.1",
     "mydatepicker": "^2.0.3",
+    "ng2-archwizard": "^1.4.1",
     "ng2-bootstrap": "^1.6.3",
     "ng2-select": "^1.2.0",
     "ng2-toastr": "^4.0.1",
     "ng2-validation": "^4.2.0",
-    "primeng-extensions-wizard": "^2.0.3",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },

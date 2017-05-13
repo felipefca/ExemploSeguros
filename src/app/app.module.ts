@@ -18,6 +18,7 @@ import { MyDatePickerModule } from "mydatepicker";
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { ToastrCustomOption } from "app/utils/ToastrCustomOption";
 import { SelectModule } from 'ng2-select';
+import { WizardModule } from "ng2-archwizard/dist";
 
 // Shared Components
 import { MenuSuperiorComponent } from './shared/menu-superior/menu-superior.component';
@@ -71,6 +72,7 @@ import { ClienteService } from "app/cotacao/services/cliente.services";
     ReactiveFormsModule,
     MyDatePickerModule,
     SelectModule,
+    WizardModule,
     ToastModule.forRoot(),
     CollapseModule.forRoot(),
     CarouselModule.forRoot(),

@@ -38,6 +38,8 @@ export class AutomovelPanelComponent implements OnInit {
   // Diretivas
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
   @ViewChild('SelectTipoSeguroId') public selectTS: SelectComponent
+  @ViewChild('SelectProfissaoId') public selectPO: SelectComponent
+  @ViewChild('SelectPaisResidenciaId') public selectPR: SelectComponent
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
@@ -126,15 +128,16 @@ export class AutomovelPanelComponent implements OnInit {
       tipoCalculoId: ['', Validators.required],
       dataVigenciaInicial: ['', Validators.required],
       dataVigenciaFinal: ['', Validators.required],
-      nome: ['', [Validators.required, Validators.minLength(2),  Validators.maxLength(150)]],
-      sobrenome: ['', [Validators.required, Validators.minLength(2),  Validators.maxLength(150)]],
+      nome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
+      sobrenome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
       email: ['', [Validators.required, CustomValidators.email]],
       cpf: ['', [Validators.required, CustomValidators.rangeLength([11, 11])]],
-      telefone: ['', [Validators.required, CustomValidators.rangeLength([8,9])]],
+      telefone: ['', [Validators.required, CustomValidators.rangeLength([8, 9])]],
       rg: ['', [Validators.required, CustomValidators.rangeLength([7, 7])]],
       dataNascimento: ['', Validators.required],
       profissaoId: ['', Validators.required],
-      paisResidenciaId: ['', Validators.required]
+      paisResidenciaId: ['', Validators.required],
+      complemento: ''
     });
 
     this.cotacaoService.obterTiposCalculo()
@@ -154,6 +157,20 @@ export class AutomovelPanelComponent implements OnInit {
       },
       error => this.errors
       );
+
+    this.clienteService.obterPaises()
+      .subscribe(
+      apiPaises => {
+        this.paises = apiPaises;
+        this.paises.forEach(item => {
+          item.paisResidenciaId = item.paisResidenciaId.toString();
+          this.selectPR.itemObjects.push(new SelectItem({ id: item.paisResidenciaId, text: item.nome }))
+        });
+      },
+      error => this.errors
+      );
+
+    this.getProfissoes();
   }
 
   adicionarCotacao() {
@@ -161,11 +178,34 @@ export class AutomovelPanelComponent implements OnInit {
       let user = this.cotacaoService.obterUsuario();
       let c = Object.assign({}, this.cotacao, this.cotacaoForm.value);
 
+      // Cotação
       c.userId = user.id;
       c.tipoSeguroId = this.selectTS.activeOption.id;
       //c.numCotacao = this.cotacaoService.gerarNumCotacaoRandomico();
       c.dataVigenciaInicial = DateUtils.getMyDatePickerDate(c.dataVigenciaInicial);
       c.dataVigenciaFinal = DateUtils.getMyDatePickerDate(c.dataVigenciaFinal);
+
+      // Cliente
+      c.cliente.id = undefined;
+      c.cliente.nome = c.nome;
+      c.cliente.sobreNome = c.sobrenome;
+      c.cliente.email = c.email;
+      c.cliente.cpf = c.cpf;
+      c.cliente.telefone = c.telefone;
+      c.cliente.rg = c.rg;
+      c.cliente.dataNascimento = DateUtils.getMyDatePickerDate(c.dataNascimento);
+      c.cliente.profissaoId = this.selectPO.activeOption.id;
+      c.cliente.paisResidenciaId = this.selectPR.activeOption.id;
+
+      //Endereço
+      c.cliente.endereco.id = undefined;
+      c.cliente.endereco.logradouro = c.logradouro;
+      c.cliente.endereco.numero = c.numero;
+      c.cliente.endereco.complemento = c.complemento;
+      c.cliente.endereco.bairro = c.bairro;
+      c.cliente.endereco.cep = c.cep;
+      c.cliente.endereco.cidade = c.cidade;
+      c.cliente.endereco.estado = c.estado;
 
       this.cotacaoService.registrarCotacao(c)
         .subscribe(
@@ -183,5 +223,20 @@ export class AutomovelPanelComponent implements OnInit {
     this.errors = JSON.parse(error._body).errors;
     console.log(error);
   }
+
+  getProfissoes(): void {
+    this.clienteService.obterProfissoes()
+      .subscribe(
+      apiProfissoes => {
+        this.profissoes = apiProfissoes;
+        this.profissoes.forEach(item => {
+          item.profissaoId = item.profissaoId.toString();
+          this.selectPO.itemObjects.push(new SelectItem({ id: item.profissaoId, text: item.nome }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
 }
 
