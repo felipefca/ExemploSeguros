@@ -26,6 +26,12 @@ export class ClienteService extends BaseService {
             .catch(super.serviceError);
     }
 
+    obterCEP(cep: String): Observable<any> {
+        return this.http.get("https://viacep.com.br/ws/" + cep + "/json/")
+            .map((res: Response) => res.json())
+            .catch(super.serviceError);
+    }
+
     private extractData(response: Response) {
         let body = response.json();
         return body.data || {};

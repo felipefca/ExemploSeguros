@@ -40,7 +40,7 @@ export class AutomovelPanelComponent implements OnInit {
   @ViewChild('SelectTipoSeguroId') public selectTS: SelectComponent
   @ViewChild('SelectProfissaoId') public selectPO: SelectComponent
   @ViewChild('SelectPaisResidenciaId') public selectPR: SelectComponent
-
+  
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
   // Coleção vazia
@@ -56,6 +56,8 @@ export class AutomovelPanelComponent implements OnInit {
   public profissoes: Profissao[];
   public paises: PaisResidencia[];
 
+  // Variáveis Auxiliáres
+  meuCEP: any;
 
   displayMessage: { [key: string]: string } = {};
   private validationMessages: { [key: string]: { [key: string]: string } };
@@ -113,6 +115,35 @@ export class AutomovelPanelComponent implements OnInit {
       },
       paisResidenciaId: {
         required: 'Informe o Pais de Residencia.'
+      },
+      logradouro: {
+        required: 'Informe o Logradouro.',
+        minlength: 'O Logradouro precisa ter no mínimo 2 caracteres',
+        maxlength: 'O Logradouro precisa ter no máximo 100 caracteres'
+      },
+      numero: {
+        required: 'Informe o Número.',
+        minlength: 'O Número precisa ter no mínimo 2 caracteres',
+        maxlength: 'O Número precisa ter no máximo 10 caracteres'
+      },
+      bairro: {
+        required: 'Informe o Bairro.',
+        minlength: 'O Bairro precisa ter no mínimo 2 caracteres',
+        maxlength: 'O Bairro precisa ter no máximo 100 caracteres'
+      },
+      cep: {
+        required: 'Informe o CEP.',
+        rangeLength: 'O CEP deve conter 8 caracteres'
+      },
+      cidade: {
+        required: 'Informe a Cidade.',
+        minlength: 'A Cidade precisa ter no mínimo 2 caracteres',
+        maxlength: 'A Cidade precisa ter no máximo 100 caracteres'
+      },
+      estado: {
+        required: 'Informe o Estado.',
+        minlength: 'O Estado precisa ter no mínimo 2 caracteres',
+        maxlength: 'O Estado precisa ter no máximo 100 caracteres'
       }
     };
 
@@ -137,7 +168,13 @@ export class AutomovelPanelComponent implements OnInit {
       dataNascimento: ['', Validators.required],
       profissaoId: ['', Validators.required],
       paisResidenciaId: ['', Validators.required],
-      complemento: ''
+      logradouro: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      numero: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
+      complemento: '',
+      bairro: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      cep: ['', [Validators.required, CustomValidators.rangeLength([8, 8])]],
+      cidade: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
     });
 
     this.cotacaoService.obterTiposCalculo()
@@ -146,30 +183,8 @@ export class AutomovelPanelComponent implements OnInit {
       error => this.errors
       );
 
-    this.cotacaoService.obterTipoSeguro()
-      .subscribe(
-      apiTipoSeguro => {
-        this.tipoSeguro = apiTipoSeguro;
-        this.tipoSeguro.forEach(item => {
-          item.tipoSeguroId = item.tipoSeguroId.toString();
-          this.selectTS.itemObjects.push(new SelectItem({ id: item.tipoSeguroId, text: item.descricao }))
-        });
-      },
-      error => this.errors
-      );
-
-    this.clienteService.obterPaises()
-      .subscribe(
-      apiPaises => {
-        this.paises = apiPaises;
-        this.paises.forEach(item => {
-          item.paisResidenciaId = item.paisResidenciaId.toString();
-          this.selectPR.itemObjects.push(new SelectItem({ id: item.paisResidenciaId, text: item.nome }))
-        });
-      },
-      error => this.errors
-      );
-
+    this.getTiposSeguro();
+    this.getPaises();
     this.getProfissoes();
   }
 
@@ -238,5 +253,45 @@ export class AutomovelPanelComponent implements OnInit {
       );
   }
 
+  getPaises(): void {
+    this.clienteService.obterPaises()
+      .subscribe(
+      apiPaises => {
+        this.paises = apiPaises;
+        this.paises.forEach(item => {
+          item.paisResidenciaId = item.paisResidenciaId.toString();
+          this.selectPR.itemObjects.push(new SelectItem({ id: item.paisResidenciaId, text: item.nome }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getTiposSeguro(): void {
+    this.cotacaoService.obterTipoSeguro()
+      .subscribe(
+      apiTipoSeguro => {
+        this.tipoSeguro = apiTipoSeguro;
+        this.tipoSeguro.forEach(item => {
+          item.tipoSeguroId = item.tipoSeguroId.toString();
+          this.selectTS.itemObjects.push(new SelectItem({ id: item.tipoSeguroId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  onBlurCEP() {
+    this.clienteService.obterCEP(this.meuCEP)
+      .subscribe(
+      result => {
+        this.cotacaoForm.controls['logradouro'].setValue(result.logradouro),
+        this.cotacaoForm.controls['bairro'].setValue(result.bairro),
+        this.cotacaoForm.controls['cidade'].setValue(result.localidade),
+        this.cotacaoForm.controls['estado'].setValue(result.uf)
+      },
+      error => this.errors
+      );
+  }
 }
 

@@ -15,142 +15,167 @@
           </legend>
           <div class="widget-body">
             <form class="form-horizontal form-label-left parsleyjs" novalidate (ngSubmit)="adicionarCotacao()" [formGroup]="cotacaoForm">
-              <section class="invoice-info well">
-                <div class="row">
-                  <div class="col-sm-6 col-print-6">
-                    <h4 class="details-title">Dados do Seguro</h4>
-                  </div>
-                </div>
-              </section>
-              <fieldset>
-                <div class="form-group row">
-                  <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Tipo de Seguro</font></label>
-                  <div class="form-group row" style="width: 330px; margin-left: 0px; margin-bottom: 0px; ">
-                    <div class="col-sm-12">
-                      <ng-select #SelectTipoSeguroId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoSeguroId"></ng-select>
+              <wizard navBarLayout="large-filled-symbols">
+                <wizard-step title="Seguro / Segurado" navigationSymbol="1">
+                  <br/>
+                  <section class="invoice-info well">
+                    <div class="row">
+                      <div class="col-sm-6 col-print-6">
+                        <h4 class="details-title">Dados do Seguro</h4>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-6">
-                    <label class="font-noraml"><font face="Eagle Lake"> Tipo de Cálculo</font></label>
-                    <select class="form-control" formControlName="tipoCalculoId" id="tipoCalculoId" style="width: 300px;">
+                  </section>
+                  <fieldset>
+                    <div class="form-group row">
+                      <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Tipo de Seguro</font></label>
+                      <div class="form-group row" style="width: 330px; margin-left: 0px; margin-bottom: 0px; ">
+                        <div class="col-sm-12">
+                          <ng-select #SelectTipoSeguroId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoSeguroId"></ng-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-6">
+                        <label class="font-noraml"><font face="Eagle Lake"> Tipo de Cálculo</font></label>
+                        <select class="form-control" formControlName="tipoCalculoId" id="tipoCalculoId" style="width: 300px;">
                         <option *ngFor="let tcalc of tipoCalculo" value="{{tcalc.tipoCalculoId}}" >{{ tcalc.descricao }}</option>
                       </select>
-                  </div>
-                  <div class="col-sm-3">
-                    <label class="font-noraml"><font face="Eagle Lake"> Vigência Inicial</font></label>
-                    <my-date-picker name="dataVigenciaInicial" [options]="myDatePickerOptions" formControlName="dataVigenciaInicial"></my-date-picker>
-                  </div>
-                  <div class="col-sm-3">
-                    <label class="font-noraml"><font face="Eagle Lake"> Vigência Final</font></label>
-                    <my-date-picker name="dataVigenciaFinal" [options]="myDatePickerOptions" formControlName="dataVigenciaFinal"></my-date-picker>
-                  </div>
-                </div>
-              </fieldset>
-              <section class="invoice-info well">
-                <div class="row">
-                  <div class="col-sm-6 col-print-6">
-                    <h4 class="details-title">Dados do Segurado</h4>
-                  </div>
-                </div>
-              </section>
-              <fieldset>
-                <div class="form-group row">
-                  <div class="col-sm-3">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> Nome</b> </font></label>
-                    <input type="text" id="nome" class="form-control" placeholder="Nome" formControlName="nome" />
-                  </div>
-                  <div class="col-sm-6">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> Sobrenome </b> </font></label>
-                    <input type="text" id="sobrenome" class="form-control" placeholder="Sobrenome" formControlName="sobrenome" />
-                  </div>
-                  <div class="col-sm-3">
-                    <label class="font-noraml"><font face="Eagle Lake"> <b>Data de Nascimento</b> </font></label>
-                    <my-date-picker name="dataNascimento" [options]="myDatePickerOptions" formControlName="dataNascimento"></my-date-picker>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-3">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> CPF</b> </font></label>
-                    <input type="text" id="cpf" class="form-control" placeholder="CPF" formControlName="cpf" />
-                  </div>
-                  <div class="col-sm-3">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> RG </b> </font></label>
-                    <input type="text" id="rg" class="form-control" placeholder="RG" formControlName="rg" />
-                  </div>
-                  <div class="col-sm-6">
-                    <label class="font-noraml"><font face="Eagle Lake"> <b>E-Mail</b> </font></label>
-                    <input type="text" id="email" class="form-control" placeholder="E-Mail" formControlName="email" />
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-3">
-                    <label class="font-noraml"><font face="Eagle Lake"> <b>Pais</b></font></label>
-                    <div class="form-group row" style="width: 180px; margin-left: 0px; margin-bottom: 0px; ">
-                      <ng-select #SelectPaisResidenciaId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="paisResidenciaId"></ng-select>
+                      </div>
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> Vigência Inicial</font></label>
+                        <my-date-picker name="dataVigenciaInicial" [options]="myDatePickerOptions" formControlName="dataVigenciaInicial"></my-date-picker>
+                      </div>
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> Vigência Final</font></label>
+                        <my-date-picker name="dataVigenciaFinal" [options]="myDatePickerOptions" formControlName="dataVigenciaFinal"></my-date-picker>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <label class="font-noraml"><font face="Eagle Lake"> <b>Profissão</b></font></label>
-                    <div class="form-group row" style="width: 330px; margin-left: 0px; margin-bottom: 0px; ">
-                      <ng-select #SelectProfissaoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="profissaoId"></ng-select>
+                  </fieldset>
+                  <section class="invoice-info well">
+                    <div class="row">
+                      <div class="col-sm-6 col-print-6">
+                        <h4 class="details-title">Dados do Segurado</h4>
+                      </div>
                     </div>
+                  </section>
+                  <fieldset>
+                    <div class="form-group row">
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> Nome</b> </font></label>
+                        <input type="text" id="nome" class="form-control" placeholder="Nome" formControlName="nome" />
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> Sobrenome </b> </font></label>
+                        <input type="text" id="sobrenome" class="form-control" placeholder="Sobrenome" formControlName="sobrenome" />
+                      </div>
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> <b>Data de Nascimento</b> </font></label>
+                        <my-date-picker name="dataNascimento" [options]="myDatePickerOptions" formControlName="dataNascimento"></my-date-picker>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> CPF</b> </font></label>
+                        <input type="text" id="cpf" class="form-control" placeholder="CPF" formControlName="cpf" />
+                      </div>
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> RG </b> </font></label>
+                        <input type="text" id="rg" class="form-control" placeholder="RG" formControlName="rg" />
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="font-noraml"><font face="Eagle Lake"> <b>E-Mail</b> </font></label>
+                        <input type="text" id="email" class="form-control" placeholder="E-Mail" formControlName="email" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> <b>Pais</b></font></label>
+                        <div class="form-group row" style="width: 180px; margin-left: 0px; margin-bottom: 0px; ">
+                          <ng-select #SelectPaisResidenciaId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="paisResidenciaId"></ng-select>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="font-noraml"><font face="Eagle Lake"> <b>Profissão</b></font></label>
+                        <div class="form-group row" style="width: 330px; margin-left: 0px; margin-bottom: 0px; ">
+                          <ng-select #SelectProfissaoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="profissaoId"></ng-select>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> <b>Telefone/Celular</b> </font></label>
+                        <input type="text" id="telefone" class="form-control" placeholder="Telefone/Celular" formControlName="telefone" />
+                      </div>
+                    </div>
+                  </fieldset>
+                  <section class="invoice-info well">
+                    <div class="row">
+                      <div class="col-sm-6 col-print-6">
+                        <h4 class="details-title">Endereço</h4>
+                      </div>
+                    </div>
+                  </section>
+                  <fieldset>
+                    <div class="form-group row">
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> CEP</b> </font></label>
+                        <input type="text" id="cep" class="form-control" placeholder="CEP" formControlName="cep" [(ngModel)]="meuCEP" (blur)="onBlurCEP()" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-5">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> Logradouro</b> </font></label>
+                        <input type="text" id="logradouro" class="form-control" placeholder="Logradouro" disabled="disabled" formControlName="logradouro"/>
+                      </div>
+                      <div class="col-sm-5">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> Complemento</b> </font></label>
+                        <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento"/>
+                      </div>
+                      <div class="col-sm-2">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> Numero</b> </font></label>
+                        <input type="text" id="numero" class="form-control" placeholder="Numero" disabled="disabled" formControlName="numero" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> Bairro</b> </font></label>
+                        <input type="text" id="bairro" class="form-control" placeholder="Bairro" disabled="disabled" formControlName="bairro" />
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> Cidade</b> </font></label>
+                        <input type="text" id="cidade" class="form-control" placeholder="Cidade" disabled="disabled" formControlName="cidade" />
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"><b> Estado</b> </font></label>
+                        <input type="text" id="estado" class="form-control" placeholder="Estado" disabled="disabled" formControlName="estado" />
+                      </div>
+                    </div>
+                  </fieldset>
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
+                    <button type="button" nextStep>Next Step</button>
+                    <button type="button" goToStep="2">Go directly to third Step</button>
                   </div>
-                  <div class="col-sm-3">
-                    <label class="font-noraml"><font face="Eagle Lake"> <b>Telefone/Celular</b> </font></label>
-                    <input type="text" id="telefone" class="form-control" placeholder="Telefone/Celular" formControlName="telefone" />
-                  </div>
-                </div>
-              </fieldset>
-              <section class="invoice-info well">
-                <div class="row">
-                  <div class="col-sm-6 col-print-6">
-                    <h4 class="details-title">Endereço</h4>
-                  </div>
-                </div>
-              </section>
-              <fieldset>
-                <div class="form-group row">
-                  <div class="col-sm-3">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> CEP</b> </font></label>
-                    <input type="text" id="cep" class="form-control" placeholder="CEP" formControlName="cep" />
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-5">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> Logradouro</b> </font></label>
-                    <input type="text" id="logradouro" class="form-control" placeholder="Logradouro" disabled="disabled" formControlName="logradouro"
-                    />
-                  </div>
-                  <div class="col-sm-5">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> Complemento</b> </font></label>
-                    <input type="text" id="telefone" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="telefone"
-                    />
-                  </div>
-                  <div class="col-sm-2">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> Numero</b> </font></label>
-                    <input type="text" id="numero" class="form-control" placeholder="Numero" disabled="disabled" formControlName="numero" />
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-4">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> Bairro</b> </font></label>
-                    <input type="text" id="bairro" class="form-control" placeholder="Bairro" disabled="disabled" formControlName="bairro" />
-                  </div>
-                  <div class="col-sm-4">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> Cidade</b> </font></label>
-                    <input type="text" id="cidade" class="form-control" placeholder="Cidade" disabled="disabled" formControlName="cidade" />
-                  </div>
-                  <div class="col-sm-4">
-                    <label class="font-noraml"><font face="Eagle Lake"><b> Estado</b> </font></label>
-                    <input type="text" id="estado" class="form-control" placeholder="Estado" disabled="disabled" formControlName="estado" />
-                  </div>
-                </div>
-              </fieldset>
-              <div class="form-actions">
-                <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
-              </div>
+                </wizard-step>
+                <wizard-step title="Title of step 2" optionalStep navigationSymbol="2">
+                  Content of Step 2
+                  <button type="button" previousStep>Go to previous step</button>
+                  <button type="button" nextStep>Go to next step</button>
+                </wizard-step>
+                <wizard-step title="Title of step 3" navigationSymbol="3">
+                  Content of Step 3
+                  <button type="button" previousStep>Previous Step</button>
+                  <button type="button">Finish</button>
+                </wizard-step>
+                <wizard-step title="Title of step 4" navigationSymbol="4">
+                  Content of Step 4
+                  <button type="button" previousStep>Previous Step</button>
+                  <button type="button">Finish</button>
+                </wizard-step>
+                <wizard-step title="Title of step 5" navigationSymbol="5">
+                  Content of Step 5
+                  <button type="button" previousStep>Previous Step</button>
+                  <button type="button">Finish</button>
+                </wizard-step>
+              </wizard>
             </form>
           </div>
           <div class="form-actions">
