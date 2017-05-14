@@ -33,7 +33,7 @@ export class DateUtils {
             showTodayBtn: true,
             firstDayOfWeek: "mo",
             markCurrentDay: true,
-            //minYear: dateNow.getFullYear(),
+            minYear: dateNow.getFullYear() - 60,
             maxYear: dateNow.getFullYear() + 3,
             //disableUntil: { year: dateNow.getFullYear(), month: dateNow.getUTCMonth() + 1, day: dateNow.getDate() - 1 }
         };

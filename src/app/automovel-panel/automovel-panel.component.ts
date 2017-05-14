@@ -40,7 +40,7 @@ export class AutomovelPanelComponent implements OnInit {
   @ViewChild('SelectTipoSeguroId') public selectTS: SelectComponent
   @ViewChild('SelectProfissaoId') public selectPO: SelectComponent
   @ViewChild('SelectPaisResidenciaId') public selectPR: SelectComponent
-  
+
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
   // Coleção vazia
@@ -182,7 +182,7 @@ export class AutomovelPanelComponent implements OnInit {
       tipoCalculo => this.tipoCalculo = tipoCalculo,
       error => this.errors
       );
-
+      
     this.getTiposSeguro();
     this.getPaises();
     this.getProfissoes();
@@ -282,16 +282,47 @@ export class AutomovelPanelComponent implements OnInit {
   }
 
   onBlurCEP() {
-    this.clienteService.obterCEP(this.meuCEP)
-      .subscribe(
-      result => {
-        this.cotacaoForm.controls['logradouro'].setValue(result.logradouro),
-        this.cotacaoForm.controls['bairro'].setValue(result.bairro),
-        this.cotacaoForm.controls['cidade'].setValue(result.localidade),
-        this.cotacaoForm.controls['estado'].setValue(result.uf)
-      },
-      error => this.errors
-      );
+    let validaCEP = /^[0-9]{8}$/;
+
+    if (validaCEP.test(this.meuCEP)) {
+      this.cotacaoForm.controls['logradouro'].setValue("...");
+      this.cotacaoForm.controls['bairro'].setValue("...");
+      this.cotacaoForm.controls['cidade'].setValue("...");
+      this.cotacaoForm.controls['estado'].setValue("...");
+
+      this.clienteService.obterCEP(this.meuCEP)
+        .subscribe(
+        result => {
+          if (result.erro) {
+            alert("CEP não encontrado!");
+            this.clearControls();
+          } else {
+            this.cotacaoForm.controls['complemento'].enable();
+            this.cotacaoForm.controls['numero'].enable();
+            this.cotacaoForm.controls['logradouro'].setValue(result.logradouro);
+            this.cotacaoForm.controls['bairro'].setValue(result.bairro);
+            this.cotacaoForm.controls['cidade'].setValue(result.localidade);
+            this.cotacaoForm.controls['estado'].setValue(result.uf);
+          }
+        },
+        error => {
+          this.clearControls();
+          alert("Formato de CEP invalido!");
+        });
+
+    } else {
+      this.clearControls();
+      alert("Formato de CEP invalido!");
+    }
+  }
+
+  clearControls(): void {
+    this.cotacaoForm.controls['complemento'].disable();
+    this.cotacaoForm.controls['numero'].disable();
+    this.cotacaoForm.controls['logradouro'].setValue("");
+    this.cotacaoForm.controls['bairro'].setValue("");
+    this.cotacaoForm.controls['cidade'].setValue("");
+    this.cotacaoForm.controls['estado'].setValue("");
   }
 }
 

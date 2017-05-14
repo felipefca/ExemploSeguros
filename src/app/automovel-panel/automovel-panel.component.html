@@ -62,11 +62,11 @@
                     <div class="form-group row">
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"><b> Nome</b> </font></label>
-                        <input type="text" id="nome" class="form-control" placeholder="Nome" formControlName="nome" />
+                        <input type="text" id="nome" class="form-control" placeholder="Nome" formControlName="nome" [maxLength]="15" />
                       </div>
                       <div class="col-sm-6">
                         <label class="font-noraml"><font face="Eagle Lake"><b> Sobrenome </b> </font></label>
-                        <input type="text" id="sobrenome" class="form-control" placeholder="Sobrenome" formControlName="sobrenome" />
+                        <input type="text" id="sobrenome" class="form-control" placeholder="Sobrenome" formControlName="sobrenome" [maxLength]="45" />
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> <b>Data de Nascimento</b> </font></label>
@@ -84,7 +84,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label class="font-noraml"><font face="Eagle Lake"> <b>E-Mail</b> </font></label>
-                        <input type="text" id="email" class="form-control" placeholder="E-Mail" formControlName="email" />
+                        <input type="text" id="email" class="form-control" placeholder="E-Mail" formControlName="email" [maxLength]="45"/>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -123,10 +123,10 @@
                     <div class="form-group row">
                       <div class="col-sm-5">
                         <label class="font-noraml"><font face="Eagle Lake"><b> Logradouro</b> </font></label>
-                        <input type="text" id="logradouro" class="form-control" placeholder="Logradouro" disabled="disabled" formControlName="logradouro"/>
+                        <input type="text" id="logradouro" class="form-control" placeholder="Logradouro" disabled="disabled" formControlName="logradouro" [(ngModel)]="logradouro"/>
                       </div>
                       <div class="col-sm-5">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> Complemento</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"><b> Complemento</b> </font></label> <span class="label label-info">Opcional</span>
                         <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento"/>
                       </div>
                       <div class="col-sm-2">
