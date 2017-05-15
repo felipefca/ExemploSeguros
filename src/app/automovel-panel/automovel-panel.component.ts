@@ -59,6 +59,12 @@ export class AutomovelPanelComponent implements OnInit {
   // Variáveis Auxiliáres
   meuCEP: any;
 
+  // Mascáras
+  public maskCPF = [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/,'.', /\d/, /\d/, /\d/,'-', /\d/,/\d/];
+  public maskRG = [/[0-9]/,'.', /\d/, /\d/, /\d/,'.', /\d/, /\d/, /\d/];
+  public maskFone = ['(', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+  public maskCEP = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
+
   displayMessage: { [key: string]: string } = {};
   private validationMessages: { [key: string]: { [key: string]: string } };
   private GenericValidator: GenericValidator;

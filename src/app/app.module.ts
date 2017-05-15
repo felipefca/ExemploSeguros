@@ -19,6 +19,7 @@ import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { ToastrCustomOption } from "app/utils/ToastrCustomOption";
 import { SelectModule } from 'ng2-select';
 import { WizardModule } from "ng2-archwizard/dist";
+import { TextMaskModule } from 'angular2-text-mask';
 
 // Shared Components
 import { MenuSuperiorComponent } from './shared/menu-superior/menu-superior.component';
@@ -73,6 +74,7 @@ import { ClienteService } from "app/cotacao/services/cliente.services";
     MyDatePickerModule,
     SelectModule,
     WizardModule,
+    TextMaskModule,
     ToastModule.forRoot(),
     CollapseModule.forRoot(),
     CarouselModule.forRoot(),
