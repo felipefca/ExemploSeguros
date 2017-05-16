@@ -40,6 +40,7 @@ export class AutomovelPanelComponent implements OnInit {
   @ViewChild('SelectTipoSeguroId') public selectTS: SelectComponent
   @ViewChild('SelectProfissaoId') public selectPO: SelectComponent
   @ViewChild('SelectPaisResidenciaId') public selectPR: SelectComponent
+  @ViewChild('SelectTipoCalculoId') public selectTC: SelectComponent
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
@@ -60,9 +61,9 @@ export class AutomovelPanelComponent implements OnInit {
   meuCEP: any;
 
   // Mascáras
-  public maskCPF = [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/,'.', /\d/, /\d/, /\d/,'-', /\d/,/\d/];
-  public maskRG = [/[0-9]/,'.', /\d/, /\d/, /\d/,'.', /\d/, /\d/, /\d/];
-  public maskFone = ['(', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+  public maskCPF = [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+  public maskRG = [/[0-9]/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/];
+  public maskFone = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public maskCEP = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
 
   displayMessage: { [key: string]: string } = {};
@@ -183,15 +184,12 @@ export class AutomovelPanelComponent implements OnInit {
       estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
     });
 
-    this.cotacaoService.obterTiposCalculo()
-      .subscribe(
-      tipoCalculo => this.tipoCalculo = tipoCalculo,
-      error => this.errors
-      );
-      
+    this.getTiposCalculo();
     this.getTiposSeguro();
     this.getPaises();
     this.getProfissoes();
+
+    this.onDisableDates();
   }
 
   adicionarCotacao() {
@@ -202,6 +200,7 @@ export class AutomovelPanelComponent implements OnInit {
       // Cotação
       c.userId = user.id;
       c.tipoSeguroId = this.selectTS.activeOption.id;
+      c.tipoCalculoId = this.selectTC.activeOption.id;
       //c.numCotacao = this.cotacaoService.gerarNumCotacaoRandomico();
       c.dataVigenciaInicial = DateUtils.getMyDatePickerDate(c.dataVigenciaInicial);
       c.dataVigenciaFinal = DateUtils.getMyDatePickerDate(c.dataVigenciaFinal);
@@ -287,16 +286,31 @@ export class AutomovelPanelComponent implements OnInit {
       );
   }
 
+  getTiposCalculo(): void {
+    this.cotacaoService.obterTiposCalculo()
+      .subscribe(
+      apiTipoCalculo => {
+        this.tipoCalculo = apiTipoCalculo;
+        this.tipoCalculo.forEach(item => {
+          item.tipoCalculoId = item.tipoCalculoId.toString();
+          this.selectTC.itemObjects.push(new SelectItem({ id: item.tipoCalculoId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
   onBlurCEP() {
     let validaCEP = /^[0-9]{8}$/;
+    let cep = this.clearMaskControls(this.meuCEP.toString());
 
-    if (validaCEP.test(this.meuCEP)) {
+    if (validaCEP.test(cep)) {
       this.cotacaoForm.controls['logradouro'].setValue("...");
       this.cotacaoForm.controls['bairro'].setValue("...");
       this.cotacaoForm.controls['cidade'].setValue("...");
       this.cotacaoForm.controls['estado'].setValue("...");
 
-      this.clienteService.obterCEP(this.meuCEP)
+      this.clienteService.obterCEP(cep)
         .subscribe(
         result => {
           if (result.erro) {
@@ -325,10 +339,46 @@ export class AutomovelPanelComponent implements OnInit {
   clearControls(): void {
     this.cotacaoForm.controls['complemento'].disable();
     this.cotacaoForm.controls['numero'].disable();
+    this.cotacaoForm.controls['complemento'].setValue("");
+    this.cotacaoForm.controls['numero'].setValue("");
     this.cotacaoForm.controls['logradouro'].setValue("");
     this.cotacaoForm.controls['bairro'].setValue("");
     this.cotacaoForm.controls['cidade'].setValue("");
     this.cotacaoForm.controls['estado'].setValue("");
+  }
+
+  clearMaskControls(value: string): string {
+    let newValue = value.replace(/\D/g, '');
+    return newValue;
+  }
+
+  onDisableDates() {
+    this.cotacaoForm.controls['dataVigenciaInicial'].disable();
+    this.cotacaoForm.controls['dataVigenciaFinal'].disable();
+  }
+
+  changeSourceTC($event): void {
+    let dateNow = DateUtils.convertUTCDateToLocalDate(new Date());
+    this.cotacaoForm.controls['dataVigenciaInicial'].setValue(DateUtils.setMyDatePickerDate(dateNow));
+
+    if ($event == 1) {
+      this.cotacaoForm.controls['dataVigenciaFinal'].setValue(DateUtils.setMyDatePickerOneYear(dateNow));
+      this.onDisableDates();
+    }
+    else if ($event == 2) {
+      this.cotacaoForm.controls['dataVigenciaFinal'].setValue(DateUtils.setMyDatePickerTwoYear(dateNow));
+      this.onDisableDates();
+    }
+    else {
+      this.cotacaoForm.controls['dataVigenciaFinal'].enable();
+      this.cotacaoForm.controls['dataVigenciaFinal'].setValue('');
+    }
+  }
+
+  removeSourceTC($event){
+    this.onDisableDates();
+    this.cotacaoForm.controls['dataVigenciaInicial'].setValue('');
+    this.cotacaoForm.controls['dataVigenciaFinal'].setValue('');
   }
 }
 

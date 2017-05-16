@@ -40,6 +40,9 @@ import { CotacoesRealizadasTableComponent } from './dashboard/cotacoes-realizada
 import { MenuCotacaoComponent } from './cotacao/menu-cotacao/menu-cotacao.component';
 import { AutomovelPanelComponent } from './automovel-panel/automovel-panel.component';
 
+// Directives
+import { OnlyNumber } from "app/diretivas/OnlyNumber";
+
 // Services
 import { UsuarioService } from "app/usuario/usuario.service";
 import { AuthService } from "app/shared/AuthService";
@@ -63,7 +66,8 @@ import { ClienteService } from "app/cotacao/services/cliente.services";
     CotacoesRealizadasTableComponent,
     MenuCotacaoComponent,
     AutomovelPanelComponent,
-    AcessoNegadoComponent
+    AcessoNegadoComponent,
+    OnlyNumber
   ],
   imports: [
     BrowserModule,

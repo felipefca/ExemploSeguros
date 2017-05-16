@@ -18,6 +18,16 @@ export class DateUtils {
         return { date: { year: pickerDate.getFullYear(), month: pickerDate.getMonth() + 1, day: pickerDate.getDate() } };
     }
 
+    public static setMyDatePickerOneYear(myDate: any): Object {
+        let pickerDate = new Date(myDate);
+        return { date: { year: pickerDate.getFullYear() + 1, month: pickerDate.getMonth() + 1, day: pickerDate.getDate() } };
+    }
+
+    public static setMyDatePickerTwoYear(myDate: any): Object {
+        let pickerDate = new Date(myDate);
+        return { date: { year: pickerDate.getFullYear() + 2, month: pickerDate.getMonth() + 1, day: pickerDate.getDate() } };
+    }
+
     public static getMyDatePickerDate(myDate: any): Date {
         return new Date(myDate.date.year, myDate.date.month - 1, myDate.date.day);
     }
@@ -34,7 +44,7 @@ export class DateUtils {
             firstDayOfWeek: "mo",
             markCurrentDay: true,
             minYear: dateNow.getFullYear() - 60,
-            maxYear: dateNow.getFullYear() + 3,
+            maxYear: dateNow.getFullYear() + 3
             //disableUntil: { year: dateNow.getFullYear(), month: dateNow.getUTCMonth() + 1, day: dateNow.getDate() - 1 }
         };
 

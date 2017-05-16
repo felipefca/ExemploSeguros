@@ -37,17 +37,20 @@
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label class="font-noraml"><font face="Eagle Lake"> Tipo de Cálculo</font></label>
-                        <select class="form-control" formControlName="tipoCalculoId" id="tipoCalculoId" style="width: 300px;">
-                        <option *ngFor="let tcalc of tipoCalculo" value="{{tcalc.tipoCalculoId}}" >{{ tcalc.descricao }}</option>
-                      </select>
+                        <div class="form-group row" style="width: 330px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" 
+                            formControlName="tipoCalculoId" (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
+                          </div>
+                        </div>
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Vigência Inicial</font></label>
-                        <my-date-picker name="dataVigenciaInicial" [options]="myDatePickerOptions" formControlName="dataVigenciaInicial"></my-date-picker>
+                        <my-date-picker name="dataVigenciaInicial" [options]="myDatePickerOptions" formControlName="dataVigenciaInicial" [disabled]="disabled"></my-date-picker>
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Vigência Final</font></label>
-                        <my-date-picker name="dataVigenciaFinal" [options]="myDatePickerOptions" formControlName="dataVigenciaFinal"></my-date-picker>
+                        <my-date-picker name="dataVigenciaFinal" [options]="myDatePickerOptions" formControlName="dataVigenciaFinal" [disabled]="disabled"></my-date-picker>
                       </div>
                     </div>
                   </fieldset>
@@ -66,7 +69,8 @@
                       </div>
                       <div class="col-sm-6">
                         <label class="font-noraml"><font face="Eagle Lake"><b> Sobrenome </b> </font></label>
-                        <input type="text" id="sobrenome" class="form-control" placeholder="Sobrenome" formControlName="sobrenome" [maxLength]="45" />
+                        <input type="text" id="sobrenome" class="form-control" placeholder="Sobrenome" formControlName="sobrenome" [maxLength]="45"
+                        />
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> <b>Data de Nascimento</b> </font></label>
@@ -84,7 +88,7 @@
                       </div>
                       <div class="col-sm-6">
                         <label class="font-noraml"><font face="Eagle Lake"> <b>E-Mail</b> </font></label>
-                        <input type="text" id="email" class="form-control" placeholder="E-Mail" formControlName="email" [maxLength]="45"/>
+                        <input type="text" id="email" class="form-control" placeholder="E-Mail" formControlName="email" [maxLength]="45" />
                       </div>
                     </div>
                     <div class="form-group row">
@@ -102,7 +106,8 @@
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> <b>Telefone/Celular</b> </font></label>
-                        <input type="text" id="telefone" class="form-control" placeholder="Telefone/Celular" formControlName="telefone" [textMask]="{mask: maskFone}" />
+                        <input type="text" id="telefone" class="form-control" placeholder="Telefone/Celular" formControlName="telefone" [textMask]="{mask: maskFone}"
+                        />
                       </div>
                     </div>
                   </fieldset>
@@ -117,21 +122,25 @@
                     <div class="form-group row">
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"><b> CEP</b> </font></label>
-                        <input type="text" id="cep" class="form-control" placeholder="CEP" formControlName="cep" [(ngModel)]="meuCEP" (blur)="onBlurCEP()"  [maxLength]="8" />
+                        <input type="text" id="cep" class="form-control" placeholder="CEP" formControlName="cep" [(ngModel)]="meuCEP" (blur)="onBlurCEP()"
+                          [textMask]="{mask: maskCEP}" />
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-5">
                         <label class="font-noraml"><font face="Eagle Lake"><b> Logradouro</b> </font></label>
-                        <input type="text" id="logradouro" class="form-control" placeholder="Logradouro" disabled="disabled" formControlName="logradouro" [(ngModel)]="logradouro"/>
+                        <input type="text" id="logradouro" class="form-control" placeholder="Logradouro" disabled="disabled" formControlName="logradouro"
+                          [(ngModel)]="logradouro" />
                       </div>
                       <div class="col-sm-5">
                         <label class="font-noraml"><font face="Eagle Lake"><b> Complemento</b> </font></label> <span class="label label-info">Opcional</span>
-                        <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento" [maxLength]="40" />
+                        <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento"
+                          [maxLength]="40" />
                       </div>
                       <div class="col-sm-2">
                         <label class="font-noraml"><font face="Eagle Lake"><b> Numero</b> </font></label>
-                        <input type="number" id="numero" class="form-control" placeholder="Numero" disabled="disabled" formControlName="numero"/>
+                        <input type="text" id="numero" class="form-control" placeholder="Numero" disabled="disabled" formControlName="numero" OnlyNumber="true"
+                          [maxLength]="5" />
                       </div>
                     </div>
                     <div class="form-group row">
