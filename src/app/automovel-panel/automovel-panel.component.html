@@ -39,8 +39,8 @@
                         <label class="font-noraml"><font face="Eagle Lake"> Tipo de Cálculo</font></label>
                         <div class="form-group row" style="width: 330px; margin-left: -15px; margin-bottom: 0px; ">
                           <div class="col-sm-12">
-                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" 
-                            formControlName="tipoCalculoId" (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
+                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoCalculoId"
+                              (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
                           </div>
                         </div>
                       </div>
@@ -222,10 +222,9 @@
             <div class="alert alert-danger">
               <header>
                 <h4>
-                  <i class="fa fa-windows"></i> Avisos
+                  <i class="fa fa-windows"></i> Aviso: Os seguintes erros foram encontrados
                 </h4>
               </header>
-              <h5 id="msgRetorno">Opa! Os seguintes erros foram encontrados:</h5>
               <ul>
                 <li *ngFor="let error of errors">{{ error }}</li>
               </ul>

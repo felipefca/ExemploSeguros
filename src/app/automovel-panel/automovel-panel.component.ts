@@ -8,6 +8,7 @@ import 'rxjs/add/observable/merge';
 
 import { IMyOptions, IMyDateModel } from 'mydatepicker';
 import { DateUtils } from "app/utils/date-utils";
+import { UnMasked } from "app/utils/unMasked";
 import { SelectModule, SelectComponent, SelectItem } from 'ng2-select';
 import { TabsModule, TabsetComponent } from 'ng2-bootstrap/tabs';
 
@@ -156,8 +157,8 @@ export class AutomovelPanelComponent implements OnInit {
 
     this.GenericValidator = new GenericValidator(this.validationMessages);
     this.cotacao = new Cotacao();
-    this.cliente = new Cliente();
-    this.endereco = new Endereco();
+    this.cotacao.cliente = new Cliente();
+    this.cotacao.cliente.endereco = new Endereco();
   }
 
   ngOnInit() {
@@ -170,7 +171,7 @@ export class AutomovelPanelComponent implements OnInit {
       sobrenome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
       email: ['', [Validators.required, CustomValidators.email]],
       cpf: ['', [Validators.required, CustomValidators.rangeLength([11, 11])]],
-      telefone: ['', [Validators.required, CustomValidators.rangeLength([8, 9])]],
+      telefone: ['', [Validators.required, CustomValidators.rangeLength([10, 11])]],
       rg: ['', [Validators.required, CustomValidators.rangeLength([7, 7])]],
       dataNascimento: ['', Validators.required],
       profissaoId: ['', Validators.required],
@@ -193,6 +194,10 @@ export class AutomovelPanelComponent implements OnInit {
   }
 
   adicionarCotacao() {
+
+    UnMasked.unMaskFormComponents(this.cotacaoForm);
+    this.displayMessage = this.GenericValidator.processMessages(this.cotacaoForm);
+
     if (this.cotacaoForm.dirty && this.cotacaoForm.valid) {
       let user = this.cotacaoService.obterUsuario();
       let c = Object.assign({}, this.cotacao, this.cotacaoForm.value);
@@ -210,9 +215,9 @@ export class AutomovelPanelComponent implements OnInit {
       c.cliente.nome = c.nome;
       c.cliente.sobreNome = c.sobrenome;
       c.cliente.email = c.email;
-      c.cliente.cpf = c.cpf;
+      c.cliente.cpf = c.cpf; //this.clearMaskControls(c.cpf.toString());
       c.cliente.telefone = c.telefone;
-      c.cliente.rg = c.rg;
+      c.cliente.rg = c.rg
       c.cliente.dataNascimento = DateUtils.getMyDatePickerDate(c.dataNascimento);
       c.cliente.profissaoId = this.selectPO.activeOption.id;
       c.cliente.paisResidenciaId = this.selectPR.activeOption.id;
@@ -231,6 +236,10 @@ export class AutomovelPanelComponent implements OnInit {
         .subscribe(
         result => { this.onSaveComplete() },
         error => { this.onError(error) });
+
+    } else {
+      this.errors = [];
+      this.errors.push("Campos obrigatórios não preenchidos !!!");
     }
   }
 
@@ -302,7 +311,7 @@ export class AutomovelPanelComponent implements OnInit {
 
   onBlurCEP() {
     let validaCEP = /^[0-9]{8}$/;
-    let cep = this.clearMaskControls(this.meuCEP.toString());
+    let cep = UnMasked.clearMaskControls(this.meuCEP.toString());
 
     if (validaCEP.test(cep)) {
       this.cotacaoForm.controls['logradouro'].setValue("...");
@@ -347,14 +356,9 @@ export class AutomovelPanelComponent implements OnInit {
     this.cotacaoForm.controls['estado'].setValue("");
   }
 
-  clearMaskControls(value: string): string {
-    let newValue = value.replace(/\D/g, '');
-    return newValue;
-  }
-
   onDisableDates() {
-    this.cotacaoForm.controls['dataVigenciaInicial'].disable();
-    this.cotacaoForm.controls['dataVigenciaFinal'].disable();
+    this.cotacaoForm.controls['dataVigenciaInicial'].disabled;
+    this.cotacaoForm.controls['dataVigenciaFinal'].disabled;
   }
 
   changeSourceTC($event): void {
@@ -370,12 +374,12 @@ export class AutomovelPanelComponent implements OnInit {
       this.onDisableDates();
     }
     else {
-      this.cotacaoForm.controls['dataVigenciaFinal'].enable();
+      this.cotacaoForm.controls['dataVigenciaFinal'].enabled;
       this.cotacaoForm.controls['dataVigenciaFinal'].setValue('');
     }
   }
 
-  removeSourceTC($event){
+  removeSourceTC($event) {
     this.onDisableDates();
     this.cotacaoForm.controls['dataVigenciaInicial'].setValue('');
     this.cotacaoForm.controls['dataVigenciaFinal'].setValue('');
