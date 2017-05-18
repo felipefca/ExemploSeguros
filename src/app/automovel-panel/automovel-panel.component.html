@@ -159,15 +159,71 @@
                     </div>
                   </fieldset>
                   <div class="form-actions">
-                    <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
-                    <button type="button" nextStep>Next Step</button>
-                    <button type="button" goToStep="2">Go directly to third Step</button>
+                    <ul class="pager wizard">
+                      <li class="previous">
+                        <button type="button" class="btn btn-primary" goToStep="2"><i class="fa fa-caret-left"></i> Anterior</button>
+                      </li>
+                      <li class="next">
+                        <button type="button" class="btn btn-primary" nextStep>Próximo <i class="fa fa-caret-right"></i></button>
+                      </li>
+                    </ul>
                   </div>
                 </wizard-step>
-                <wizard-step title="Title of step 2" optionalStep navigationSymbol="2">
-                  Content of Step 2
+                <wizard-step title="Veículo" optionalStep navigationSymbol="2">
+                  <br/>
+                  <section class="invoice-info well">
+                    <div class="row">
+                      <div class="col-sm-6 col-print-6">
+                        <h4 class="details-title">Dados do Veículo</h4>
+                      </div>
+                    </div>
+                  </section>
+                  <fieldset>
+                    <div class="form-group row">
+                      <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Marca / Fabricante</font></label>
+                      <div class="form-group row" style="width: 330px; margin-left: 0px; margin-bottom: 0px; ">
+                        <div class="col-sm-12">
+                          <ng-select #SelectTipoSeguroId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoSeguroId"></ng-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> Modelo </font></label>
+                        <input type="text" id="estado" class="form-control" placeholder="Estado" formControlName="estado" />
+                      </div>
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> Ano de Fabricação</font></label>
+                        <div class="form-group row" style="width: 200px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoCalculoId"
+                              (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> Ano do Modelo</font></label>
+                        <div class="form-group row" style="width: 200px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoCalculoId"
+                              (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> Zero KM?</font></label>
+                        <div class="abc-checkbox abc-checkbox-primary">
+                          <input id="checkbox2" type="checkbox" checked>
+                          <label for="checkbox2">
+                          Primary
+                        </label>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
                   <button type="button" previousStep>Go to previous step</button>
                   <button type="button" nextStep>Go to next step</button>
+                  <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
                 </wizard-step>
                 <wizard-step title="Title of step 3" navigationSymbol="3">
                   Content of Step 3
@@ -186,19 +242,6 @@
                 </wizard-step>
               </wizard>
             </form>
-          </div>
-          <div class="form-actions">
-            <ul class="pager wizard">
-              <li class="previous">
-                <button class="btn btn-primary"><i class="fa fa-caret-left"></i> Previous</button>
-              </li>
-              <li class="next">
-                <button class="btn btn-primary">Next <i class="fa fa-caret-right"></i></button>
-              </li>
-              <li class="finish" style="display: none">
-                <button class="btn btn-success">Finish <i class="fa fa-check"></i></button>
-              </li>
-            </ul>
           </div>
         </section>
       </div>
