@@ -212,11 +212,75 @@
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Zero KM?</font></label>
-                        <div class="abc-checkbox abc-checkbox-primary">
-                          <input id="checkbox2" type="checkbox" checked>
-                          <label for="checkbox2">
-                          Primary
-                        </label>
+                        <div class="checkbox checkbox-primary">
+                          <input type="checkbox" class="styled styled-primary" id="checkZeroKm" value="option2" checked aria-label="Single checkbox Two">
+                          <label></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <button type="button" class="btn btn-info" id="btnBuscarVeic">Buscar Veículo</button>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <section class="invoice-info well">
+                    <div class="row">
+                      <div class="col-sm-6 col-print-6">
+                        <h4 class="details-title">Informações Adicionais</h4>
+                      </div>
+                    </div>
+                  </section>
+                  <fieldset>
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"> Chassi </font></label> <span class="label label-info">Opcional</span>
+                        <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento"
+                        />
+                      </div>
+                      <div class="col-sm-8">
+                        <label class="font-noraml"><font face="Eagle Lake"> Chassi Remarcado?</font></label>
+                        <div class="col-sm-12">
+                          <div class="radio radio-info radio-inline">
+                            <input type="radio" id="inlineRadio1" value="option1" name="radioInline">
+                            <label for="inlineRadio1"> Sim </label>
+                          </div>
+                          <div class="radio radio-inline radio-danger">
+                            <input type="radio" id="inlineRadio2" value="option2" name="radioInline" checked>
+                            <label for="inlineRadio2"> Não </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> Data de Saída </font></label>
+                        <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento"
+                        />
+                      </div>
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> Odômetro </font></label>
+                        <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-6">
+                        <label class="font-noraml"><font face="Eagle Lake"> Uso?</font></label>
+                        <div class="form-group row" style="width: 300px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoCalculoId"
+                              (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="font-noraml"><font face="Eagle Lake"> Isenção de Imposto?</font></label>
+                        <div class="form-group row" style="width: 300px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoCalculoId"
+                              (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
+                          </div>
                         </div>
                       </div>
                     </div>
