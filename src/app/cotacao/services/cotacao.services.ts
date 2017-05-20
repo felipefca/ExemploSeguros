@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BaseService } from "app/shared/base.service";
+import { BaseService } from "app/services/base.service";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
 
 import { Cotacao } from "app/cotacao/models/cotacao";

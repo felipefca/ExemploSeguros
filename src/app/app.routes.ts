@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { RegistroComponent } from './registro/registro.component';
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { AutomovelPanelComponent } from "app/automovel-panel/automovel-panel.component";
-import { AuthService } from "app/shared/AuthService";
+import { AuthService } from "app/services/AuthService";
 import { AcessoNegadoComponent } from "app/shared/acesso-negado/acesso-negado.component";
 
 export const rootRouterConfig: Routes = [

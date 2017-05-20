@@ -45,7 +45,7 @@ import { OnlyNumber } from "app/diretivas/OnlyNumber";
 
 // Services
 import { UsuarioService } from "app/usuario/usuario.service";
-import { AuthService } from "app/shared/AuthService";
+import { AuthService } from "app/services/AuthService";
 import { CotacaoService } from "app/cotacao/services/cotacao.services";
 import { ClienteService } from "app/cotacao/services/cliente.services";
 
