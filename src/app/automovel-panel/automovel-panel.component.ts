@@ -25,10 +25,16 @@ import { TipoSeguro } from "app/cotacao/models/tipoSeguro";
 import { TipoCalculo } from "app/cotacao/models/tipoCalculo";
 import { Profissao } from "app/cotacao/models/profissao";
 import { PaisResidencia } from "app/cotacao/models/paisResidencia";
+import { Item } from "app/cotacao/models/item";
+import { Imposto } from "app/cotacao/models/imposto";
+import { Marca } from "app/cotacao/models/marca";
+import { Uso } from "app/cotacao/models/uso";
+import { Modelo } from "app/cotacao/models/modelo";
 
 // Services
 import { CotacaoService } from "app/cotacao/services/cotacao.services";
 import { ClienteService } from "app/cotacao/services/cliente.services";
+import { ItemService } from "app/cotacao/services/item.services";
 
 @Component({
   selector: 'app-automovel-panel',
@@ -42,6 +48,11 @@ export class AutomovelPanelComponent implements OnInit {
   @ViewChild('SelectProfissaoId') public selectPO: SelectComponent
   @ViewChild('SelectPaisResidenciaId') public selectPR: SelectComponent
   @ViewChild('SelectTipoCalculoId') public selectTC: SelectComponent
+  @ViewChild('SelectMarcaId') public selectMA: SelectComponent
+  @ViewChild('SelectUsoId') public selectUS: SelectComponent
+  @ViewChild('SelectImpostoId') public selectIM: SelectComponent
+  @ViewChild('SelectAnoModelo') public selectAnoMod: SelectComponent
+  @ViewChild('SelectAnoFabricacao') public selectAnoFab: SelectComponent
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
@@ -53,13 +64,21 @@ export class AutomovelPanelComponent implements OnInit {
   public cotacao: Cotacao;
   public cliente: Cliente;
   public endereco: Endereco;
+  public item: Item;
   public tipoSeguro: TipoSeguro[];
   public tipoCalculo: TipoCalculo[];
   public profissoes: Profissao[];
   public paises: PaisResidencia[];
+  public impostos: Imposto[];
+  public usos: Uso[];
+  public marcas: Marca[];
+  public modelos: Modelo[];
 
   // Variáveis Auxiliáres
   meuCEP: any;
+
+  // Coleções
+  public anos: Array<string> = ['2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010'];
 
   // Mascáras
   public maskCPF = [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
@@ -74,7 +93,8 @@ export class AutomovelPanelComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private router: Router,
     private cotacaoService: CotacaoService,
-    private clienteService: ClienteService) {
+    private clienteService: ClienteService,
+    private itemService: ItemService) {
 
     this.validationMessages = {
       tipoSeguroId: {
@@ -152,6 +172,15 @@ export class AutomovelPanelComponent implements OnInit {
         required: 'Informe o Estado.',
         minlength: 'O Estado precisa ter no mínimo 2 caracteres',
         maxlength: 'O Estado precisa ter no máximo 100 caracteres'
+      },
+      usoId: {
+        required: 'Informe o Uso do Veículo.'
+      },
+      impostoId: {
+        required: 'Informe a Isenção de Imposto.'
+      },
+      flagRemarcado: {
+        required: 'Selecione uma resposta para o Campo "Chassi Remarcado?"'
       }
     };
 
@@ -159,6 +188,7 @@ export class AutomovelPanelComponent implements OnInit {
     this.cotacao = new Cotacao();
     this.cotacao.cliente = new Cliente();
     this.cotacao.cliente.endereco = new Endereco();
+    this.cotacao.item = new Item();
   }
 
   ngOnInit() {
@@ -182,13 +212,27 @@ export class AutomovelPanelComponent implements OnInit {
       bairro: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       cep: ['', [Validators.required, CustomValidators.rangeLength([8, 8])]],
       cidade: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
-      estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
+      estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      marcaId: ['', Validators.required],
+      nomeModelo: '',
+      anoFabricacao: '',
+      anoModelo: '',
+      flagZeroKm: '',
+      numChassi: '',
+      flagRemarcado: ['', Validators.required],
+      dataSaida: '',
+      odometro: '',
+      usoId: ['', Validators.required],
+      impostoId: ['', Validators.required]
     });
 
     this.getTiposCalculo();
     this.getTiposSeguro();
     this.getPaises();
     this.getProfissoes();
+    this.getUsos();
+    this.getImpostos();
+    this.getMarcas();
 
     this.onDisableDates();
   }
@@ -309,6 +353,48 @@ export class AutomovelPanelComponent implements OnInit {
       );
   }
 
+  getUsos(): void {
+    this.itemService.obterUsos()
+      .subscribe(
+      apiUsos => {
+        this.usos = apiUsos;
+        this.usos.forEach(item => {
+          item.usoId = item.usoId.toString();
+          this.selectUS.itemObjects.push(new SelectItem({ id: item.usoId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getImpostos(): void {
+    this.itemService.obterImpostos()
+      .subscribe(
+      apiImpostos => {
+        this.impostos = apiImpostos;
+        this.impostos.forEach(item => {
+          item.impostoId = item.impostoId.toString();
+          this.selectIM.itemObjects.push(new SelectItem({ id: item.impostoId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getMarcas(): void {
+    this.itemService.obterMarcas()
+      .subscribe(
+      apiMarcas => {
+        this.marcas = apiMarcas;
+        this.marcas.forEach(item => {
+          item.marcaId = item.marcaId.toString();
+          this.selectMA.itemObjects.push(new SelectItem({ id: item.marcaId, text: item.nome }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
   onBlurCEP() {
     let validaCEP = /^[0-9]{8}$/;
     let cep = UnMasked.clearMaskControls(this.meuCEP.toString());
@@ -383,6 +469,25 @@ export class AutomovelPanelComponent implements OnInit {
     this.onDisableDates();
     this.cotacaoForm.controls['dataVigenciaInicial'].setValue('');
     this.cotacaoForm.controls['dataVigenciaFinal'].setValue('');
+  }
+
+  changeSourceAnoFab($event): void {
+    this.selectAnoMod.itemObjects = [];
+
+    let anoFabSelect = this.selectAnoFab.activeOption.id;
+    this.selectAnoMod.itemObjects.push(new SelectItem({ id: $event.id, text: $event.text }))
+
+    if (anoFabSelect !== "2017") {
+      this.anos.forEach(item => {
+        if (item === anoFabSelect) {
+
+        }
+      })
+    }
+  }
+
+  removeSourceAnoFab($event): void {
+    this.selectAnoMod.itemObjects = [];
   }
 }
 

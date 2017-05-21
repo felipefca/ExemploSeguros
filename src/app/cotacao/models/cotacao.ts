@@ -1,4 +1,5 @@
 import { Cliente } from "app/cotacao/models/cliente";
+import { Item } from "app/cotacao/models/item";
 
 export class Cotacao {
     id: string;
@@ -10,4 +11,5 @@ export class Cotacao {
     tipoCalculoId: string;
     tipoSeguroId: string;
     cliente: Cliente;
+    item: Item;
 }

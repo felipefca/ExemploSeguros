@@ -48,6 +48,7 @@ import { UsuarioService } from "app/usuario/usuario.service";
 import { AuthService } from "app/services/AuthService";
 import { CotacaoService } from "app/cotacao/services/cotacao.services";
 import { ClienteService } from "app/cotacao/services/cliente.services";
+import { ItemService } from "app/cotacao/services/item.services";
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import { ClienteService } from "app/cotacao/services/cliente.services";
     UsuarioService,
     CotacaoService,
     ClienteService,
+    ItemService,
     AuthService,
     { provide : ToastOptions, useClass: ToastrCustomOption}
   ],

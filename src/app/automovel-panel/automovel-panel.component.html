@@ -183,21 +183,21 @@
                       <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Marca / Fabricante</font></label>
                       <div class="form-group row" style="width: 330px; margin-left: 0px; margin-bottom: 0px; ">
                         <div class="col-sm-12">
-                          <ng-select #SelectTipoSeguroId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoSeguroId"></ng-select>
+                          <ng-select #SelectMarcaId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="marcaId"></ng-select>
                         </div>
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Modelo </font></label>
-                        <input type="text" id="estado" class="form-control" placeholder="Estado" formControlName="estado" />
+                        <input type="text" id="nomeModelo" class="form-control" placeholder="Modelo" formControlName="nomeModelo" />
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Ano de Fabricação</font></label>
                         <div class="form-group row" style="width: 200px; margin-left: -15px; margin-bottom: 0px; ">
                           <div class="col-sm-12">
-                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoCalculoId"
-                              (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
+                            <ng-select #SelectAnoFabricacao [allowClear]="true" [items]="anos" [disabled]="disabled" placeholder="Selecione" formControlName="anoFabricacao"
+                              (selected)="changeSourceAnoFab($event)" (removed)="removeSourceAnoFab($event)"></ng-select>
                           </div>
                         </div>
                       </div>
@@ -205,15 +205,14 @@
                         <label class="font-noraml"><font face="Eagle Lake"> Ano do Modelo</font></label>
                         <div class="form-group row" style="width: 200px; margin-left: -15px; margin-bottom: 0px; ">
                           <div class="col-sm-12">
-                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoCalculoId"
-                              (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
+                            <ng-select #SelectAnoModelo [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="anoModelo"></ng-select>
                           </div>
                         </div>
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Zero KM?</font></label>
                         <div class="checkbox checkbox-primary">
-                          <input type="checkbox" class="styled styled-primary" id="checkZeroKm" value="option2" checked aria-label="Single checkbox Two">
+                          <input type="checkbox" class="styled styled-primary" id="flagZeroKm" value="option2" aria-label="Single checkbox Two" formControlName="flagZeroKm">
                           <label></label>
                         </div>
                       </div>
@@ -235,7 +234,7 @@
                     <div class="form-group row">
                       <div class="col-sm-4">
                         <label class="font-noraml"><font face="Eagle Lake"> Chassi </font></label> <span class="label label-info">Opcional</span>
-                        <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento"
+                        <input type="text" id="numChassi" class="form-control" placeholder="Número Chassi" formControlName="numChassi"
                         />
                       </div>
                       <div class="col-sm-8">
@@ -255,12 +254,12 @@
                     <div class="form-group row">
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Data de Saída </font></label>
-                        <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento"
+                        <input type="text" id="dataSaida" class="form-control" placeholder="Data de Saída" formControlName="dataSaida"
                         />
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Odômetro </font></label>
-                        <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento"
+                        <input type="text" id="odometro" class="form-control" placeholder="Odomêtro" formControlName="odometro"
                         />
                       </div>
                     </div>
@@ -269,8 +268,7 @@
                         <label class="font-noraml"><font face="Eagle Lake"> Uso?</font></label>
                         <div class="form-group row" style="width: 300px; margin-left: -15px; margin-bottom: 0px; ">
                           <div class="col-sm-12">
-                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoCalculoId"
-                              (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
+                            <ng-select #SelectUsoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="usoId"></ng-select>
                           </div>
                         </div>
                       </div>
@@ -278,8 +276,7 @@
                         <label class="font-noraml"><font face="Eagle Lake"> Isenção de Imposto?</font></label>
                         <div class="form-group row" style="width: 300px; margin-left: -15px; margin-bottom: 0px; ">
                           <div class="col-sm-12">
-                            <ng-select #SelectTipoCalculoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="tipoCalculoId"
-                              (selected)="changeSourceTC($event.id)" (removed)="removeSourceTC($event)"></ng-select>
+                            <ng-select #SelectImpostoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="impostoId"></ng-select>
                           </div>
                         </div>
                       </div>
