@@ -56,7 +56,10 @@ export class AutomovelPanelComponent implements OnInit {
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
+  public modeloCtrl: FormControl = new FormControl();
+
   // Coleção vazia
+  public listModelos: string[] = [];
   public errors: any[] = [];
   public cotacaoForm: FormGroup;
 
@@ -214,7 +217,7 @@ export class AutomovelPanelComponent implements OnInit {
       cidade: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       marcaId: ['', Validators.required],
-      nomeModelo: '',
+      nomeModelo: this.modeloCtrl,
       anoFabricacao: '',
       anoModelo: '',
       flagZeroKm: '',
@@ -475,19 +478,28 @@ export class AutomovelPanelComponent implements OnInit {
     this.selectAnoMod.itemObjects = [];
 
     let anoFabSelect = this.selectAnoFab.activeOption.id;
-    this.selectAnoMod.itemObjects.push(new SelectItem({ id: $event.id, text: $event.text }))
-
     if (anoFabSelect !== "2017") {
-      this.anos.forEach(item => {
-        if (item === anoFabSelect) {
-
+      for (var i = 0; i < this.anos.length; i++) {
+        if (anoFabSelect == this.anos[i]) {
+          this.selectAnoMod.itemObjects.push(new SelectItem({ id: this.anos[i - 1], text: this.anos[i - 1] }))
         }
-      })
+      }
     }
+    this.selectAnoMod.itemObjects.push(new SelectItem({ id: $event.id, text: $event.text }))
   }
 
   removeSourceAnoFab($event): void {
     this.selectAnoMod.itemObjects = [];
+    this.selectAnoMod.active = [];
+  }
+
+  changeSourceMarca($event): void {
+    this.itemService.obterNomeModelosMarcas(this.selectMA.activeOption.id)
+      .subscribe(data => this.listModelos = data);
+  }
+
+  removeSourceMarca($event): void {
+    this.listModelos = [];
   }
 }
 

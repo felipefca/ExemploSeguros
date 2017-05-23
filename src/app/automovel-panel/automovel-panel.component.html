@@ -183,14 +183,16 @@
                       <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Marca / Fabricante</font></label>
                       <div class="form-group row" style="width: 330px; margin-left: 0px; margin-bottom: 0px; ">
                         <div class="col-sm-12">
-                          <ng-select #SelectMarcaId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="marcaId"></ng-select>
+                          <ng-select #SelectMarcaId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="marcaId"
+                            (selected)="changeSourceMarca($event)" (removed)="removeSourceMarca($event)"></ng-select>
                         </div>
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Modelo </font></label>
-                        <input type="text" id="nomeModelo" class="form-control" placeholder="Modelo" formControlName="nomeModelo" />
+                        <input type="text" formControlName="nomeModelo" [typeahead]="listModelos" typeaheadOptionsLimit="7" typeaheadMinLength="1"
+                          placeholder="Selecione um Modelo" class="form-control" />
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Ano de Fabricação</font></label>
@@ -212,7 +214,8 @@
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Zero KM?</font></label>
                         <div class="checkbox checkbox-primary">
-                          <input type="checkbox" class="styled styled-primary" id="flagZeroKm" value="option2" aria-label="Single checkbox Two" formControlName="flagZeroKm">
+                          <input type="checkbox" class="styled styled-primary" id="flagZeroKm" value="option2" aria-label="Single checkbox Two" [(ngModel)]="flagZeroKm"
+                            formControlName="flagZeroKm">
                           <label></label>
                         </div>
                       </div>
@@ -234,8 +237,8 @@
                     <div class="form-group row">
                       <div class="col-sm-4">
                         <label class="font-noraml"><font face="Eagle Lake"> Chassi </font></label> <span class="label label-info">Opcional</span>
-                        <input type="text" id="numChassi" class="form-control" placeholder="Número Chassi" formControlName="numChassi"
-                        />
+                        <input type="text" id="numChassi" class="form-control" placeholder="Número Chassi" formControlName="numChassi" maxlength="20"
+                          OnlyNumber="true" />
                       </div>
                       <div class="col-sm-8">
                         <label class="font-noraml"><font face="Eagle Lake"> Chassi Remarcado?</font></label>
@@ -251,28 +254,26 @@
                         </div>
                       </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row" *ngIf="flagZeroKm">
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Data de Saída </font></label>
-                        <input type="text" id="dataSaida" class="form-control" placeholder="Data de Saída" formControlName="dataSaida"
-                        />
+                        <input type="text" id="dataSaida" class="form-control" placeholder="Data de Saída" formControlName="dataSaida" />
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Odômetro </font></label>
-                        <input type="text" id="odometro" class="form-control" placeholder="Odomêtro" formControlName="odometro"
-                        />
+                        <input type="text" id="odometro" class="form-control" placeholder="Odomêtro" formControlName="odometro" />
                       </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-sm-6">
+                      <div class="col-sm-4">
                         <label class="font-noraml"><font face="Eagle Lake"> Uso?</font></label>
-                        <div class="form-group row" style="width: 300px; margin-left: -15px; margin-bottom: 0px; ">
+                        <div class="form-group row" style="width: 280px; margin-left: -15px; margin-bottom: 0px; ">
                           <div class="col-sm-12">
                             <ng-select #SelectUsoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="usoId"></ng-select>
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-8">
                         <label class="font-noraml"><font face="Eagle Lake"> Isenção de Imposto?</font></label>
                         <div class="form-group row" style="width: 300px; margin-left: -15px; margin-bottom: 0px; ">
                           <div class="col-sm-12">

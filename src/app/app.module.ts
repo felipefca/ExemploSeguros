@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CollapseModule } from 'ng2-Bootstrap/collapse';
 import { CarouselModule } from 'ng2-Bootstrap/carousel';
 import { TabsModule } from 'ng2-bootstrap/tabs';
+import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
 
 // Others
 import { MyDatePickerModule } from "mydatepicker";
@@ -84,6 +85,7 @@ import { ItemService } from "app/cotacao/services/item.services";
     CollapseModule.forRoot(),
     CarouselModule.forRoot(),
     TabsModule.forRoot(),
+    TypeaheadModule.forRoot(),
     RouterModule.forRoot(rootRouterConfig, {
       useHash: false
     })

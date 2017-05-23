@@ -35,8 +35,8 @@ export class ItemService extends BaseService {
     }
 
     obterNomeModelosMarcas(marcaId: string): Observable<any> {
-        return this.http.get(this.UrlServiceV1 + "itens/ObterNomeModelosMarca", marcaId)
-            .map((res: Response) => <any>res.json())
+        return this.http.get(this.UrlServiceV1 + "itens/ObterNomeModelosMarca/" +  marcaId)
+            .map((res: Response) => res.json())
             .catch(super.serviceError);
     }
 
