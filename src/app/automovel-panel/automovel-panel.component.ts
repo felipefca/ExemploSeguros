@@ -11,6 +11,7 @@ import { DateUtils } from "app/utils/date-utils";
 import { UnMasked } from "app/utils/unMasked";
 import { SelectModule, SelectComponent, SelectItem } from 'ng2-select';
 import { TabsModule, TabsetComponent } from 'ng2-bootstrap/tabs';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 import { CustomValidators, CustomFormsModule } from "ng2-validation";
 import { GenericValidator } from "app/utils/generic-form-validator";
@@ -35,6 +36,15 @@ import { Modelo } from "app/cotacao/models/modelo";
 import { CotacaoService } from "app/cotacao/services/cotacao.services";
 import { ClienteService } from "app/cotacao/services/cliente.services";
 import { ItemService } from "app/cotacao/services/item.services";
+
+// Constantes
+const KmSufix = createNumberMask({
+  suffix: 'Km',
+  prefix: '',
+  allowDecimal: false,
+  integerLimit: 3,
+  allowNegative: false
+})
 
 @Component({
   selector: 'app-automovel-panel',
@@ -88,6 +98,8 @@ export class AutomovelPanelComponent implements OnInit {
   public maskRG = [/[0-9]/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/];
   public maskFone = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public maskCEP = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
+  public maskDate = [/[0-9]/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
+  public maskKm = KmSufix;
 
   displayMessage: { [key: string]: string } = {};
   private validationMessages: { [key: string]: { [key: string]: string } };
@@ -494,12 +506,19 @@ export class AutomovelPanelComponent implements OnInit {
   }
 
   changeSourceMarca($event): void {
+    this.cotacaoForm.controls['nomeModelo'].setValue('');
     this.itemService.obterNomeModelosMarcas(this.selectMA.activeOption.id)
       .subscribe(data => this.listModelos = data);
   }
 
   removeSourceMarca($event): void {
     this.listModelos = [];
+    this.cotacaoForm.controls['nomeModelo'].setValue('');
+  }
+
+  zeroKmChanged($event): void {
+    this.cotacaoForm.controls['dataSaida'].setValue('');
+    this.cotacaoForm.controls['odometro'].setValue('');
   }
 }
 
