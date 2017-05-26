@@ -1,4 +1,4 @@
-# Angular 4 + WebApi + .NET Core BackEnd
+# Angular 4 + WebApi + .NET Core
 
 *Exemplo Seguros
 
