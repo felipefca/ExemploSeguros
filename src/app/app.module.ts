@@ -21,6 +21,7 @@ import { ToastrCustomOption } from "app/utils/ToastrCustomOption";
 import { SelectModule } from 'ng2-select';
 import { WizardModule } from "ng2-archwizard/dist";
 import { TextMaskModule } from 'angular2-text-mask';
+import { DataTableModule } from "angular2-datatable";
 
 // Shared Components
 import { MenuSuperiorComponent } from './shared/menu-superior/menu-superior.component';
@@ -43,6 +44,10 @@ import { AutomovelPanelComponent } from './automovel-panel/automovel-panel.compo
 
 // Directives
 import { OnlyNumber } from "app/diretivas/OnlyNumber";
+
+// Pipes
+import { DataFilterPipe } from "app/pipes/data-filter.pipe";
+import { MoedaPipe } from "app/pipes/moeda.pipe";
 
 // Services
 import { UsuarioService } from "app/usuario/usuario.service";
@@ -69,7 +74,9 @@ import { ItemService } from "app/cotacao/services/item.services";
     MenuCotacaoComponent,
     AutomovelPanelComponent,
     AcessoNegadoComponent,
-    OnlyNumber
+    OnlyNumber,
+    DataFilterPipe,
+    MoedaPipe
   ],
   imports: [
     BrowserModule,
@@ -81,6 +88,7 @@ import { ItemService } from "app/cotacao/services/item.services";
     SelectModule,
     WizardModule,
     TextMaskModule,
+    DataTableModule,
     ToastModule.forRoot(),
     CollapseModule.forRoot(),
     CarouselModule.forRoot(),
@@ -96,7 +104,7 @@ import { ItemService } from "app/cotacao/services/item.services";
     ClienteService,
     ItemService,
     AuthService,
-    { provide : ToastOptions, useClass: ToastrCustomOption}
+    { provide: ToastOptions, useClass: ToastrCustomOption }
   ],
   bootstrap: [AppComponent]
 })

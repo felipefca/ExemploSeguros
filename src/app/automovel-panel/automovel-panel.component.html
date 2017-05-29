@@ -64,48 +64,48 @@
                   <fieldset>
                     <div class="form-group row">
                       <div class="col-sm-3">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> Nome</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Nome </font></label>
                         <input type="text" id="nome" class="form-control" placeholder="Nome" formControlName="nome" [maxLength]="15" />
                       </div>
                       <div class="col-sm-6">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> Sobrenome </b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Sobrenome </font></label>
                         <input type="text" id="sobrenome" class="form-control" placeholder="Sobrenome" formControlName="sobrenome" [maxLength]="45"
                         />
                       </div>
                       <div class="col-sm-3">
-                        <label class="font-noraml"><font face="Eagle Lake"> <b>Data de Nascimento</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Data de Nascimento </font></label>
                         <my-date-picker name="dataNascimento" [options]="myDatePickerOptions" formControlName="dataNascimento"></my-date-picker>
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> CPF</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> CPF </font></label>
                         <input type="text" id="cpf" class="form-control" placeholder="CPF" formControlName="cpf" [textMask]="{mask: maskCPF}" />
                       </div>
                       <div class="col-sm-3">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> RG </b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> RG  </font></label>
                         <input type="text" id="rg" class="form-control" placeholder="RG" formControlName="rg" [textMask]="{mask: maskRG}" />
                       </div>
                       <div class="col-sm-6">
-                        <label class="font-noraml"><font face="Eagle Lake"> <b>E-Mail</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> E-Mail </font></label>
                         <input type="text" id="email" class="form-control" placeholder="E-Mail" formControlName="email" [maxLength]="45" />
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3">
-                        <label class="font-noraml"><font face="Eagle Lake"> <b>Pais</b></font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Pais</font></label>
                         <div class="form-group row" style="width: 180px; margin-left: 0px; margin-bottom: 0px; ">
                           <ng-select #SelectPaisResidenciaId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="paisResidenciaId"></ng-select>
                         </div>
                       </div>
                       <div class="col-sm-6">
-                        <label class="font-noraml"><font face="Eagle Lake"> <b>Profissão</b></font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Profissão</font></label>
                         <div class="form-group row" style="width: 330px; margin-left: 0px; margin-bottom: 0px; ">
                           <ng-select #SelectProfissaoId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="profissaoId"></ng-select>
                         </div>
                       </div>
                       <div class="col-sm-3">
-                        <label class="font-noraml"><font face="Eagle Lake"> <b>Telefone/Celular</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Telefone/Celular </font></label>
                         <input type="text" id="telefone" class="form-control" placeholder="Telefone/Celular" formControlName="telefone" [textMask]="{mask: maskFone}"
                         />
                       </div>
@@ -121,39 +121,39 @@
                   <fieldset>
                     <div class="form-group row">
                       <div class="col-sm-3">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> CEP</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> CEP </font></label>
                         <input type="text" id="cep" class="form-control" placeholder="CEP" formControlName="cep" [(ngModel)]="meuCEP" (blur)="onBlurCEP()"
                           [textMask]="{mask: maskCEP}" />
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-5">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> Logradouro</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Logradouro </font></label>
                         <input type="text" id="logradouro" class="form-control" placeholder="Logradouro" disabled="disabled" formControlName="logradouro"
                           [(ngModel)]="logradouro" />
                       </div>
                       <div class="col-sm-5">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> Complemento</b> </font></label> <span class="label label-info">Opcional</span>
+                        <label class="font-noraml"><font face="Eagle Lake"> Complemento </font></label> <span class="label label-info">Opcional</span>
                         <input type="text" id="complemento" class="form-control" placeholder="Complemento" disabled="disabled" formControlName="complemento"
                           [maxLength]="40" />
                       </div>
                       <div class="col-sm-2">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> Numero</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Numero </font></label>
                         <input type="text" id="numero" class="form-control" placeholder="Numero" disabled="disabled" formControlName="numero" OnlyNumber="true"
                           [maxLength]="5" />
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-4">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> Bairro</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Bairro </font></label>
                         <input type="text" id="bairro" class="form-control" placeholder="Bairro" disabled="disabled" formControlName="bairro" />
                       </div>
                       <div class="col-sm-4">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> Cidade</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Cidade </font></label>
                         <input type="text" id="cidade" class="form-control" placeholder="Cidade" disabled="disabled" formControlName="cidade" />
                       </div>
                       <div class="col-sm-4">
-                        <label class="font-noraml"><font face="Eagle Lake"><b> Estado</b> </font></label>
+                        <label class="font-noraml"><font face="Eagle Lake"> Estado </font></label>
                         <input type="text" id="estado" class="form-control" placeholder="Estado" disabled="disabled" formControlName="estado" />
                       </div>
                     </div>
@@ -183,7 +183,7 @@
                       <label class="col-form-label text-md-right col-md-3" for="username"> <font face="Eagle Lake"> Marca / Fabricante</font></label>
                       <div class="form-group row" style="width: 330px; margin-left: 0px; margin-bottom: 0px; ">
                         <div class="col-sm-12">
-                          <ng-select #SelectMarcaId [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="marcaId"
+                          <ng-select #SelectMarcaId [allowClear]="true" [items]="items" [disabled]="buscaVeiculo" placeholder="Selecione" formControlName="marcaId"
                             (selected)="changeSourceMarca($event)" (removed)="removeSourceMarca($event)"></ng-select>
                         </div>
                       </div>
@@ -198,7 +198,7 @@
                         <label class="font-noraml"><font face="Eagle Lake"> Ano de Fabricação</font></label>
                         <div class="form-group row" style="width: 200px; margin-left: -15px; margin-bottom: 0px; ">
                           <div class="col-sm-12">
-                            <ng-select #SelectAnoFabricacao [allowClear]="true" [items]="anos" [disabled]="disabled" placeholder="Selecione" formControlName="anoFabricacao"
+                            <ng-select #SelectAnoFabricacao [allowClear]="true" [items]="anos" [disabled]="buscaVeiculo" placeholder="Selecione" formControlName="anoFabricacao"
                               (selected)="changeSourceAnoFab($event)" (removed)="removeSourceAnoFab($event)"></ng-select>
                           </div>
                         </div>
@@ -207,7 +207,7 @@
                         <label class="font-noraml"><font face="Eagle Lake"> Ano do Modelo</font></label>
                         <div class="form-group row" style="width: 200px; margin-left: -15px; margin-bottom: 0px; ">
                           <div class="col-sm-12">
-                            <ng-select #SelectAnoModelo [allowClear]="true" [items]="items" [disabled]="disabled" placeholder="Selecione" formControlName="anoModelo"></ng-select>
+                            <ng-select #SelectAnoModelo [allowClear]="true" [items]="items" [disabled]="buscaVeiculo" placeholder="Selecione" formControlName="anoModelo"></ng-select>
                           </div>
                         </div>
                       </div>
@@ -215,14 +215,79 @@
                         <label class="font-noraml"><font face="Eagle Lake"> Zero KM?</font></label>
                         <div class="checkbox checkbox-primary">
                           <input type="checkbox" class="styled styled-primary" id="flagZeroKm" value="option2" aria-label="Single checkbox Two" [(ngModel)]="flagZeroKm"
-                            formControlName="flagZeroKm" (change)="zeroKmChanged($event)">
+                            [disabled]="buscaVeiculo" formControlName="flagZeroKm" (change)="zeroKmChanged($event)">
                           <label></label>
                         </div>
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-12">
-                        <button type="button" class="btn btn-info" id="btnBuscarVeic">Buscar Veículo</button>
+                        <button type="button" class="btn btn-info" id="btnBuscarVeic" [disabled]="buscaVeiculo" (click)="buscarVeiculos($event)">Buscar Veículo</button>
+                      </div>
+                    </div>
+                    <div class="form-group row" *ngIf="errorsVeic.length > 0 && !buscaVeiculo">
+                      <div class="col-sm-12">
+                        <i class="fa fa-warning"></i> <span style="color:red"> Aviso: {{errorsVeic}} </span>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <section class="invoice-info well" *ngIf="buscaVeiculo">
+                    <div class="row">
+                      <div class="col-sm-6 col-print-6">
+                        <h4 class="details-title" *ngIf="!flagVeiculoSelecionado">Resultado - Veículos</h4>
+                        <h4 class="details-title" *ngIf="flagVeiculoSelecionado">Veículo</h4>
+                      </div>
+                    </div>
+                  </section>
+                  <fieldset *ngIf="buscaVeiculo && !flagVeiculoSelecionado">
+                    <table class="table table-bordered" [mfData]="data | dataFilter" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" *ngIf="data.length > 0">
+                      <thead>
+                        <tr>
+                          <th style="width: 70%">Descrição</th>
+                          <th style="width: 20%">Valor</th>
+                          <th style="width: 10%"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of mf.data">
+                          <td>{{item.descricao}} {{item.anoFabricacao}}/{{item.anoModelo}}</td>
+                          <td>{{item.valor | moeda}}</td>
+                          <td>
+                            <button type="button" class="btn btn-success" id="btnSelectVeic" (click)="selecionaVeiculo($event, item.modeloId)">>></button>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="5">
+                            <mfBootstrapPaginator></mfBootstrapPaginator>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                    <div class="form-group row" *ngIf="errorsVeic.length > 0">
+                      <div class="col-sm-12">
+                        <i class="fa fa-warning"></i> <span style="color:red"> Aviso: {{errorsVeic}} </span>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <button type="button" class="btn btn-danger" id="btnBackSelectVeic" (click)="retornaPesquisa($event)">Nova Pesquisa</button>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <fieldset *ngIf="flagVeiculoSelecionado">
+                    <div class="form-group row" data-id="modelos.modeloId">
+                      <div class="col-sm-3">
+                        <span><img class="icon" [src]="'assets/img/marcas/' + modelos.marca.imagem" alt="Electricity" width="100" height="70"></span>
+                      </div>
+                      <div class="col-sm-6">
+                        <font face="Palatino Linotype" size="3">
+                          {{modelos.descricao}} {{modelos.anoFabricacao}}/{{modelos.anoModelo}} R$: {{modelos.valor | moeda}}
+                        </font>
+                      </div>
+                      <div class="col-sm-3">
+                        <button type="button" class="btn btn-danger" id="btnBackSelectVeic" (click)="retornaPesquisa($event)">Nova Pesquisa</button>
                       </div>
                     </div>
                   </fieldset>
@@ -285,9 +350,17 @@
                       </div>
                     </div>
                   </fieldset>
-                  <button type="button" previousStep>Go to previous step</button>
-                  <button type="button" nextStep>Go to next step</button>
-                  <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
+                  <div class="form-actions">
+                    <ul class="pager wizard">
+                      <li class="previous">
+                        <button type="button" class="btn btn-primary" previousStep><i class="fa fa-caret-left"></i> Anterior</button>
+                      </li>
+                      <li class="next">
+                        <button type="button" class="btn btn-primary" nextStep>Próximo <i class="fa fa-caret-right"></i></button>
+                      </li>
+                      <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
+                    </ul>
+                  </div>
                 </wizard-step>
                 <wizard-step title="Title of step 3" navigationSymbol="3">
                   Content of Step 3

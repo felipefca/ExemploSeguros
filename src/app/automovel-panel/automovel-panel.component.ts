@@ -71,6 +71,7 @@ export class AutomovelPanelComponent implements OnInit {
   // Coleção vazia
   public listModelos: string[] = [];
   public errors: any[] = [];
+  public errorsVeic: any[] = [];
   public cotacaoForm: FormGroup;
 
   // Variáveis 
@@ -89,6 +90,10 @@ export class AutomovelPanelComponent implements OnInit {
 
   // Variáveis Auxiliáres
   meuCEP: any;
+  buscaVeiculo: boolean = false;
+  flagVeiculoSelecionado: boolean = false;
+  public data: any[];
+  public rowsOnPage = 5;
 
   // Coleções
   public anos: Array<string> = ['2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010'];
@@ -519,6 +524,53 @@ export class AutomovelPanelComponent implements OnInit {
   zeroKmChanged($event): void {
     this.cotacaoForm.controls['dataSaida'].setValue('');
     this.cotacaoForm.controls['odometro'].setValue('');
+  }
+
+  buscarVeiculos($event): void {
+    this.errorsVeic = [];
+    let nomeVeic = this.cotacaoForm.controls['nomeModelo'].value;
+    let anoFab = this.selectAnoFab.active.length > 0 ? this.selectAnoFab.activeOption.id : "";
+    let anoMod = this.selectAnoMod.active.length > 0 ? this.selectAnoMod.activeOption.id : "";
+    let zeroKm = this.cotacaoForm.controls['flagZeroKm'].value == true ? "1" : "0";
+
+    if (nomeVeic !== null && anoFab !== "" && anoMod !== "") {
+      this.buscaVeiculo = true;
+      this.cotacaoForm.controls['nomeModelo'].disable();
+      this.itemService.obterModelosParaSelecao(this.selectMA.activeOption.id, nomeVeic, anoFab, anoMod, zeroKm)
+        .subscribe(
+        modelos => {
+          this.data = modelos;
+          if (this.data.length == 0) {
+            this.errorsVeic.push("Não foram encontrados veículos com essas referências. Por favor efetuar nova pesquisa !!!");
+          }
+        },
+        error => this.errors
+        );
+
+    } else {
+      this.buscaVeiculo = false;
+      this.errorsVeic = [];
+      this.errorsVeic.push("Campos referentes a busca de veículos não preenchidos !!!");
+    }
+  }
+
+  retornaPesquisa($event): void {
+    this.buscaVeiculo = false;
+    this.flagVeiculoSelecionado = false;
+    this.cotacaoForm.controls['nomeModelo'].enable();
+    this.data = [];
+    this.errorsVeic = [];
+  }
+
+  selecionaVeiculo($event, $id): void {
+    this.itemService.obterDadosModeloSelecionado($id)
+      .subscribe(
+      apiData => {
+        this.modelos = apiData;
+        this.flagVeiculoSelecionado = true;
+      },
+      error => this.errors
+      );
   }
 }
 

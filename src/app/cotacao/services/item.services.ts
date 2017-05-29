@@ -35,19 +35,19 @@ export class ItemService extends BaseService {
     }
 
     obterNomeModelosMarcas(marcaId: string): Observable<any> {
-        return this.http.get(this.UrlServiceV1 + "itens/ObterNomeModelosMarca/" +  marcaId)
+        return this.http.get(this.UrlServiceV1 + "itens/ObterNomeModelosMarca/" + marcaId)
             .map((res: Response) => res.json())
             .catch(super.serviceError);
     }
 
-    obterModelosParaSelecao(marcaId: string, nome: string, anoFabricacao: string, anoModelo: string): Observable<Modelo[]> {
-        let params = new URLSearchParams();
-        params.set('marcaId', marcaId);
-        params.set('nome', nome);
-        params.set('anoFabricacao', anoFabricacao);
-        params.set('anoModelo', anoModelo);
+    obterModelosParaSelecao(marcaId: string, nome: string, anoFabricacao: string, anoModelo: string, zeroKm: string): Observable<Modelo[]> {
+        return this.http.get(this.UrlServiceV1 + "itens/ObterModelosMarca/" + marcaId + "/" + nome + "/" + anoFabricacao + "/" + anoModelo + "/" + zeroKm)
+            .map((res: Response) => <Modelo[]>res.json())
+            .catch(super.serviceError);
+    }
 
-        return this.http.get(this.UrlServiceV1 + "itens/ObterModelosMarca", { search: params })
+    obterDadosModeloSelecionado(modeloId: string): Observable<Modelo[]> {
+        return this.http.get(this.UrlServiceV1 + "itens/ObterDadosModelo/" + modeloId)
             .map((res: Response) => <Modelo[]>res.json())
             .catch(super.serviceError);
     }
