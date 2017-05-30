@@ -5,7 +5,7 @@ export class UnMasked {
 
     public static unMaskFormComponents(container: FormGroup): void {
         for (let controlKey in container.controls) {
-            if (controlKey === "cep" || controlKey === "rg" || controlKey === "telefone" || controlKey === "cpf") {
+            if (controlKey === "cep" || controlKey === "rg" || controlKey === "telefone" || controlKey === "cpf" || controlKey === "odometro") {
                 let valueControl = container.controls[controlKey].value;
 
                 if (!StringUtils.isNullOrEmpty(valueControl))

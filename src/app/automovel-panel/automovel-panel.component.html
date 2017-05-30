@@ -215,7 +215,7 @@
                         <label class="font-noraml"><font face="Eagle Lake"> Zero KM?</font></label>
                         <div class="checkbox checkbox-primary">
                           <input type="checkbox" class="styled styled-primary" id="flagZeroKm" value="option2" aria-label="Single checkbox Two" [(ngModel)]="flagZeroKm"
-                            [disabled]="buscaVeiculo" formControlName="flagZeroKm" (change)="zeroKmChanged($event)">
+                            formControlName="flagZeroKm" (change)="zeroKmChanged($event)">
                           <label></label>
                         </div>
                       </div>
@@ -309,11 +309,11 @@
                         <label class="font-noraml"><font face="Eagle Lake"> Chassi Remarcado?</font></label>
                         <div class="col-sm-12">
                           <div class="radio radio-info radio-inline">
-                            <input type="radio" id="inlineRadio1" value="option1" name="radioInline">
+                            <input type="radio" value="true" name="flagRemarcado" formControlName="flagRemarcado"> 
                             <label for="inlineRadio1"> Sim </label>
                           </div>
                           <div class="radio radio-inline radio-danger">
-                            <input type="radio" id="inlineRadio2" value="option2" name="radioInline" checked>
+                            <input type="radio" value="false" name="flagRemarcado" formControlName="flagRemarcado">
                             <label for="inlineRadio2"> Não </label>
                           </div>
                         </div>

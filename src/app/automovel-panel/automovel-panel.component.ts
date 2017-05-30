@@ -66,7 +66,7 @@ export class AutomovelPanelComponent implements OnInit {
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
-  public modeloCtrl: FormControl = new FormControl();
+  //public modeloCtrl: FormControl = new FormControl();
 
   // Coleção vazia
   public listModelos: string[] = [];
@@ -94,6 +94,7 @@ export class AutomovelPanelComponent implements OnInit {
   flagVeiculoSelecionado: boolean = false;
   public data: any[];
   public rowsOnPage = 5;
+  modeloId: string;
 
   // Coleções
   public anos: Array<string> = ['2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010'];
@@ -199,6 +200,12 @@ export class AutomovelPanelComponent implements OnInit {
       impostoId: {
         required: 'Informe a Isenção de Imposto.'
       },
+      nomeModelo: {
+        required: 'Informe o Modelo do Veículo.'
+      },
+      marcaId: {
+        required: 'Informe a marca do Veículo.'
+      },
       flagRemarcado: {
         required: 'Selecione uma resposta para o Campo "Chassi Remarcado?"'
       }
@@ -234,12 +241,12 @@ export class AutomovelPanelComponent implements OnInit {
       cidade: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       marcaId: ['', Validators.required],
-      nomeModelo: this.modeloCtrl,
+      nomeModelo: ['', Validators.required],  // this.modeloCtrl,
+      flagRemarcado: ['', Validators.required],
       anoFabricacao: '',
       anoModelo: '',
       flagZeroKm: '',
       numChassi: '',
-      flagRemarcado: ['', Validators.required],
       dataSaida: '',
       odometro: '',
       usoId: ['', Validators.required],
@@ -255,6 +262,7 @@ export class AutomovelPanelComponent implements OnInit {
     this.getMarcas();
 
     this.onDisableDates();
+    this.onInitilizeRadios();
   }
 
   adicionarCotacao() {
@@ -295,6 +303,17 @@ export class AutomovelPanelComponent implements OnInit {
       c.cliente.endereco.cep = c.cep;
       c.cliente.endereco.cidade = c.cidade;
       c.cliente.endereco.estado = c.estado;
+
+      //Item
+      c.item.id = undefined;
+      c.item.numChassi = c.numChassi;
+      c.item.flagRemarcado = c.flagRemarcado;
+      c.item.dataSaida = c.dataSaida;
+      c.item.odometro = c.odometro;
+      c.item.produtoId = "1";
+      c.item.modeloId = this.modeloId;
+      c.item.usoId = this.selectUS.activeOption.id;
+      c.item.impostoId = this.selectIM.activeOption.id;
 
       this.cotacaoService.registrarCotacao(c)
         .subscribe(
@@ -535,7 +554,7 @@ export class AutomovelPanelComponent implements OnInit {
 
     if (nomeVeic !== null && anoFab !== "" && anoMod !== "") {
       this.buscaVeiculo = true;
-      this.cotacaoForm.controls['nomeModelo'].disable();
+      //this.cotacaoForm.controls['nomeModelo'].disable();
       this.itemService.obterModelosParaSelecao(this.selectMA.activeOption.id, nomeVeic, anoFab, anoMod, zeroKm)
         .subscribe(
         modelos => {
@@ -557,7 +576,7 @@ export class AutomovelPanelComponent implements OnInit {
   retornaPesquisa($event): void {
     this.buscaVeiculo = false;
     this.flagVeiculoSelecionado = false;
-    this.cotacaoForm.controls['nomeModelo'].enable();
+    //this.cotacaoForm.controls['nomeModelo'].enable();
     this.data = [];
     this.errorsVeic = [];
   }
@@ -568,9 +587,14 @@ export class AutomovelPanelComponent implements OnInit {
       apiData => {
         this.modelos = apiData;
         this.flagVeiculoSelecionado = true;
+        this.modeloId = $id;
       },
       error => this.errors
       );
+  }
+
+  onInitilizeRadios(): void {
+    this.cotacaoForm.controls['flagRemarcado'].setValue('false');
   }
 }
 
