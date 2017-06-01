@@ -95,6 +95,7 @@ export class AutomovelPanelComponent implements OnInit {
   public data: any[];
   public rowsOnPage = 5;
   modeloId: string;
+  numCotacao: any;
 
   // Coleções
   public anos: Array<string> = ['2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010'];
@@ -208,6 +209,12 @@ export class AutomovelPanelComponent implements OnInit {
       },
       flagRemarcado: {
         required: 'Selecione uma resposta para o Campo "Chassi Remarcado?"'
+      },
+      anoModelo: {
+        required: 'Informe o ano do Modelo'
+      },
+      anoFabricacao: {
+        required: 'Informe o ano de Fabricação do Veículo'
       }
     };
 
@@ -216,6 +223,8 @@ export class AutomovelPanelComponent implements OnInit {
     this.cotacao.cliente = new Cliente();
     this.cotacao.cliente.endereco = new Endereco();
     this.cotacao.item = new Item();
+
+    this.gerarNumCotacao();
   }
 
   ngOnInit() {
@@ -243,8 +252,8 @@ export class AutomovelPanelComponent implements OnInit {
       marcaId: ['', Validators.required],
       nomeModelo: ['', Validators.required],  // this.modeloCtrl,
       flagRemarcado: ['', Validators.required],
-      anoFabricacao: '',
-      anoModelo: '',
+      anoFabricacao: ['', Validators.required],
+      anoModelo: ['', Validators.required],
       flagZeroKm: '',
       numChassi: '',
       dataSaida: '',
@@ -278,7 +287,7 @@ export class AutomovelPanelComponent implements OnInit {
       c.userId = user.id;
       c.tipoSeguroId = this.selectTS.activeOption.id;
       c.tipoCalculoId = this.selectTC.activeOption.id;
-      //c.numCotacao = this.cotacaoService.gerarNumCotacaoRandomico();
+      c.numCotacao = this.numCotacao;
       c.dataVigenciaInicial = DateUtils.getMyDatePickerDate(c.dataVigenciaInicial);
       c.dataVigenciaFinal = DateUtils.getMyDatePickerDate(c.dataVigenciaFinal);
 
@@ -595,6 +604,16 @@ export class AutomovelPanelComponent implements OnInit {
 
   onInitilizeRadios(): void {
     this.cotacaoForm.controls['flagRemarcado'].setValue('false');
+  }
+
+  gerarNumCotacao(): void {
+    this.cotacaoService.gerarNumCotacaoRandomico()
+      .subscribe(
+      apiData => {
+        this.numCotacao = apiData;
+      },
+      error => this.errors
+      );
   }
 }
 

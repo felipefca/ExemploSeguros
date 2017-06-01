@@ -42,11 +42,11 @@ export class CotacaoService extends BaseService {
             .catch(super.serviceError);
     }
 
-    /*    gerarNumCotacaoRandomico(): Observable<number> {
-            return this.http.get(this.UrlServiceV1 + "cotacoes/num-rand-cotacoes") 
-                .map((res: Response) => <number>res.json())
-                .catch(super.serviceError);
-        }*/
+    gerarNumCotacaoRandomico(): Observable<string> {
+        return this.http.get(this.UrlServiceV1 + "cotacoes/ObterNumeroCotacao")
+            .map((res: Response) => <string>res.json())
+            .catch(super.serviceError);
+    }
 
     private extractData(response: Response) {
         let body = response.json();
