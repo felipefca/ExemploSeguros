@@ -31,11 +31,20 @@ import { Imposto } from "app/cotacao/models/imposto";
 import { Marca } from "app/cotacao/models/marca";
 import { Uso } from "app/cotacao/models/uso";
 import { Modelo } from "app/cotacao/models/modelo";
+import { Questionario } from "app/cotacao/models/questionario";
+import { Rastreador } from "app/cotacao/models/rastreador";
+import { AntiFurto } from "app/cotacao/models/antiFurto";
+import { GaragemTrabalho } from "app/cotacao/models/garagemTrabalho";
+import { GaragemFaculdade } from "app/cotacao/models/garagemFaculdade";
+import { GaragemResidencia } from "app/cotacao/models/garagemResidencia";
+import { PropriedadeRastreador } from "app/cotacao/models/propriedadeRastreador";
+import { RelacaoSegurado } from "app/cotacao/models/relacaoSegurado";
 
 // Services
 import { CotacaoService } from "app/cotacao/services/cotacao.services";
 import { ClienteService } from "app/cotacao/services/cliente.services";
 import { ItemService } from "app/cotacao/services/item.services";
+import { QuestionarioService } from "app/cotacao/services/questionario.service";
 
 // Constantes
 const KmSufix = createNumberMask({
@@ -63,10 +72,16 @@ export class AutomovelPanelComponent implements OnInit {
   @ViewChild('SelectImpostoId') public selectIM: SelectComponent
   @ViewChild('SelectAnoModelo') public selectAnoMod: SelectComponent
   @ViewChild('SelectAnoFabricacao') public selectAnoFab: SelectComponent
+  @ViewChild('SelectRelacaoSeguradoId') public selectRelSeg: SelectComponent
+  @ViewChild('SelectRastreadorId') public selectRast: SelectComponent
+  @ViewChild('SelectAntiFurtoId') public selectAnti: SelectComponent
+  @ViewChild('SelectPropRastreadorId') public selectPropRast: SelectComponent
+  @ViewChild('SelectGarResidenciaId') public selectGarRes: SelectComponent
+  @ViewChild('SelectGarFaculdadeId') public selectGarFac: SelectComponent
+  @ViewChild('SelectGarTrabalhoId') public selectGarTrab: SelectComponent
+
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
-
-  //public modeloCtrl: FormControl = new FormControl();
 
   // Coleção vazia
   public listModelos: string[] = [];
@@ -79,6 +94,7 @@ export class AutomovelPanelComponent implements OnInit {
   public cliente: Cliente;
   public endereco: Endereco;
   public item: Item;
+  public questionario: Questionario;
   public tipoSeguro: TipoSeguro[];
   public tipoCalculo: TipoCalculo[];
   public profissoes: Profissao[];
@@ -87,10 +103,20 @@ export class AutomovelPanelComponent implements OnInit {
   public usos: Uso[];
   public marcas: Marca[];
   public modelos: Modelo[];
+  public rastreadores: Rastreador[];
+  public antifurtos: AntiFurto[];
+  public garagemFaculdade: GaragemFaculdade[];
+  public garagemTrabalho: GaragemTrabalho[];
+  public garagemResidencia: GaragemResidencia[];
+  public propriedadeRastreadores: PropriedadeRastreador[];
+  public relacaoSegurado: RelacaoSegurado[];
 
   // Variáveis Auxiliáres
   meuCEP: any;
   buscaVeiculo: boolean = false;
+  antiFurtoSelecionado: boolean = false;
+  rastreadorSelecionado: boolean = false;
+  garagemSelecionado: boolean = false;
   flagVeiculoSelecionado: boolean = false;
   public data: any[];
   public rowsOnPage = 5;
@@ -116,7 +142,8 @@ export class AutomovelPanelComponent implements OnInit {
     private router: Router,
     private cotacaoService: CotacaoService,
     private clienteService: ClienteService,
-    private itemService: ItemService) {
+    private itemService: ItemService,
+    private questionarioService: QuestionarioService) {
 
     this.validationMessages = {
       tipoSeguroId: {
@@ -215,6 +242,31 @@ export class AutomovelPanelComponent implements OnInit {
       },
       anoFabricacao: {
         required: 'Informe o ano de Fabricação do Veículo'
+      },
+      cepPernoite: {
+        required: 'Informe o CEP.',
+        rangeLength: 'O CEP deve conter 8 caracteres'
+      },
+      flagBlindado: {
+        required: 'Selecione uma resposta para o Campo "Veículo blindado?"'
+      },
+      flagAdaptadoDeficiente: {
+        required: 'Selecione uma resposta para o Campo "Veículo adaptado para deficiente físico?"'
+      },
+      flagKitGas: {
+        required: 'Selecione uma resposta para o Campo "Possui Kit Gás?"'
+      },
+      flagAlienado: {
+        required: 'Selecione uma resposta para o Campo "Veículo alienado ou financiado?"'
+      },
+      flagAntiFurto: {
+        required: 'Selecione uma resposta para o Campo "O veículo segurado possui dispositivo anti-furto, rastreador, bloqueador ou localizador instalado e ativado?"'
+      },
+      flagGararem: {
+        required: 'Selecione uma resposta para o Campo "Existe garagem ou estacionamento fechado para o veículo?"'
+      },
+      relacaoSeguradoId: {
+        required: 'Informe a Relação do Segurado com o Proprietário Legal do Veículo"'
       }
     };
 
@@ -223,6 +275,7 @@ export class AutomovelPanelComponent implements OnInit {
     this.cotacao.cliente = new Cliente();
     this.cotacao.cliente.endereco = new Endereco();
     this.cotacao.item = new Item();
+    this.cotacao.questionario = new Questionario();
 
     this.gerarNumCotacao();
   }
@@ -250,7 +303,7 @@ export class AutomovelPanelComponent implements OnInit {
       cidade: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       marcaId: ['', Validators.required],
-      nomeModelo: ['', Validators.required],  // this.modeloCtrl,
+      nomeModelo: ['', Validators.required],
       flagRemarcado: ['', Validators.required],
       anoFabricacao: ['', Validators.required],
       anoModelo: ['', Validators.required],
@@ -259,7 +312,21 @@ export class AutomovelPanelComponent implements OnInit {
       dataSaida: '',
       odometro: '',
       usoId: ['', Validators.required],
-      impostoId: ['', Validators.required]
+      impostoId: ['', Validators.required],
+      cepPernoite: ['', [Validators.required, CustomValidators.rangeLength([8, 8])]],
+      flagBlindado: ['', Validators.required],
+      flagAdaptadoDeficiente: ['', Validators.required],
+      flagKitGas: ['', Validators.required],
+      flagAlienado: ['', Validators.required],
+      flagAntiFurto: ['', Validators.required],
+      flagGararem: ['', Validators.required],
+      relacaoSeguradoId: ['', Validators.required],
+      rastreadorId: '',
+      antiFurtoId: '',
+      gararemResidenciaId: '',
+      gararemTrabalhoId: '',
+      garagemFaculdadeId: '',
+      propriedadeRastreadorId: ''
     });
 
     this.getTiposCalculo();
@@ -269,6 +336,7 @@ export class AutomovelPanelComponent implements OnInit {
     this.getUsos();
     this.getImpostos();
     this.getMarcas();
+    this.getRelacaoSegurado();
 
     this.onDisableDates();
     this.onInitilizeRadios();
@@ -323,6 +391,23 @@ export class AutomovelPanelComponent implements OnInit {
       c.item.modeloId = this.modeloId;
       c.item.usoId = this.selectUS.activeOption.id;
       c.item.impostoId = this.selectIM.activeOption.id;
+
+      //Questionário
+      c.questionario.id = undefined;
+      c.questionario.cepPernoite = c.cepPernoite;
+      c.questionario.flagBlindado = c.flagBlindado;
+      c.questionario.flagAdaptadoDeficiente = c.flagAdaptadoDeficiente;
+      c.questionario.flagKitGas = c.flagKitGas;
+      c.questionario.flagAlienado = c.flagAlienado;
+      c.questionario.flagAntiFurto = c.flagAntiFurto;
+      c.questionario.flagGararem = c.flagGararem;
+      c.questionario.rastreadorId = this.selectRast != null ? this.selectRast.activeOption.id : null;
+      c.questionario.antiFurtoId = this.selectAnti != null ? this.selectAnti.activeOption.id : null;
+      c.questionario.relacaoSeguradoId = this.selectRelSeg.activeOption.id;
+      c.questionario.gararemResidenciaId = this.selectGarRes != null ? this.selectGarRes.activeOption.id : null;
+      c.questionario.gararemTrabalhoId = this.selectGarTrab != null ? this.selectGarTrab.activeOption.id : null;
+      c.questionario.garagemFaculdadeId = this.selectGarFac != null ? this.selectGarFac.activeOption.id : null;
+      c.questionario.propriedadeRastreadorId = this.selectPropRast != null ? this.selectPropRast.activeOption.id : null;
 
       this.cotacaoService.registrarCotacao(c)
         .subscribe(
@@ -437,6 +522,114 @@ export class AutomovelPanelComponent implements OnInit {
         this.marcas.forEach(item => {
           item.marcaId = item.marcaId.toString();
           this.selectMA.itemObjects.push(new SelectItem({ id: item.marcaId, text: item.nome }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  gerarNumCotacao(): void {
+    this.cotacaoService.gerarNumCotacaoRandomico()
+      .subscribe(
+      apiData => {
+        this.numCotacao = apiData;
+      },
+      error => this.errors
+      );
+  }
+
+  getRelacaoSegurado(): void {
+    this.questionarioService.obterRelacaoSegurados()
+      .subscribe(
+      api => {
+        this.relacaoSegurado = api;
+        this.relacaoSegurado.forEach(item => {
+          item.relacaoSeguradoId = item.relacaoSeguradoId.toString();
+          this.selectRelSeg.itemObjects.push(new SelectItem({ id: item.relacaoSeguradoId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getRastreadores(): void {
+    this.questionarioService.obterRastreadores()
+      .subscribe(
+      api => {
+        this.rastreadores = api;
+        this.rastreadores.forEach(item => {
+          item.rastreadorId = item.rastreadorId.toString();
+          this.selectRast.itemObjects.push(new SelectItem({ id: item.rastreadorId, text: item.nome }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getAntiFurtos(): void {
+    this.questionarioService.obterAntiFurtos()
+      .subscribe(
+      api => {
+        this.antifurtos = api;
+        this.antifurtos.forEach(item => {
+          item.antiFurtoId = item.antiFurtoId.toString();
+          this.selectAnti.itemObjects.push(new SelectItem({ id: item.antiFurtoId, text: item.nome }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getPropRastreadores(): void {
+    this.questionarioService.obterPropriedadeRastreadors()
+      .subscribe(
+      api => {
+        this.propriedadeRastreadores = api;
+        this.propriedadeRastreadores.forEach(item => {
+          item.propriedadeRastreadorId = item.propriedadeRastreadorId.toString();
+          this.selectPropRast.itemObjects.push(new SelectItem({ id: item.propriedadeRastreadorId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getGarFaculdade(): void {
+    this.questionarioService.obterGaragemFaculdades()
+      .subscribe(
+      api => {
+        this.garagemFaculdade = api;
+        this.garagemFaculdade.forEach(item => {
+          item.garagemFaculdadeId = item.garagemFaculdadeId.toString();
+          this.selectGarFac.itemObjects.push(new SelectItem({ id: item.garagemFaculdadeId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getGarTrabalho(): void {
+    this.questionarioService.obterGararemTrabalhos()
+      .subscribe(
+      api => {
+        this.garagemTrabalho = api;
+        this.garagemTrabalho.forEach(item => {
+          item.garagemTrabalhoId = item.garagemTrabalhoId.toString();
+          this.selectGarTrab.itemObjects.push(new SelectItem({ id: item.garagemTrabalhoId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getGarResidencia(): void {
+    this.questionarioService.obterGararemResidencias()
+      .subscribe(
+      api => {
+        this.garagemResidencia = api;
+        this.garagemResidencia.forEach(item => {
+          item.garagemResidenciaId = item.garagemResidenciaId.toString();
+          this.selectGarRes.itemObjects.push(new SelectItem({ id: item.garagemResidenciaId, text: item.descricao }))
         });
       },
       error => this.errors
@@ -604,16 +797,63 @@ export class AutomovelPanelComponent implements OnInit {
 
   onInitilizeRadios(): void {
     this.cotacaoForm.controls['flagRemarcado'].setValue('false');
+    this.cotacaoForm.controls['flagBlindado'].setValue('false');
+    this.cotacaoForm.controls['flagAdaptadoDeficiente'].setValue('false');
+    this.cotacaoForm.controls['flagKitGas'].setValue('false');
+    this.cotacaoForm.controls['flagAlienado'].setValue('false');
+    this.cotacaoForm.controls['flagAntiFurto'].setValue('false');
+    this.cotacaoForm.controls['flagGararem'].setValue('false');
   }
 
-  gerarNumCotacao(): void {
-    this.cotacaoService.gerarNumCotacaoRandomico()
-      .subscribe(
-      apiData => {
-        this.numCotacao = apiData;
-      },
-      error => this.errors
-      );
+  verificarAntiFurto(state): void {
+    if (state == true) {
+      this.antiFurtoSelecionado = true;
+      this.getRastreadores();
+      this.getAntiFurtos();
+    }
+    else {
+      this.selectRast.itemObjects = [];
+      this.selectAnti.itemObjects = [];
+      if (this.selectRast.active.length) this.selectRast.remove(this.selectRast.activeOption)
+      if (this.selectAnti.active.length) this.selectAnti.remove(this.selectAnti.activeOption)
+
+      this.antiFurtoSelecionado = false;
+    }
+  }
+
+  changeRastreador(id): void {
+    if (!this.rastreadorSelecionado)
+      this.getPropRastreadores();
+
+    if (id != 0)
+      this.rastreadorSelecionado = true;
+    else
+      this.rastreadorSelecionado = false;
+  }
+
+  removeRastreador(): void {
+    this.rastreadorSelecionado = false;
+    this.selectPropRast.itemObjects = [];
+    this.selectPropRast.remove(this.selectPropRast.activeOption)
+  }
+
+  verificarGaragem(state): void {
+    if (state == true) {
+      this.garagemSelecionado = true;
+      this.getGarFaculdade();
+      this.getGarTrabalho();
+      this.getGarResidencia();
+    }
+    else {
+      this.selectGarFac.remove(this.selectGarFac.activeOption)
+      this.selectGarFac.itemObjects = [];
+      this.selectGarTrab.remove(this.selectGarTrab.activeOption)
+      this.selectGarTrab.itemObjects = [];
+      this.selectGarRes.remove(this.selectGarRes.activeOption)
+      this.selectGarRes.itemObjects = [];
+
+      this.garagemSelecionado = false;
+    }
   }
 }
 

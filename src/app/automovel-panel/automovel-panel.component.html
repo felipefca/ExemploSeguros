@@ -358,14 +358,205 @@
                       <li class="next">
                         <button type="button" class="btn btn-primary" nextStep>Próximo <i class="fa fa-caret-right"></i></button>
                       </li>
-                      <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
                     </ul>
                   </div>
                 </wizard-step>
-                <wizard-step title="Title of step 3" navigationSymbol="3">
-                  Content of Step 3
-                  <button type="button" previousStep>Previous Step</button>
-                  <button type="button">Finish</button>
+                <wizard-step title="Questionário" navigationSymbol="3">
+                  <br/>
+                  <section class="invoice-info well">
+                    <div class="row">
+                      <div class="col-sm-6 col-print-6">
+                        <h4 class="details-title">Questionário do Veículo</h4>
+                      </div>
+                    </div>
+                  </section>
+                  <fieldset>
+                    <div class="form-group row">
+                      <div class="col-sm-3">
+                        <label class="font-noraml"><font face="Eagle Lake"> CEP onde o veículo pernoita? </font></label>
+                        <input type="text" id="cepPernoite" class="form-control" placeholder="CEP" formControlName="cepPernoite" [textMask]="{mask: maskCEP}"
+                        />
+                      </div>
+                      <div class="col-sm-9">
+                        <label class="font-noraml"><font face="Eagle Lake"> Relação do Segurado com o Proprietário Legal do Veículo?</font></label>
+                        <div class="form-group row" style="width: 400px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectRelacaoSeguradoId [allowClear]="true" placeholder="Selecione" formControlName="relacaoSeguradoId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-6">
+                        <label class="font-noraml"><font face="Eagle Lake"> Veículo alienado ou financiado?</font></label>
+                        <div class="col-sm-12">
+                          <div class="radio radio-info radio-inline">
+                            <input type="radio" value="true" name="flagAlienado" formControlName="flagAlienado">
+                            <label for="inlineRadio1"> Sim </label>
+                          </div>
+                          <div class="radio radio-inline radio-danger">
+                            <input type="radio" value="false" name="flagAlienado" formControlName="flagAlienado">
+                            <label for="inlineRadio2"> Não </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="font-noraml"><font face="Eagle Lake"> Veículo blindado?</font></label>
+                        <div class="col-sm-12">
+                          <div class="radio radio-info radio-inline">
+                            <input type="radio" value="true" name="flagBlindado" formControlName="flagBlindado">
+                            <label for="inlineRadio1"> Sim </label>
+                          </div>
+                          <div class="radio radio-inline radio-danger">
+                            <input type="radio" value="false" name="flagBlindado" formControlName="flagBlindado">
+                            <label for="inlineRadio2"> Não </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-6">
+                        <label class="font-noraml"><font face="Eagle Lake"> Veículo adaptado para deficiente físico?</font></label>
+                        <div class="col-sm-12">
+                          <div class="radio radio-info radio-inline">
+                            <input type="radio" value="true" name="flagAdaptadoDeficiente" formControlName="flagAdaptadoDeficiente">
+                            <label for="inlineRadio1"> Sim </label>
+                          </div>
+                          <div class="radio radio-inline radio-danger">
+                            <input type="radio" value="false" name="flagAdaptadoDeficiente" formControlName="flagAdaptadoDeficiente">
+                            <label for="inlineRadio2"> Não </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="font-noraml"><font face="Eagle Lake"> Possui Kit Gás?</font></label>
+                        <div class="col-sm-12">
+                          <div class="radio radio-info radio-inline">
+                            <input type="radio" value="true" name="flagKitGas" formControlName="flagKitGas">
+                            <label for="inlineRadio1"> Sim </label>
+                          </div>
+                          <div class="radio radio-inline radio-danger">
+                            <input type="radio" value="false" name="flagKitGas" formControlName="flagKitGas">
+                            <label for="inlineRadio2"> Não </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label class="font-noraml"><font face="Eagle Lake"> O veículo segurado possui dispositivo anti-furto, rastreador, bloqueador ou localizador instalado e ativado?</font></label>
+                        <div class="col-sm-12">
+                          <div class="radio radio-info radio-inline">
+                            <input type="radio" value="true" name="flagAntiFurto" formControlName="flagAntiFurto" (click)="verificarAntiFurto(true)">
+                            <label for="inlineRadio1"> Sim </label>
+                          </div>
+                          <div class="radio radio-inline radio-danger">
+                            <input type="radio" value="false" name="flagAntiFurto" formControlName="flagAntiFurto" (click)="verificarAntiFurto(false)">
+                            <label for="inlineRadio2"> Não </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row" *ngIf="antiFurtoSelecionado">
+                      <div class="col-sm-2">
+                        <label class="font-noraml"><font face="Eagle Lake"> Rastreadores / Localizadores</font></label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-group row" style="width: 400px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectRastreadorId [allowClear]="true" placeholder="Selecione" formControlName="rastreadorId" (selected)="changeRastreador($event.id)"
+                              (removed)="removeRastreador()"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row" *ngIf="antiFurtoSelecionado && rastreadorSelecionado">
+                      <div class="col-sm-2">
+                        <label class="font-noraml"><font face="Eagle Lake"> Propriedade do Rastreador?</font></label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-group row" style="width: 400px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectPropRastreadorId [allowClear]="true" placeholder="Selecione" formControlName="propriedadeRastreadorId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row" *ngIf="antiFurtoSelecionado">
+                      <div class="col-sm-2">
+                        <label class="font-noraml"><font face="Eagle Lake"> Dispositivo Anti-Furto Comum</font></label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-group row" style="width: 400px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectAntiFurtoId [allowClear]="true" placeholder="Selecione" formControlName="antiFurtoId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label class="font-noraml"><font face="Eagle Lake"> Existe garagem ou estacionamento fechado para o veículo?</font></label>
+                        <div class="col-sm-12">
+                          <div class="radio radio-info radio-inline">
+                            <input type="radio" value="true" name="flagGararem" formControlName="flagGararem" (click)="verificarGaragem(true)">
+                            <label for="inlineRadio1"> Sim </label>
+                          </div>
+                          <div class="radio radio-inline radio-danger">
+                            <input type="radio" value="false" name="flagGararem" formControlName="flagGararem" (click)="verificarGaragem(false)">
+                            <label for="inlineRadio2"> Não </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row" *ngIf="garagemSelecionado">
+                      <div class="col-sm-2">
+                        <label class="font-noraml"><font face="Eagle Lake"> Na Residência?</font></label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-group row" style="width: 400px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectGarResidenciaId [allowClear]="true" placeholder="Selecione" formControlName="gararemResidenciaId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row" *ngIf="garagemSelecionado">
+                      <div class="col-sm-2">
+                        <label class="font-noraml"><font face="Eagle Lake"> No Trabalho?</font></label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-group row" style="width: 400px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectGarTrabalhoId [allowClear]="true" placeholder="Selecione" formControlName="gararemTrabalhoId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row" *ngIf="garagemSelecionado">
+                      <div class="col-sm-2">
+                        <label class="font-noraml"><font face="Eagle Lake"> No Colégio / Faculdade?</font></label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-group row" style="width: 400px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectGarFaculdadeId [allowClear]="true" placeholder="Selecione" formControlName="garagemFaculdadeId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <div class="form-actions">
+                    <ul class="pager wizard">
+                      <li class="previous">
+                        <button type="button" class="btn btn-primary" previousStep><i class="fa fa-caret-left"></i> Anterior</button>
+                      </li>
+                      <li class="next">
+                        <button type="button" class="btn btn-primary" nextStep>Próximo <i class="fa fa-caret-right"></i></button>
+                      </li>
+                      <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
+                    </ul>
+                  </div>
                 </wizard-step>
                 <wizard-step title="Title of step 4" navigationSymbol="4">
                   Content of Step 4
