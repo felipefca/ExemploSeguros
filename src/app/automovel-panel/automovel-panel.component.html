@@ -554,14 +554,144 @@
                       <li class="next">
                         <button type="button" class="btn btn-primary" nextStep>Próximo <i class="fa fa-caret-right"></i></button>
                       </li>
-                      <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
                     </ul>
                   </div>
                 </wizard-step>
-                <wizard-step title="Title of step 4" navigationSymbol="4">
-                  Content of Step 4
-                  <button type="button" previousStep>Previous Step</button>
-                  <button type="button">Finish</button>
+                <wizard-step title="Perfil" navigationSymbol="4">
+                  <br/>
+                  <section class="invoice-info well">
+                    <div class="row">
+                      <div class="col-sm-6 col-print-6">
+                        <h4 class="details-title">Perfil do Principal Condutor</h4>
+                      </div>
+                    </div>
+                  </section>
+                  <fieldset>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label class="font-noraml"><font face="Eagle Lake"> Segurado é o principal condutor?</font></label>
+                        <div class="col-sm-12">
+                          <div class="radio radio-info radio-inline">
+                            <input type="radio" value="true" name="flagSegPrincipalCondutor" formControlName="flagSegPrincipalCondutor" (click)="verificarPrinCondutor(true)">
+                            <label for="inlineRadio1"> Sim </label>
+                          </div>
+                          <div class="radio radio-inline radio-danger">
+                            <input type="radio" value="false" name="flagSegPrincipalCondutor" formControlName="flagSegPrincipalCondutor" (click)="verificarPrinCondutor(false)">
+                            <label for="inlineRadio2"> Não </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"> CPF </font></label>
+                        <input type="text" id="cpfPrincipalCondutor" class="form-control" placeholder="CPF" formControlName="cpfPrincipalCondutor"
+                          [textMask]="{mask: maskCPF}" />
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"> Nome </font></label>
+                        <input type="text" id="nomePrincipalCondutor" class="form-control" placeholder="Nome" formControlName="nomePrincipalCondutor"
+                          [maxLength]="15" />
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"> Data de Nascimento</font></label>
+                        <my-date-picker name="dataNascPrincipalCondutor" [options]="myDatePickerOptions" formControlName="dataNascPrincipalCondutor"></my-date-picker>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"> Estado civil?</font></label>
+                        <div class="form-group row" style="width: 280px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectEstadoCivilId [allowClear]="true" placeholder="Selecione" formControlName="estadoCivilId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"> Sexo</font></label>
+                        <div class="form-group row" style="width: 280px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectSexoId [allowClear]="true" placeholder="Selecione" formControlName="sexoId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"> Tempo de Habilitação?</font></label>
+                        <div class="form-group row" style="width: 280px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectTempoHabilitacaoId [allowClear]="true" placeholder="Selecione" formControlName="tempoHabilitacaoId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"> Você possui pontos na habilitação?</font></label>
+                        <div class="col-sm-12">
+                          <div class="radio radio-info radio-inline">
+                            <input type="radio" value="true" name="flagPontosCarteira" formControlName="flagPontosCarteira">
+                            <label for="inlineRadio1"> Sim </label>
+                          </div>
+                          <div class="radio radio-inline radio-danger">
+                            <input type="radio" value="false" name="flagPontosCarteira" formControlName="flagPontosCarteira">
+                            <label for="inlineRadio2"> Não </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-8">
+                        <label class="font-noraml"><font face="Eagle Lake"> Qual a distância entre a residência do Principal Condutor até seu local de trabalho?</font></label>
+                        <div class="form-group row" style="width: 280px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectDistTrabalhoId [allowClear]="true" placeholder="Selecione" formControlName="distanciaTrabalhoId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label class="font-noraml"><font face="Eagle Lake"> Quantidade de veículos na Residência?</font></label>
+                        <div class="form-group row" style="width: 280px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectQtdVeiculosId [allowClear]="true" placeholder="Selecione" formControlName="quantidadeVeiculoId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-8">
+                        <label class="font-noraml"><font face="Eagle Lake"> Tipo de residência?</font></label>
+                        <div class="form-group row" style="width: 280px; margin-left: -15px; margin-bottom: 0px; ">
+                          <div class="col-sm-12">
+                            <ng-select #SelectTipoResidenciaId [allowClear]="true" placeholder="Selecione" formControlName="tipoResidenciaId"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <label class="font-noraml"><font face="Eagle Lake"> O Principal Condutor reside com pessoa(s) menor(es) de 26 anos que possa(m) utilizar o veículo segurado?</font></label>
+                        <div class="col-sm-12">
+                          <div class="radio radio-info radio-inline">
+                            <input type="radio" value="true" name="flagResideMenorIdade" formControlName="flagResideMenorIdade">
+                            <label for="inlineRadio1"> Sim </label>
+                          </div>
+                          <div class="radio radio-inline radio-danger">
+                            <input type="radio" value="false" name="flagResideMenorIdade" formControlName="flagResideMenorIdade">
+                            <label for="inlineRadio2"> Não </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <div class="form-actions">
+                    <ul class="pager wizard">
+                      <li class="previous">
+                        <button type="button" class="btn btn-primary" previousStep><i class="fa fa-caret-left"></i> Anterior</button>
+                      </li>
+                      <li class="next">
+                        <button type="button" class="btn btn-primary" nextStep>Próximo <i class="fa fa-caret-right"></i></button>
+                      </li>
+                      <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
+                    </ul>
+                  </div>
                 </wizard-step>
                 <wizard-step title="Title of step 5" navigationSymbol="5">
                   Content of Step 5

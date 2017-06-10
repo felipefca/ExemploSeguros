@@ -39,12 +39,20 @@ import { GaragemFaculdade } from "app/cotacao/models/garagemFaculdade";
 import { GaragemResidencia } from "app/cotacao/models/garagemResidencia";
 import { PropriedadeRastreador } from "app/cotacao/models/propriedadeRastreador";
 import { RelacaoSegurado } from "app/cotacao/models/relacaoSegurado";
+import { Perfil } from "app/cotacao/models/perfil";
+import { DistanciaTrabalho } from "app/cotacao/models/distanciaTrabalho";
+import { EstadoCivil } from "app/cotacao/models/estadoCivil";
+import { Sexo } from "app/cotacao/models/sexo";
+import { QuantidadeVeiculos } from "app/cotacao/models/quantidadeVeiculos";
+import { TempoHabilitacao } from "app/cotacao/models/tempoHabilitacao";
+import { TipoResidencia } from "app/cotacao/models/tipoResidencia";
 
 // Services
 import { CotacaoService } from "app/cotacao/services/cotacao.services";
 import { ClienteService } from "app/cotacao/services/cliente.services";
 import { ItemService } from "app/cotacao/services/item.services";
 import { QuestionarioService } from "app/cotacao/services/questionario.service";
+import { PerfilService } from "app/cotacao/services/perfil.service";
 
 // Constantes
 const KmSufix = createNumberMask({
@@ -79,6 +87,12 @@ export class AutomovelPanelComponent implements OnInit {
   @ViewChild('SelectGarResidenciaId') public selectGarRes: SelectComponent
   @ViewChild('SelectGarFaculdadeId') public selectGarFac: SelectComponent
   @ViewChild('SelectGarTrabalhoId') public selectGarTrab: SelectComponent
+  @ViewChild('SelectEstadoCivilId') public selectEstCiv: SelectComponent
+  @ViewChild('SelectSexoId') public selectSex: SelectComponent
+  @ViewChild('SelectTempoHabilitacaoId') public selectTempHab: SelectComponent
+  @ViewChild('SelectTipoResidenciaId') public selectTipRes: SelectComponent
+  @ViewChild('SelectQtdVeiculosId') public selectQtdVeic: SelectComponent
+  @ViewChild('SelectDistTrabalhoId') public selectDistTrab: SelectComponent
 
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
@@ -95,6 +109,7 @@ export class AutomovelPanelComponent implements OnInit {
   public endereco: Endereco;
   public item: Item;
   public questionario: Questionario;
+  public perfil: Perfil;
   public tipoSeguro: TipoSeguro[];
   public tipoCalculo: TipoCalculo[];
   public profissoes: Profissao[];
@@ -110,6 +125,12 @@ export class AutomovelPanelComponent implements OnInit {
   public garagemResidencia: GaragemResidencia[];
   public propriedadeRastreadores: PropriedadeRastreador[];
   public relacaoSegurado: RelacaoSegurado[];
+  public distanciaTrabalho: DistanciaTrabalho[];
+  public estadoCivil: EstadoCivil[];
+  public quantidadeVeiculos: QuantidadeVeiculos[];
+  public sexo: Sexo[];
+  public tempoHabilitacao: TempoHabilitacao[];
+  public tipoResidencia: TipoResidencia[];
 
   // Variáveis Auxiliáres
   meuCEP: any;
@@ -143,7 +164,8 @@ export class AutomovelPanelComponent implements OnInit {
     private cotacaoService: CotacaoService,
     private clienteService: ClienteService,
     private itemService: ItemService,
-    private questionarioService: QuestionarioService) {
+    private questionarioService: QuestionarioService,
+    private perfilService: PerfilService) {
 
     this.validationMessages = {
       tipoSeguroId: {
@@ -267,6 +289,45 @@ export class AutomovelPanelComponent implements OnInit {
       },
       relacaoSeguradoId: {
         required: 'Informe a Relação do Segurado com o Proprietário Legal do Veículo"'
+      },
+      flagSegPrincipalCondutor: {
+        required: 'Selecione uma resposta para o Campo "Segurado é o principal condutor?"'
+      },
+      cpfPrincipalCondutor: {
+        required: 'Informe o CPF do Principal Condutor',
+        rangeLength: 'CPF do Principal Condutor deve conter 11 caracteres'
+      },
+      nomePrincipalCondutor: {
+        required: "Informe o Nome do Principal Condutor",
+        minlength: 'O Nome precisa ter no mínimo 2 caracteres',
+        maxlength: 'O Nome precisa ter no máximo 150 caracteres'
+      },
+      dataNascPrincipalCondutor: {
+        required: 'Informe a Data de Nascimento do Principal Condutor'
+      },
+      flagResideMenorIdade: {
+        required: 'Selecione uma resposta para o Campo "O Principal Condutor reside com pessoa(s) menor(es) de 26 anos que possa(m) utilizar o veículo segurado?"'
+      },
+      flagPontosCarteira: {
+        required: 'Selecione uma resposta para o Campo "Você possui pontos na habilitação?"'
+      },
+      estadoCivilId: {
+        required: 'Informe o Estado civil"'
+      },
+      tipoResidenciaId: {
+        required: 'Informe o Tipo de Residência"'
+      },
+      sexoId: {
+        required: 'Informe o Sexo"'
+      },
+      tempoHabilitacaoId: {
+        required: 'Informe o Tempo de Habilitação"'
+      },
+      distanciaTrabalhoId: {
+        required: 'Informe a Distância entre a residência do Principal Condutor até seu local de trabalho"'
+      },
+      quantidadeVeiculoId: {
+        required: 'Informe a Quantidade de veículos na Residência"'
       }
     };
 
@@ -276,6 +337,7 @@ export class AutomovelPanelComponent implements OnInit {
     this.cotacao.cliente.endereco = new Endereco();
     this.cotacao.item = new Item();
     this.cotacao.questionario = new Questionario();
+    this.cotacao.perfil = new Perfil();
 
     this.gerarNumCotacao();
   }
@@ -326,7 +388,19 @@ export class AutomovelPanelComponent implements OnInit {
       gararemResidenciaId: '',
       gararemTrabalhoId: '',
       garagemFaculdadeId: '',
-      propriedadeRastreadorId: ''
+      propriedadeRastreadorId: '',
+      cpfPrincipalCondutor: ['', [Validators.required, CustomValidators.rangeLength([11, 11])]],
+      nomePrincipalCondutor: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
+      dataNascPrincipalCondutor: ['', Validators.required],
+      flagResideMenorIdade: ['', Validators.required],
+      flagSegPrincipalCondutor: ['', Validators.required],
+      flagPontosCarteira: ['', Validators.required],
+      estadoCivilId: ['', Validators.required],
+      tipoResidenciaId: ['', Validators.required],
+      sexoId: ['', Validators.required],
+      tempoHabilitacaoId: ['', Validators.required],
+      distanciaTrabalhoId: ['', Validators.required],
+      quantidadeVeiculoId: ['', Validators.required]
     });
 
     this.getTiposCalculo();
@@ -337,6 +411,12 @@ export class AutomovelPanelComponent implements OnInit {
     this.getImpostos();
     this.getMarcas();
     this.getRelacaoSegurado();
+    this.getEstadoCivil();
+    this.getTipoResidencia();
+    this.getSexo();
+    this.getTempoHabilitacao();
+    this.getDistanciaTrabalho();
+    this.getQuantidadeVeiculos();
 
     this.onDisableDates();
     this.onInitilizeRadios();
@@ -636,6 +716,90 @@ export class AutomovelPanelComponent implements OnInit {
       );
   }
 
+  getEstadoCivil(): void {
+    this.perfilService.ObterEstadoCivis()
+      .subscribe(
+      api => {
+        this.estadoCivil = api;
+        this.estadoCivil.forEach(item => {
+          item.estadoCivilId = item.estadoCivilId.toString();
+          this.selectEstCiv.itemObjects.push(new SelectItem({ id: item.estadoCivilId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getTipoResidencia(): void {
+    this.perfilService.ObterTipoResidencia()
+      .subscribe(
+      api => {
+        this.tipoResidencia = api;
+        this.tipoResidencia.forEach(item => {
+          item.tipoResidenciaId = item.tipoResidenciaId.toString();
+          this.selectTipRes.itemObjects.push(new SelectItem({ id: item.tipoResidenciaId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getSexo(): void {
+    this.perfilService.ObterSexos()
+      .subscribe(
+      api => {
+        this.sexo = api;
+        this.sexo.forEach(item => {
+          item.sexoId = item.sexoId.toString();
+          this.selectSex.itemObjects.push(new SelectItem({ id: item.sexoId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getTempoHabilitacao(): void {
+    this.perfilService.ObterTempoHabilitacao()
+      .subscribe(
+      api => {
+        this.tempoHabilitacao = api;
+        this.tempoHabilitacao.forEach(item => {
+          item.tempoHabilitacaoId = item.tempoHabilitacaoId.toString();
+          this.selectTempHab.itemObjects.push(new SelectItem({ id: item.tempoHabilitacaoId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getDistanciaTrabalho(): void {
+    this.perfilService.ObterDistancias()
+      .subscribe(
+      api => {
+        this.distanciaTrabalho = api;
+        this.distanciaTrabalho.forEach(item => {
+          item.distanciaTrabalhoId = item.distanciaTrabalhoId.toString();
+          this.selectDistTrab.itemObjects.push(new SelectItem({ id: item.distanciaTrabalhoId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
+  getQuantidadeVeiculos(): void {
+    this.perfilService.ObterQuantidadeVeiculos()
+      .subscribe(
+      api => {
+        this.quantidadeVeiculos = api;
+        this.quantidadeVeiculos.forEach(item => {
+          item.quantidadeVeiculoId = item.quantidadeVeiculoId.toString();
+          this.selectQtdVeic.itemObjects.push(new SelectItem({ id: item.quantidadeVeiculoId, text: item.descricao }))
+        });
+      },
+      error => this.errors
+      );
+  }
+
   onBlurCEP() {
     let validaCEP = /^[0-9]{8}$/;
     let cep = UnMasked.clearMaskControls(this.meuCEP.toString());
@@ -803,6 +967,9 @@ export class AutomovelPanelComponent implements OnInit {
     this.cotacaoForm.controls['flagAlienado'].setValue('false');
     this.cotacaoForm.controls['flagAntiFurto'].setValue('false');
     this.cotacaoForm.controls['flagGararem'].setValue('false');
+    this.cotacaoForm.controls['flagResideMenorIdade'].setValue('false');
+    this.cotacaoForm.controls['flagSegPrincipalCondutor'].setValue('false');
+    this.cotacaoForm.controls['flagPontosCarteira'].setValue('false');
   }
 
   verificarAntiFurto(state): void {
@@ -853,6 +1020,19 @@ export class AutomovelPanelComponent implements OnInit {
       this.selectGarRes.itemObjects = [];
 
       this.garagemSelecionado = false;
+    }
+  }
+
+  verificarPrinCondutor(state): void {
+    if (state == true) {
+      this.cotacaoForm.controls['cpfPrincipalCondutor'].setValue(this.cotacaoForm.controls['cpf'].value);
+      this.cotacaoForm.controls['nomePrincipalCondutor'].setValue(this.cotacaoForm.controls['nome'].value);
+      this.cotacaoForm.controls['dataNascPrincipalCondutor'].setValue(this.cotacaoForm.controls['dataNascimento'].value);
+    }
+    else {
+      this.cotacaoForm.controls['cpfPrincipalCondutor'].setValue('');
+      this.cotacaoForm.controls['nomePrincipalCondutor'].setValue('');
+      this.cotacaoForm.controls['dataNascPrincipalCondutor'].setValue('');
     }
   }
 }
