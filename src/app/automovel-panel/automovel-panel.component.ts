@@ -92,7 +92,7 @@ export class AutomovelPanelComponent implements OnInit {
   @ViewChild('SelectTempoHabilitacaoId') public selectTempHab: SelectComponent
   @ViewChild('SelectTipoResidenciaId') public selectTipRes: SelectComponent
   @ViewChild('SelectQtdVeiculosId') public selectQtdVeic: SelectComponent
-  @ViewChild('SelectDistTrabalhoId') public selectDistTrab: SelectComponent
+  @ViewChild('SelectDistTrabalhoId') public selectDistTrab: SelectComponent 
 
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
@@ -488,6 +488,21 @@ export class AutomovelPanelComponent implements OnInit {
       c.questionario.gararemTrabalhoId = this.selectGarTrab != null ? this.selectGarTrab.activeOption.id : null;
       c.questionario.garagemFaculdadeId = this.selectGarFac != null ? this.selectGarFac.activeOption.id : null;
       c.questionario.propriedadeRastreadorId = this.selectPropRast != null ? this.selectPropRast.activeOption.id : null;
+
+      //Perfil
+      c.perfil.id = undefined;
+      c.perfil.cpfPrincipalCondutor = c.cpfPrincipalCondutor;
+      c.perfil.nomePrincipalCondutor = c.nomePrincipalCondutor;
+      c.perfil.dataNascPrincipalCondutor = DateUtils.getMyDatePickerDate(c.dataNascPrincipalCondutor);
+      c.perfil.flagResideMenorIdade = c.flagResideMenorIdade;
+      c.perfil.flagSegPrincipalCondutor = c.flagSegPrincipalCondutor;
+      c.perfil.flagPontosCarteira = c.flagPontosCarteira;
+      c.perfil.estadoCivilId = this.selectEstCiv.activeOption.id;
+      c.perfil.tipoResidenciaId = this.selectTipRes.activeOption.id;
+      c.perfil.sexoId = this.selectSex.activeOption.id;
+      c.perfil.tempoHabilitacaoId = this.selectTempHab.activeOption.id;
+      c.perfil.distanciaTrabalhoId = this.selectDistTrab.activeOption.id;
+      c.perfil.quantidadeVeiculoId = this.selectQtdVeic.activeOption.id;
 
       this.cotacaoService.registrarCotacao(c)
         .subscribe(
