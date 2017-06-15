@@ -12,6 +12,7 @@ import { UnMasked } from "app/utils/unMasked";
 import { SelectModule, SelectComponent, SelectItem } from 'ng2-select';
 import { TabsModule, TabsetComponent } from 'ng2-bootstrap/tabs';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+import { MovingDirection } from "ng2-archwizard/dist";
 
 import { CustomValidators, CustomFormsModule } from "ng2-validation";
 import { GenericValidator } from "app/utils/generic-form-validator";
@@ -92,7 +93,7 @@ export class AutomovelPanelComponent implements OnInit {
   @ViewChild('SelectTempoHabilitacaoId') public selectTempHab: SelectComponent
   @ViewChild('SelectTipoResidenciaId') public selectTipRes: SelectComponent
   @ViewChild('SelectQtdVeiculosId') public selectQtdVeic: SelectComponent
-  @ViewChild('SelectDistTrabalhoId') public selectDistTrab: SelectComponent 
+  @ViewChild('SelectDistTrabalhoId') public selectDistTrab: SelectComponent
 
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
@@ -143,6 +144,7 @@ export class AutomovelPanelComponent implements OnInit {
   public rowsOnPage = 5;
   modeloId: string;
   numCotacao: any;
+  errorsSteps: boolean = false;
 
   // Coleções
   public anos: Array<string> = ['2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010'];
@@ -344,63 +346,71 @@ export class AutomovelPanelComponent implements OnInit {
 
   ngOnInit() {
     this.cotacaoForm = this.fb.group({
-      tipoSeguroId: ['', Validators.required],
-      tipoCalculoId: ['', Validators.required],
-      dataVigenciaInicial: ['', Validators.required],
-      dataVigenciaFinal: ['', Validators.required],
-      nome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
-      sobrenome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
-      email: ['', [Validators.required, CustomValidators.email]],
-      cpf: ['', [Validators.required, CustomValidators.rangeLength([11, 11])]],
-      telefone: ['', [Validators.required, CustomValidators.rangeLength([10, 11])]],
-      rg: ['', [Validators.required, CustomValidators.rangeLength([7, 7])]],
-      dataNascimento: ['', Validators.required],
-      profissaoId: ['', Validators.required],
-      paisResidenciaId: ['', Validators.required],
-      logradouro: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
-      numero: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
-      complemento: '',
-      bairro: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
-      cep: ['', [Validators.required, CustomValidators.rangeLength([8, 8])]],
-      cidade: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
-      estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
-      marcaId: ['', Validators.required],
-      nomeModelo: ['', Validators.required],
-      flagRemarcado: ['', Validators.required],
-      anoFabricacao: ['', Validators.required],
-      anoModelo: ['', Validators.required],
-      flagZeroKm: '',
-      numChassi: '',
-      dataSaida: '',
-      odometro: '',
-      usoId: ['', Validators.required],
-      impostoId: ['', Validators.required],
-      cepPernoite: ['', [Validators.required, CustomValidators.rangeLength([8, 8])]],
-      flagBlindado: ['', Validators.required],
-      flagAdaptadoDeficiente: ['', Validators.required],
-      flagKitGas: ['', Validators.required],
-      flagAlienado: ['', Validators.required],
-      flagAntiFurto: ['', Validators.required],
-      flagGararem: ['', Validators.required],
-      relacaoSeguradoId: ['', Validators.required],
-      rastreadorId: '',
-      antiFurtoId: '',
-      gararemResidenciaId: '',
-      gararemTrabalhoId: '',
-      garagemFaculdadeId: '',
-      propriedadeRastreadorId: '',
-      cpfPrincipalCondutor: ['', [Validators.required, CustomValidators.rangeLength([11, 11])]],
-      nomePrincipalCondutor: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
-      dataNascPrincipalCondutor: ['', Validators.required],
-      flagResideMenorIdade: ['', Validators.required],
-      flagSegPrincipalCondutor: ['', Validators.required],
-      flagPontosCarteira: ['', Validators.required],
-      estadoCivilId: ['', Validators.required],
-      tipoResidenciaId: ['', Validators.required],
-      sexoId: ['', Validators.required],
-      tempoHabilitacaoId: ['', Validators.required],
-      distanciaTrabalhoId: ['', Validators.required],
-      quantidadeVeiculoId: ['', Validators.required]
+      basicForm: this.fb.group({
+        tipoSeguroId: ['', Validators.required],
+        tipoCalculoId: ['', Validators.required],
+        dataVigenciaInicial: ['', Validators.required],
+        dataVigenciaFinal: ['', Validators.required],
+        nome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
+        sobrenome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
+        email: ['', [Validators.required, CustomValidators.email]],
+        cpf: ['', [Validators.required, CustomValidators.rangeLength([11, 11])]],
+        telefone: ['', [Validators.required, CustomValidators.rangeLength([10, 11])]],
+        rg: ['', [Validators.required, CustomValidators.rangeLength([7, 7])]],
+        dataNascimento: ['', Validators.required],
+        profissaoId: ['', Validators.required],
+        paisResidenciaId: ['', Validators.required],
+        logradouro: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+        numero: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
+        complemento: '',
+        bairro: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+        cep: ['', [Validators.required, CustomValidators.rangeLength([8, 8])]],
+        cidade: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+        estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
+      }),
+      itemForm: this.fb.group({
+        marcaId: ['', Validators.required],
+        nomeModelo: ['', Validators.required],
+        flagRemarcado: ['', Validators.required],
+        anoFabricacao: ['', Validators.required],
+        anoModelo: ['', Validators.required],
+        flagZeroKm: '',
+        numChassi: '',
+        dataSaida: '',
+        odometro: '',
+        usoId: ['', Validators.required],
+        impostoId: ['', Validators.required]
+      }),
+      questionarioForm: this.fb.group({
+        cepPernoite: ['', [Validators.required, CustomValidators.rangeLength([8, 8])]],
+        flagBlindado: ['', Validators.required],
+        flagAdaptadoDeficiente: ['', Validators.required],
+        flagKitGas: ['', Validators.required],
+        flagAlienado: ['', Validators.required],
+        flagAntiFurto: ['', Validators.required],
+        flagGararem: ['', Validators.required],
+        relacaoSeguradoId: ['', Validators.required],
+        rastreadorId: '',
+        antiFurtoId: '',
+        gararemResidenciaId: '',
+        gararemTrabalhoId: '',
+        garagemFaculdadeId: '',
+        propriedadeRastreadorId: ''
+      }),
+      perfilForm: this.fb.group({
+        cpfPrincipalCondutor: ['', [Validators.required, CustomValidators.rangeLength([11, 11])]],
+        nomePrincipalCondutor: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
+        dataNascPrincipalCondutor: ['', Validators.required],
+        flagResideMenorIdade: ['', Validators.required],
+        flagSegPrincipalCondutor: ['', Validators.required],
+        flagPontosCarteira: ['', Validators.required],
+        estadoCivilId: ['', Validators.required],
+        tipoResidenciaId: ['', Validators.required],
+        sexoId: ['', Validators.required],
+        tempoHabilitacaoId: ['', Validators.required],
+        distanciaTrabalhoId: ['', Validators.required],
+        quantidadeVeiculoId: ['', Validators.required]
+      })
     });
 
     this.getTiposCalculo();
@@ -436,37 +446,37 @@ export class AutomovelPanelComponent implements OnInit {
       c.tipoSeguroId = this.selectTS.activeOption.id;
       c.tipoCalculoId = this.selectTC.activeOption.id;
       c.numCotacao = this.numCotacao;
-      c.dataVigenciaInicial = DateUtils.getMyDatePickerDate(c.dataVigenciaInicial);
-      c.dataVigenciaFinal = DateUtils.getMyDatePickerDate(c.dataVigenciaFinal);
+      c.dataVigenciaInicial = DateUtils.getMyDatePickerDate(c.basicForm.dataVigenciaInicial);
+      c.dataVigenciaFinal = DateUtils.getMyDatePickerDate(c.basicForm.dataVigenciaFinal);
 
       // Cliente
       c.cliente.id = undefined;
-      c.cliente.nome = c.nome;
-      c.cliente.sobreNome = c.sobrenome;
-      c.cliente.email = c.email;
-      c.cliente.cpf = c.cpf; //this.clearMaskControls(c.cpf.toString());
-      c.cliente.telefone = c.telefone;
-      c.cliente.rg = c.rg
-      c.cliente.dataNascimento = DateUtils.getMyDatePickerDate(c.dataNascimento);
+      c.cliente.nome = c.basicForm.nome;
+      c.cliente.sobreNome = c.basicForm.sobrenome;
+      c.cliente.email = c.basicForm.email;
+      c.cliente.cpf = c.basicForm.cpf;
+      c.cliente.telefone = c.basicForm.telefone;
+      c.cliente.rg = c.basicForm.rg
+      c.cliente.dataNascimento = DateUtils.getMyDatePickerDate(c.basicForm.dataNascimento);
       c.cliente.profissaoId = this.selectPO.activeOption.id;
       c.cliente.paisResidenciaId = this.selectPR.activeOption.id;
 
       //Endereço
       c.cliente.endereco.id = undefined;
-      c.cliente.endereco.logradouro = c.logradouro;
-      c.cliente.endereco.numero = c.numero;
-      c.cliente.endereco.complemento = c.complemento;
-      c.cliente.endereco.bairro = c.bairro;
-      c.cliente.endereco.cep = c.cep;
-      c.cliente.endereco.cidade = c.cidade;
-      c.cliente.endereco.estado = c.estado;
+      c.cliente.endereco.logradouro = c.basicForm.logradouro;
+      c.cliente.endereco.numero = c.basicForm.numero;
+      c.cliente.endereco.complemento = c.basicForm.complemento;
+      c.cliente.endereco.bairro = c.basicForm.bairro;
+      c.cliente.endereco.cep = c.basicForm.cep;
+      c.cliente.endereco.cidade = c.basicForm.cidade;
+      c.cliente.endereco.estado = c.basicForm.estado;
 
       //Item
       c.item.id = undefined;
-      c.item.numChassi = c.numChassi;
-      c.item.flagRemarcado = c.flagRemarcado;
-      c.item.dataSaida = c.dataSaida;
-      c.item.odometro = c.odometro;
+      c.item.numChassi = c.itemForm.numChassi;
+      c.item.flagRemarcado = c.itemForm.flagRemarcado;
+      c.item.dataSaida = c.itemForm.dataSaida;
+      c.item.odometro = c.itemForm.odometro;
       c.item.produtoId = "1";
       c.item.modeloId = this.modeloId;
       c.item.usoId = this.selectUS.activeOption.id;
@@ -474,29 +484,29 @@ export class AutomovelPanelComponent implements OnInit {
 
       //Questionário
       c.questionario.id = undefined;
-      c.questionario.cepPernoite = c.cepPernoite;
-      c.questionario.flagBlindado = c.flagBlindado;
-      c.questionario.flagAdaptadoDeficiente = c.flagAdaptadoDeficiente;
-      c.questionario.flagKitGas = c.flagKitGas;
-      c.questionario.flagAlienado = c.flagAlienado;
-      c.questionario.flagAntiFurto = c.flagAntiFurto;
-      c.questionario.flagGararem = c.flagGararem;
-      c.questionario.rastreadorId = this.selectRast != null ? this.selectRast.activeOption.id : null;
-      c.questionario.antiFurtoId = this.selectAnti != null ? this.selectAnti.activeOption.id : null;
+      c.questionario.cepPernoite = c.questionarioForm.cepPernoite;
+      c.questionario.flagBlindado = c.questionarioForm.flagBlindado;
+      c.questionario.flagAdaptadoDeficiente = c.questionarioForm.flagAdaptadoDeficiente;
+      c.questionario.flagKitGas = c.questionarioForm.flagKitGas;
+      c.questionario.flagAlienado = c.questionarioForm.flagAlienado;
+      c.questionario.flagAntiFurto = c.questionarioForm.flagAntiFurto;
+      c.questionario.flagGararem = c.questionarioForm.flagGararem;
+      c.questionario.rastreadorId = this.selectRast != null && this.selectRast.active.length > 0 ? this.selectRast.activeOption.id : null;
+      c.questionario.antiFurtoId = this.selectAnti != null && this.selectAnti.active.length > 0 ? this.selectAnti.activeOption.id : null;
       c.questionario.relacaoSeguradoId = this.selectRelSeg.activeOption.id;
-      c.questionario.gararemResidenciaId = this.selectGarRes != null ? this.selectGarRes.activeOption.id : null;
-      c.questionario.gararemTrabalhoId = this.selectGarTrab != null ? this.selectGarTrab.activeOption.id : null;
-      c.questionario.garagemFaculdadeId = this.selectGarFac != null ? this.selectGarFac.activeOption.id : null;
-      c.questionario.propriedadeRastreadorId = this.selectPropRast != null ? this.selectPropRast.activeOption.id : null;
+      c.questionario.gararemResidenciaId = this.selectGarRes != null && this.selectGarRes.active.length > 0 ? this.selectGarRes.activeOption.id : null;
+      c.questionario.gararemTrabalhoId = this.selectGarTrab != null && this.selectGarTrab.active.length > 0 ? this.selectGarTrab.activeOption.id : null;
+      c.questionario.garagemFaculdadeId = this.selectGarFac != null && this.selectGarFac.active.length > 0 ? this.selectGarFac.activeOption.id : null;
+      c.questionario.propriedadeRastreadorId = this.selectPropRast != null && this.selectPropRast.active.length > 0 ? this.selectPropRast.activeOption.id : null;
 
       //Perfil
       c.perfil.id = undefined;
-      c.perfil.cpfPrincipalCondutor = c.cpfPrincipalCondutor;
-      c.perfil.nomePrincipalCondutor = c.nomePrincipalCondutor;
-      c.perfil.dataNascPrincipalCondutor = DateUtils.getMyDatePickerDate(c.dataNascPrincipalCondutor);
-      c.perfil.flagResideMenorIdade = c.flagResideMenorIdade;
-      c.perfil.flagSegPrincipalCondutor = c.flagSegPrincipalCondutor;
-      c.perfil.flagPontosCarteira = c.flagPontosCarteira;
+      c.perfil.cpfPrincipalCondutor = c.perfilForm.cpfPrincipalCondutor;
+      c.perfil.nomePrincipalCondutor = c.perfilForm.nomePrincipalCondutor;
+      c.perfil.dataNascPrincipalCondutor = DateUtils.getMyDatePickerDate(c.perfilForm.dataNascPrincipalCondutor);
+      c.perfil.flagResideMenorIdade = c.perfilForm.flagResideMenorIdade;
+      c.perfil.flagSegPrincipalCondutor = c.perfilForm.flagSegPrincipalCondutor;
+      c.perfil.flagPontosCarteira = c.perfilForm.flagPontosCarteira;
       c.perfil.estadoCivilId = this.selectEstCiv.activeOption.id;
       c.perfil.tipoResidenciaId = this.selectTipRes.activeOption.id;
       c.perfil.sexoId = this.selectSex.activeOption.id;
@@ -820,10 +830,11 @@ export class AutomovelPanelComponent implements OnInit {
     let cep = UnMasked.clearMaskControls(this.meuCEP.toString());
 
     if (validaCEP.test(cep)) {
-      this.cotacaoForm.controls['logradouro'].setValue("...");
-      this.cotacaoForm.controls['bairro'].setValue("...");
-      this.cotacaoForm.controls['cidade'].setValue("...");
-      this.cotacaoForm.controls['estado'].setValue("...");
+      //this.cotacaoForm.controls['logradouro'].setValue("...");
+      this.cotacaoForm.patchValue({ basicForm: { logradouro: '...' } });
+      this.cotacaoForm.patchValue({ basicForm: { bairro: '...' } });
+      this.cotacaoForm.patchValue({ basicForm: { cidade: '...' } });
+      this.cotacaoForm.patchValue({ basicForm: { estado: '...' } });
 
       this.clienteService.obterCEP(cep)
         .subscribe(
@@ -832,12 +843,12 @@ export class AutomovelPanelComponent implements OnInit {
             alert("CEP não encontrado!");
             this.clearControls();
           } else {
-            this.cotacaoForm.controls['complemento'].enable();
-            this.cotacaoForm.controls['numero'].enable();
-            this.cotacaoForm.controls['logradouro'].setValue(result.logradouro);
-            this.cotacaoForm.controls['bairro'].setValue(result.bairro);
-            this.cotacaoForm.controls['cidade'].setValue(result.localidade);
-            this.cotacaoForm.controls['estado'].setValue(result.uf);
+            this.cotacaoForm.get('basicForm.complemento').enable();
+            this.cotacaoForm.get('basicForm.numero').enable();
+            this.cotacaoForm.patchValue({ basicForm: { logradouro: result.logradouro } });
+            this.cotacaoForm.patchValue({ basicForm: { bairro: result.bairro } });
+            this.cotacaoForm.patchValue({ basicForm: { cidade: result.localidade } });
+            this.cotacaoForm.patchValue({ basicForm: { estado: result.uf } });
           }
         },
         error => {
@@ -852,43 +863,45 @@ export class AutomovelPanelComponent implements OnInit {
   }
 
   clearControls(): void {
-    this.cotacaoForm.controls['complemento'].disable();
-    this.cotacaoForm.controls['numero'].disable();
-    this.cotacaoForm.controls['complemento'].setValue("");
-    this.cotacaoForm.controls['numero'].setValue("");
-    this.cotacaoForm.controls['logradouro'].setValue("");
-    this.cotacaoForm.controls['bairro'].setValue("");
-    this.cotacaoForm.controls['cidade'].setValue("");
-    this.cotacaoForm.controls['estado'].setValue("");
+    this.cotacaoForm.get('basicForm.complemento').disable();
+    this.cotacaoForm.get('basicForm.numero').disable();
+    this.cotacaoForm.patchValue({ basicForm: { complemento: '' } });
+    this.cotacaoForm.patchValue({ basicForm: { numero: '' } });
+    this.cotacaoForm.patchValue({ basicForm: { logradouro: '' } });
+    this.cotacaoForm.patchValue({ basicForm: { bairro: '' } });
+    this.cotacaoForm.patchValue({ basicForm: { cidade: '' } });
+    this.cotacaoForm.patchValue({ basicForm: { estado: '' } });
   }
 
   onDisableDates() {
-    this.cotacaoForm.controls['dataVigenciaInicial'].disabled;
-    this.cotacaoForm.controls['dataVigenciaFinal'].disabled;
+    //this.cotacaoForm.controls['dataVigenciaInicial'].disabled;
+    this.cotacaoForm.get('basicForm.dataVigenciaInicial').disabled;
+    this.cotacaoForm.get('basicForm.dataVigenciaFinal').disabled;
   }
 
   changeSourceTC($event): void {
     let dateNow = DateUtils.convertUTCDateToLocalDate(new Date());
-    this.cotacaoForm.controls['dataVigenciaInicial'].setValue(DateUtils.setMyDatePickerDate(dateNow));
+    //this.cotacaoForm.controls['dataVigenciaInicial'].setValue(DateUtils.setMyDatePickerDate(dateNow));
+    this.cotacaoForm.patchValue({ basicForm: { dataVigenciaInicial: DateUtils.setMyDatePickerDate(dateNow) } });
 
     if ($event == 1) {
-      this.cotacaoForm.controls['dataVigenciaFinal'].setValue(DateUtils.setMyDatePickerOneYear(dateNow));
+      this.cotacaoForm.patchValue({ basicForm: { dataVigenciaFinal: DateUtils.setMyDatePickerOneYear(dateNow) } });
       this.onDisableDates();
     }
     else if ($event == 2) {
-      this.cotacaoForm.controls['dataVigenciaFinal'].setValue(DateUtils.setMyDatePickerTwoYear(dateNow));
+      this.cotacaoForm.patchValue({ basicForm: { dataVigenciaFinal: DateUtils.setMyDatePickerTwoYear(dateNow) } });
       this.onDisableDates();
     }
     else {
-      this.cotacaoForm.controls['dataVigenciaFinal'].enabled;
-      this.cotacaoForm.controls['dataVigenciaFinal'].setValue('');
+      this.cotacaoForm.get('basicForm.dataVigenciaFinal').enabled;
+      this.cotacaoForm.patchValue({ basicForm: { dataVigenciaFinal: '' } });
     }
   }
 
   removeSourceTC($event) {
     this.onDisableDates();
-    this.cotacaoForm.controls['dataVigenciaInicial'].setValue('');
-    this.cotacaoForm.controls['dataVigenciaFinal'].setValue('');
+    this.cotacaoForm.patchValue({ basicForm: { dataVigenciaInicial: '' } });
+    this.cotacaoForm.patchValue({ basicForm: { dataVigenciaFinal: '' } });
   }
 
   changeSourceAnoFab($event): void {
@@ -911,31 +924,33 @@ export class AutomovelPanelComponent implements OnInit {
   }
 
   changeSourceMarca($event): void {
-    this.cotacaoForm.controls['nomeModelo'].setValue('');
+    //this.cotacaoForm.controls['nomeModelo'].setValue('');
+    this.cotacaoForm.patchValue({ itemForm: { nomeModelo: '' } });
     this.itemService.obterNomeModelosMarcas(this.selectMA.activeOption.id)
       .subscribe(data => this.listModelos = data);
   }
 
   removeSourceMarca($event): void {
     this.listModelos = [];
-    this.cotacaoForm.controls['nomeModelo'].setValue('');
+    this.cotacaoForm.patchValue({ itemForm: { nomeModelo: '' } });
   }
 
   zeroKmChanged($event): void {
-    this.cotacaoForm.controls['dataSaida'].setValue('');
-    this.cotacaoForm.controls['odometro'].setValue('');
+    this.cotacaoForm.patchValue({ itemForm: { dataSaida: '' } });
+    this.cotacaoForm.patchValue({ itemForm: { odometro: '' } });
   }
 
   buscarVeiculos($event): void {
     this.errorsVeic = [];
-    let nomeVeic = this.cotacaoForm.controls['nomeModelo'].value;
+    //let nomeVeic = this.cotacaoForm.controls['nomeModelo'].value;
+    let nomeVeic = this.cotacaoForm.get('itemForm.nomeModelo').value;
     let anoFab = this.selectAnoFab.active.length > 0 ? this.selectAnoFab.activeOption.id : "";
     let anoMod = this.selectAnoMod.active.length > 0 ? this.selectAnoMod.activeOption.id : "";
-    let zeroKm = this.cotacaoForm.controls['flagZeroKm'].value == true ? "1" : "0";
+    //let zeroKm = this.cotacaoForm.controls['flagZeroKm'].value == true ? "1" : "0";
+    let zeroKm = this.cotacaoForm.get('itemForm.flagZeroKm').value == true ? "1" : "0";
 
     if (nomeVeic !== null && anoFab !== "" && anoMod !== "") {
       this.buscaVeiculo = true;
-      //this.cotacaoForm.controls['nomeModelo'].disable();
       this.itemService.obterModelosParaSelecao(this.selectMA.activeOption.id, nomeVeic, anoFab, anoMod, zeroKm)
         .subscribe(
         modelos => {
@@ -957,7 +972,6 @@ export class AutomovelPanelComponent implements OnInit {
   retornaPesquisa($event): void {
     this.buscaVeiculo = false;
     this.flagVeiculoSelecionado = false;
-    //this.cotacaoForm.controls['nomeModelo'].enable();
     this.data = [];
     this.errorsVeic = [];
   }
@@ -975,16 +989,17 @@ export class AutomovelPanelComponent implements OnInit {
   }
 
   onInitilizeRadios(): void {
-    this.cotacaoForm.controls['flagRemarcado'].setValue('false');
-    this.cotacaoForm.controls['flagBlindado'].setValue('false');
-    this.cotacaoForm.controls['flagAdaptadoDeficiente'].setValue('false');
-    this.cotacaoForm.controls['flagKitGas'].setValue('false');
-    this.cotacaoForm.controls['flagAlienado'].setValue('false');
-    this.cotacaoForm.controls['flagAntiFurto'].setValue('false');
-    this.cotacaoForm.controls['flagGararem'].setValue('false');
-    this.cotacaoForm.controls['flagResideMenorIdade'].setValue('false');
-    this.cotacaoForm.controls['flagSegPrincipalCondutor'].setValue('false');
-    this.cotacaoForm.controls['flagPontosCarteira'].setValue('false');
+    //this.cotacaoForm.controls['flagRemarcado'].setValue('false');
+    this.cotacaoForm.patchValue({ itemForm: { flagRemarcado: 'false' } });
+    this.cotacaoForm.patchValue({ questionarioForm: { flagBlindado: 'false' } });
+    this.cotacaoForm.patchValue({ questionarioForm: { flagAdaptadoDeficiente: 'false' } });
+    this.cotacaoForm.patchValue({ questionarioForm: { flagKitGas: 'false' } });
+    this.cotacaoForm.patchValue({ questionarioForm: { flagAlienado: 'false' } });
+    this.cotacaoForm.patchValue({ questionarioForm: { flagAntiFurto: 'false' } });
+    this.cotacaoForm.patchValue({ questionarioForm: { flagGararem: 'false' } });
+    this.cotacaoForm.patchValue({ perfilForm: { flagResideMenorIdade: 'false' } });
+    this.cotacaoForm.patchValue({ perfilForm: { flagSegPrincipalCondutor: 'false' } });
+    this.cotacaoForm.patchValue({ perfilForm: { flagPontosCarteira: 'false' } });
   }
 
   verificarAntiFurto(state): void {
@@ -1040,15 +1055,59 @@ export class AutomovelPanelComponent implements OnInit {
 
   verificarPrinCondutor(state): void {
     if (state == true) {
-      this.cotacaoForm.controls['cpfPrincipalCondutor'].setValue(this.cotacaoForm.controls['cpf'].value);
-      this.cotacaoForm.controls['nomePrincipalCondutor'].setValue(this.cotacaoForm.controls['nome'].value);
-      this.cotacaoForm.controls['dataNascPrincipalCondutor'].setValue(this.cotacaoForm.controls['dataNascimento'].value);
+      this.cotacaoForm.patchValue({ perfilForm: { cpfPrincipalCondutor: this.cotacaoForm.get('basicForm.cpf').value } });
+      this.cotacaoForm.patchValue({ perfilForm: { nomePrincipalCondutor: this.cotacaoForm.get('basicForm.nome').value } });
+      this.cotacaoForm.patchValue({ perfilForm: { dataNascPrincipalCondutor: this.cotacaoForm.get('basicForm.dataNascimento').value } });
+      //this.cotacaoForm.controls['cpfPrincipalCondutor'].setValue(this.cotacaoForm.controls['cpf'].value);
     }
     else {
-      this.cotacaoForm.controls['cpfPrincipalCondutor'].setValue('');
-      this.cotacaoForm.controls['nomePrincipalCondutor'].setValue('');
-      this.cotacaoForm.controls['dataNascPrincipalCondutor'].setValue('');
+      this.cotacaoForm.patchValue({ perfilForm: { cpfPrincipalCondutor: '' } });
+      this.cotacaoForm.patchValue({ perfilForm: { nomePrincipalCondutor: '' } });
+      this.cotacaoForm.patchValue({ perfilForm: { dataNascPrincipalCondutor: '' } });
     }
+  }
+
+  validarQuestionarioStep(): boolean {
+    if (!(<FormGroup>this.cotacaoForm.get('questionarioForm')).valid)
+      return false;
+    else
+      return true;
+  }
+
+  validarPerfilStep(): boolean {
+    if (!(<FormGroup>this.cotacaoForm.get('perfilForm')).valid)
+      return false;
+    else
+      return true;
+  }
+
+  validarItemStep(): boolean {
+    if (!(<FormGroup>this.cotacaoForm.get('itemForm')).valid)
+      return false;
+    else
+      return true;
+  }
+
+  validarBasicStep(): boolean {
+    if (!(<FormGroup>this.cotacaoForm.get('basicForm')).valid)
+      return false;
+    else
+      return true;
+  }
+
+  verificarStep(formStep, event): void {
+    UnMasked.unMaskFormComponents(<FormGroup>this.cotacaoForm.get(formStep));
+    this.displayMessage = this.GenericValidator.processAllMessages(<FormGroup>this.cotacaoForm.get(formStep));
+
+    if (!(<FormGroup>this.cotacaoForm.get(formStep)).valid)
+      this.errorsSteps = true;
+    else
+      this.errorsSteps = false;
+  }
+
+  closeErroSummary(event): void {
+    this.errors = [];
+    this.errorsSteps = false;
   }
 }
 

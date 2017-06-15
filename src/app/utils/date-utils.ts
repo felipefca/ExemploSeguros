@@ -15,17 +15,17 @@ export class DateUtils {
 
     public static setMyDatePickerDate(myDate: any): Object {
         let pickerDate = new Date(myDate);
-        return { date: { year: pickerDate.getFullYear(), month: pickerDate.getMonth() + 1, day: pickerDate.getDate() } };
+        return { date: { year: pickerDate.getFullYear(), month: pickerDate.getMonth() + 1, day: pickerDate.getDate() + 1 } };
     }
 
     public static setMyDatePickerOneYear(myDate: any): Object {
         let pickerDate = new Date(myDate);
-        return { date: { year: pickerDate.getFullYear() + 1, month: pickerDate.getMonth() + 1, day: pickerDate.getDate() } };
+        return { date: { year: pickerDate.getFullYear() + 1, month: pickerDate.getMonth() + 1, day: pickerDate.getDate() + 1 } };
     }
 
     public static setMyDatePickerTwoYear(myDate: any): Object {
         let pickerDate = new Date(myDate);
-        return { date: { year: pickerDate.getFullYear() + 2, month: pickerDate.getMonth() + 1, day: pickerDate.getDate() } };
+        return { date: { year: pickerDate.getFullYear() + 2, month: pickerDate.getMonth() + 1, day: pickerDate.getDate() + 1 } };
     }
 
     public static getMyDatePickerDate(myDate: any): Date {

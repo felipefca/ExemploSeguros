@@ -16,7 +16,7 @@
           <div class="widget-body">
             <form class="form-horizontal form-label-left parsleyjs" novalidate (ngSubmit)="adicionarCotacao()" [formGroup]="cotacaoForm">
               <wizard navBarLayout="large-filled-symbols">
-                <wizard-step title="Seguro / Segurado" navigationSymbol="1">
+                <wizard-step title="Seguro / Segurado" navigationSymbol="1" formGroupName="basicForm" [canExit]="validarBasicStep()" (stepExit)="verificarStep('basicForm', $event)">
                   <br/>
                   <section class="invoice-info well">
                     <div class="row">
@@ -169,7 +169,7 @@
                     </ul>
                   </div>
                 </wizard-step>
-                <wizard-step title="Veículo" optionalStep navigationSymbol="2">
+                <wizard-step title="Veículo" navigationSymbol="2" formGroupName="itemForm" [canExit]="validarItemStep()" (stepExit)="verificarStep('itemForm', $event)">
                   <br/>
                   <section class="invoice-info well">
                     <div class="row">
@@ -361,7 +361,7 @@
                     </ul>
                   </div>
                 </wizard-step>
-                <wizard-step title="Questionário" navigationSymbol="3">
+                <wizard-step title="Questionário" navigationSymbol="3" [canExit]="validarQuestionarioStep()" (stepExit)="verificarStep('questionarioForm', $event)">
                   <br/>
                   <section class="invoice-info well">
                     <div class="row">
@@ -370,7 +370,7 @@
                       </div>
                     </div>
                   </section>
-                  <fieldset>
+                  <fieldset formGroupName="questionarioForm">
                     <div class="form-group row">
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> CEP onde o veículo pernoita? </font></label>
@@ -557,7 +557,7 @@
                     </ul>
                   </div>
                 </wizard-step>
-                <wizard-step title="Perfil" navigationSymbol="4">
+                <wizard-step title="Perfil" navigationSymbol="4" [canExit]="validarPerfilStep()" (stepExit)="verificarStep('perfilForm', $event)">
                   <br/>
                   <section class="invoice-info well">
                     <div class="row">
@@ -566,7 +566,7 @@
                       </div>
                     </div>
                   </section>
-                  <fieldset>
+                  <fieldset formGroupName="perfilForm">
                     <div class="form-group row">
                       <div class="col-sm-12">
                         <label class="font-noraml"><font face="Eagle Lake"> Segurado é o principal condutor?</font></label>
@@ -696,7 +696,7 @@
                 <wizard-step title="Coberturas" navigationSymbol="5">
                   <br/>
                   <section class="invoice-info well">
-                    <div class="row"> 
+                    <div class="row">
                       <div class="col-sm-6 col-print-6">
                         <h4 class="details-title">Coberturas do Veículo</h4>
                       </div>
@@ -733,22 +733,69 @@
         </section>
       </div>
     </div>
-    <div class="col-md-9" *ngIf="errors.length > 0">
+    <div class="col-md-9" *ngIf="errors.length > 0 || errorsSteps">
       <div class="col-xl-7 col-xl-offset-1">
-        <section widget class="widget-body">
-          <div class="widget-body">
-            <div class="alert alert-danger">
-              <header>
-                <h4>
-                  <i class="fa fa-windows"></i> Aviso: Os seguintes erros foram encontrados
-                </h4>
-              </header>
-              <ul>
-                <li *ngFor="let error of errors">{{ error }}</li>
-              </ul>
-            </div>
+        <div class="widget-body">
+          <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" (click)="closeErroSummary($event)">×</button>
+            <header>
+              <h4>
+                <i class="fa fa-warning"></i> Aviso: Os seguintes erros foram encontrados
+              </h4>
+            </header>
+            <ul *ngIf="!errorsSteps">
+              <li *ngFor="let error of errors">{{ error }}</li>
+            </ul>
+            <ul style="list-style-type:disc; padding: 5px">
+              <li *ngIf="displayMessage.tipoSeguroId"> <p [innerHTML]="displayMessage.tipoSeguroId"></p></li>
+              <li *ngIf="displayMessage.tipoCalculoId"> <p [innerHTML]="displayMessage.tipoCalculoId"></p></li>
+              <li *ngIf="displayMessage.dataVigenciaInicial"> <p [innerHTML]="displayMessage.dataVigenciaInicial"></p></li>
+              <li *ngIf="displayMessage.dataVigenciaFinal"> <p [innerHTML]="displayMessage.dataVigenciaFinal"></p></li>
+              <li *ngIf="displayMessage.nome"> <p [innerHTML]="displayMessage.nome"></p></li>
+              <li *ngIf="displayMessage.sobrenome"> <p [innerHTML]="displayMessage.sobrenome"></p></li>
+              <li *ngIf="displayMessage.email"> <p [innerHTML]="displayMessage.email"></p></li>
+              <li *ngIf="displayMessage.cpf"> <p [innerHTML]="displayMessage.cpf"></p></li>
+              <li *ngIf="displayMessage.telefone"> <p [innerHTML]="displayMessage.telefone"></p></li>
+              <li *ngIf="displayMessage.rg"> <p [innerHTML]="displayMessage.rg"></p></li>
+              <li *ngIf="displayMessage.dataNascimento"> <p [innerHTML]="displayMessage.dataNascimento"></p></li>
+              <li *ngIf="displayMessage.profissaoId"> <p [innerHTML]="displayMessage.profissaoId"></p></li>
+              <li *ngIf="displayMessage.paisResidenciaId"> <p [innerHTML]="displayMessage.paisResidenciaId"></p></li>
+              <li *ngIf="displayMessage.logradouro"> <p [innerHTML]="displayMessage.logradouro"></p></li>
+              <li *ngIf="displayMessage.numero"> <p [innerHTML]="displayMessage.numero"></p></li>
+              <li *ngIf="displayMessage.bairro"> <p [innerHTML]="displayMessage.bairro"></p></li>
+              <li *ngIf="displayMessage.cep"> <p [innerHTML]="displayMessage.cep"></p></li>
+              <li *ngIf="displayMessage.cidade"> <p [innerHTML]="displayMessage.cidade"></p></li>
+              <li *ngIf="displayMessage.estado"> <p [innerHTML]="displayMessage.estado"></p></li>
+              <li *ngIf="displayMessage.marcaId"> <p [innerHTML]="displayMessage.marcaId"></p></li>
+              <li *ngIf="displayMessage.nomeModelo"> <p [innerHTML]="displayMessage.nomeModelo"></p></li>
+              <li *ngIf="displayMessage.flagRemarcado"> <p [innerHTML]="displayMessage.flagRemarcado"></p></li>
+              <li *ngIf="displayMessage.anoFabricacao"> <p [innerHTML]="displayMessage.anoFabricacao"></p></li>
+              <li *ngIf="displayMessage.anoModelo"> <p [innerHTML]="displayMessage.anoModelo"></p></li>
+              <li *ngIf="displayMessage.usoId"> <p [innerHTML]="displayMessage.usoId"></p></li>
+              <li *ngIf="displayMessage.impostoId"> <p [innerHTML]="displayMessage.impostoId"></p></li>
+              <li *ngIf="displayMessage.cepPernoite"> <p [innerHTML]="displayMessage.cepPernoite"></p></li>
+              <li *ngIf="displayMessage.flagBlindado"> <p [innerHTML]="displayMessage.flagBlindado"></p></li>
+              <li *ngIf="displayMessage.flagAdaptadoDeficiente"> <p [innerHTML]="displayMessage.flagAdaptadoDeficiente"></p></li>
+              <li *ngIf="displayMessage.flagKitGas"> <p [innerHTML]="displayMessage.flagKitGas"></p></li>
+              <li *ngIf="displayMessage.flagAlienado"> <p [innerHTML]="displayMessage.flagAlienado"></p></li>
+              <li *ngIf="displayMessage.flagAntiFurto"> <p [innerHTML]="displayMessage.flagAntiFurto"></p></li>
+              <li *ngIf="displayMessage.flagGararem"> <p [innerHTML]="displayMessage.flagGararem"></p></li>
+              <li *ngIf="displayMessage.relacaoSeguradoId"> <p [innerHTML]="displayMessage.relacaoSeguradoId"></p></li>
+              <li *ngIf="displayMessage.cpfPrincipalCondutor"> <p [innerHTML]="displayMessage.cpfPrincipalCondutor"></p></li>
+              <li *ngIf="displayMessage.nomePrincipalCondutor"> <p [innerHTML]="displayMessage.nomePrincipalCondutor"></p></li>
+              <li *ngIf="displayMessage.dataNascPrincipalCondutor"> <p [innerHTML]="displayMessage.dataNascPrincipalCondutor"></p></li>
+              <li *ngIf="displayMessage.flagResideMenorIdade"> <p [innerHTML]="displayMessage.flagResideMenorIdade"></p></li>
+              <li *ngIf="displayMessage.flagSegPrincipalCondutor"> <p [innerHTML]="displayMessage.flagSegPrincipalCondutor"></p></li>
+              <li *ngIf="displayMessage.flagPontosCarteira"> <p [innerHTML]="displayMessage.flagPontosCarteira"></p></li>
+              <li *ngIf="displayMessage.estadoCivilId"> <p [innerHTML]="displayMessage.estadoCivilId"></p></li>
+              <li *ngIf="displayMessage.tipoResidenciaId"> <p [innerHTML]="displayMessage.tipoResidenciaId"></p></li>
+              <li *ngIf="displayMessage.sexoId"> <p [innerHTML]="displayMessage.sexoId"></p></li>
+              <li *ngIf="displayMessage.tempoHabilitacaoId"> <p [innerHTML]="displayMessage.tempoHabilitacaoId"></p></li>
+              <li *ngIf="displayMessage.distanciaTrabalhoId"> <p [innerHTML]="displayMessage.distanciaTrabalhoId"></p></li>
+              <li *ngIf="displayMessage.quantidadeVeiculoId"> <p [innerHTML]="displayMessage.quantidadeVeiculoId"></p></li>
+            </ul>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   </div>

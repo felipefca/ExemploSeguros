@@ -11,6 +11,7 @@ import { GaragemResidencia } from "app/cotacao/models/garagemResidencia";
 import { PropriedadeRastreador } from "app/cotacao/models/propriedadeRastreador";
 import { Rastreador } from "app/cotacao/models/rastreador";
 import { RelacaoSegurado } from "app/cotacao/models/relacaoSegurado";
+import { Questionario } from "app/cotacao/models/questionario";
 
 @Injectable()
 export class QuestionarioService extends BaseService {

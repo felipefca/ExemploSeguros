@@ -5,12 +5,19 @@ export class UnMasked {
 
     public static unMaskFormComponents(container: FormGroup): void {
         for (let controlKey in container.controls) {
-            if (controlKey === "cep" || controlKey === "rg" || controlKey === "telefone" || controlKey === "cpf" || controlKey === "odometro"
-                || controlKey === "cepPernoite" || controlKey === "cpfPrincipalCondutor") {
-                let valueControl = container.controls[controlKey].value;
+            if (container.controls.hasOwnProperty(controlKey)) {
+                let c = container.controls[controlKey];
 
-                if (!StringUtils.isNullOrEmpty(valueControl))
-                    container.controls[controlKey].setValue(this.clearMaskControls(valueControl.toString()))
+                if (c instanceof FormGroup) {
+                    this.unMaskFormComponents(c);
+                }
+                else if (controlKey === "cep" || controlKey === "rg" || controlKey === "telefone" || controlKey === "cpf" || controlKey === "odometro"
+                    || controlKey === "cepPernoite" || controlKey === "cpfPrincipalCondutor") {
+                    let valueControl = container.controls[controlKey].value;
+
+                    if (!StringUtils.isNullOrEmpty(valueControl))
+                        container.controls[controlKey].setValue(this.clearMaskControls(valueControl.toString()))
+                }
             }
         }
     }
