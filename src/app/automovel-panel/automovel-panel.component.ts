@@ -54,6 +54,7 @@ import { ClienteService } from "app/cotacao/services/cliente.services";
 import { ItemService } from "app/cotacao/services/item.services";
 import { QuestionarioService } from "app/cotacao/services/questionario.service";
 import { PerfilService } from "app/cotacao/services/perfil.service";
+import { CoberturaService } from "app/cotacao/services/coberturas.service";
 
 // Constantes
 const KmSufix = createNumberMask({
@@ -94,12 +95,13 @@ export class AutomovelPanelComponent implements OnInit {
   @ViewChild('SelectTipoResidenciaId') public selectTipRes: SelectComponent
   @ViewChild('SelectQtdVeiculosId') public selectQtdVeic: SelectComponent
   @ViewChild('SelectDistTrabalhoId') public selectDistTrab: SelectComponent
-
+  @ViewChild('SelectCoberturas') public selectCoberturas: SelectComponent
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
   // Coleção vazia
   public listModelos: string[] = [];
+  public listCoberturas: any[] = [];
   public errors: any[] = [];
   public errorsVeic: any[] = [];
   public cotacaoForm: FormGroup;
@@ -140,14 +142,16 @@ export class AutomovelPanelComponent implements OnInit {
   rastreadorSelecionado: boolean = false;
   garagemSelecionado: boolean = false;
   flagVeiculoSelecionado: boolean = false;
+  errorsSteps: boolean = false;
   public data: any[];
   public rowsOnPage = 5;
   modeloId: string;
   numCotacao: any;
-  errorsSteps: boolean = false;
+  cobBasica: string;
 
   // Coleções
   public anos: Array<string> = ['2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010'];
+  public valoresCobertura: Array<string> = ['150.000,00', '120.000,00', '100.000,00', '80.000,00', '65.000,00', '50.000,00', '30.000,00', '15.000,00', '5.000,00'];
 
   // Mascáras
   public maskCPF = [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
@@ -167,7 +171,8 @@ export class AutomovelPanelComponent implements OnInit {
     private clienteService: ClienteService,
     private itemService: ItemService,
     private questionarioService: QuestionarioService,
-    private perfilService: PerfilService) {
+    private perfilService: PerfilService,
+    private coberturaService: CoberturaService) {
 
     this.validationMessages = {
       tipoSeguroId: {
@@ -513,6 +518,19 @@ export class AutomovelPanelComponent implements OnInit {
       c.perfil.tempoHabilitacaoId = this.selectTempHab.activeOption.id;
       c.perfil.distanciaTrabalhoId = this.selectDistTrab.activeOption.id;
       c.perfil.quantidadeVeiculoId = this.selectQtdVeic.activeOption.id;
+
+      //Coberturas
+      var objCoberturas = [];
+
+      this.listCoberturas.forEach(cob => {
+        var cobertura = {};
+        cobertura["Id"] = undefined;
+        cobertura["CoberturaId"] = cob.coberturaId;
+        cobertura["Valor"] = parseFloat(this.selectCoberturas.activeOption.text);
+        objCoberturas.push(cobertura);
+      })
+
+      c.item.listCoberturasItem = objCoberturas;
 
       this.cotacaoService.registrarCotacao(c)
         .subscribe(
@@ -1103,6 +1121,28 @@ export class AutomovelPanelComponent implements OnInit {
       this.errorsSteps = true;
     else
       this.errorsSteps = false;
+  }
+
+  initCoberturaStep(event): void {
+    this.coberturaService.obterCoberturas("1")
+      .subscribe(
+      apiCoberturas => {
+        this.listCoberturas = apiCoberturas;
+      },
+      error => this.errors
+      );
+
+    this.verificarFlagBasica();
+  }
+
+  verificarFlagBasica(): void {
+    this.coberturaService.verificarFlagBasica("1")
+      .subscribe(
+      apiCoberturas => {
+        this.cobBasica = apiCoberturas;
+      },
+      error => this.errors
+      );
   }
 
   closeErroSummary(event): void {

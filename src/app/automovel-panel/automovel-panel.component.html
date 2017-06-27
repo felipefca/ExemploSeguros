@@ -689,11 +689,10 @@
                       <li class="next">
                         <button type="button" class="btn btn-primary" nextStep>Próximo <i class="fa fa-caret-right"></i></button>
                       </li>
-                      <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
                     </ul>
                   </div>
                 </wizard-step>
-                <wizard-step title="Coberturas" navigationSymbol="5">
+                <wizard-step title="Coberturas" navigationSymbol="5" (stepEnter)="initCoberturaStep($event)">
                   <br/>
                   <section class="invoice-info well">
                     <div class="row">
@@ -703,9 +702,41 @@
                     </div>
                   </section>
                   <fieldset>
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th class="text-left" style="width: 70%">Cobertura</th>
+                          <th class="text-left" style="width: 30%">Valor Segurado</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let cob of listCoberturas">
+                          <td>
+                            <b> {{cob.descricao}} </b>
+                          </td>
+                          <td *ngIf="cob.coberturaId == cobBasica">
+                            <span>R$: {{modelos.valor | moeda}}</span>
+                          </td>
+                          <td *ngIf="cob.coberturaId != cobBasica">
+                            <div class="form-group row" style="width: 280px; margin-left: -15px; margin-bottom: 0px; ">
+                              <div class="col-sm-12">
+                                <ng-select #SelectCoberturas id="cob.coberturaId" [allowClear]="true" placeholder="Selecione o valor" [items]="valoresCobertura"></ng-select>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                      </tbody>
+                    </table>
                   </fieldset>
-                  <button type="button" previousStep>Previous Step</button>
-                  <button type="button">Finish</button>
+                  <div class="form-actions">
+                    <ul class="pager wizard">
+                      <li class="previous">
+                        <button type="button" class="btn btn-primary" previousStep><i class="fa fa-caret-left"></i> Anterior</button>
+                      </li>
+                      <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
+                    </ul>
+                  </div>
                 </wizard-step>
               </wizard>
             </form>
@@ -747,52 +778,144 @@
               <li *ngFor="let error of errors">{{ error }}</li>
             </ul>
             <ul style="list-style-type:disc; padding: 5px">
-              <li *ngIf="displayMessage.tipoSeguroId"> <p [innerHTML]="displayMessage.tipoSeguroId"></p></li>
-              <li *ngIf="displayMessage.tipoCalculoId"> <p [innerHTML]="displayMessage.tipoCalculoId"></p></li>
-              <li *ngIf="displayMessage.dataVigenciaInicial"> <p [innerHTML]="displayMessage.dataVigenciaInicial"></p></li>
-              <li *ngIf="displayMessage.dataVigenciaFinal"> <p [innerHTML]="displayMessage.dataVigenciaFinal"></p></li>
-              <li *ngIf="displayMessage.nome"> <p [innerHTML]="displayMessage.nome"></p></li>
-              <li *ngIf="displayMessage.sobrenome"> <p [innerHTML]="displayMessage.sobrenome"></p></li>
-              <li *ngIf="displayMessage.email"> <p [innerHTML]="displayMessage.email"></p></li>
-              <li *ngIf="displayMessage.cpf"> <p [innerHTML]="displayMessage.cpf"></p></li>
-              <li *ngIf="displayMessage.telefone"> <p [innerHTML]="displayMessage.telefone"></p></li>
-              <li *ngIf="displayMessage.rg"> <p [innerHTML]="displayMessage.rg"></p></li>
-              <li *ngIf="displayMessage.dataNascimento"> <p [innerHTML]="displayMessage.dataNascimento"></p></li>
-              <li *ngIf="displayMessage.profissaoId"> <p [innerHTML]="displayMessage.profissaoId"></p></li>
-              <li *ngIf="displayMessage.paisResidenciaId"> <p [innerHTML]="displayMessage.paisResidenciaId"></p></li>
-              <li *ngIf="displayMessage.logradouro"> <p [innerHTML]="displayMessage.logradouro"></p></li>
-              <li *ngIf="displayMessage.numero"> <p [innerHTML]="displayMessage.numero"></p></li>
-              <li *ngIf="displayMessage.bairro"> <p [innerHTML]="displayMessage.bairro"></p></li>
-              <li *ngIf="displayMessage.cep"> <p [innerHTML]="displayMessage.cep"></p></li>
-              <li *ngIf="displayMessage.cidade"> <p [innerHTML]="displayMessage.cidade"></p></li>
-              <li *ngIf="displayMessage.estado"> <p [innerHTML]="displayMessage.estado"></p></li>
-              <li *ngIf="displayMessage.marcaId"> <p [innerHTML]="displayMessage.marcaId"></p></li>
-              <li *ngIf="displayMessage.nomeModelo"> <p [innerHTML]="displayMessage.nomeModelo"></p></li>
-              <li *ngIf="displayMessage.flagRemarcado"> <p [innerHTML]="displayMessage.flagRemarcado"></p></li>
-              <li *ngIf="displayMessage.anoFabricacao"> <p [innerHTML]="displayMessage.anoFabricacao"></p></li>
-              <li *ngIf="displayMessage.anoModelo"> <p [innerHTML]="displayMessage.anoModelo"></p></li>
-              <li *ngIf="displayMessage.usoId"> <p [innerHTML]="displayMessage.usoId"></p></li>
-              <li *ngIf="displayMessage.impostoId"> <p [innerHTML]="displayMessage.impostoId"></p></li>
-              <li *ngIf="displayMessage.cepPernoite"> <p [innerHTML]="displayMessage.cepPernoite"></p></li>
-              <li *ngIf="displayMessage.flagBlindado"> <p [innerHTML]="displayMessage.flagBlindado"></p></li>
-              <li *ngIf="displayMessage.flagAdaptadoDeficiente"> <p [innerHTML]="displayMessage.flagAdaptadoDeficiente"></p></li>
-              <li *ngIf="displayMessage.flagKitGas"> <p [innerHTML]="displayMessage.flagKitGas"></p></li>
-              <li *ngIf="displayMessage.flagAlienado"> <p [innerHTML]="displayMessage.flagAlienado"></p></li>
-              <li *ngIf="displayMessage.flagAntiFurto"> <p [innerHTML]="displayMessage.flagAntiFurto"></p></li>
-              <li *ngIf="displayMessage.flagGararem"> <p [innerHTML]="displayMessage.flagGararem"></p></li>
-              <li *ngIf="displayMessage.relacaoSeguradoId"> <p [innerHTML]="displayMessage.relacaoSeguradoId"></p></li>
-              <li *ngIf="displayMessage.cpfPrincipalCondutor"> <p [innerHTML]="displayMessage.cpfPrincipalCondutor"></p></li>
-              <li *ngIf="displayMessage.nomePrincipalCondutor"> <p [innerHTML]="displayMessage.nomePrincipalCondutor"></p></li>
-              <li *ngIf="displayMessage.dataNascPrincipalCondutor"> <p [innerHTML]="displayMessage.dataNascPrincipalCondutor"></p></li>
-              <li *ngIf="displayMessage.flagResideMenorIdade"> <p [innerHTML]="displayMessage.flagResideMenorIdade"></p></li>
-              <li *ngIf="displayMessage.flagSegPrincipalCondutor"> <p [innerHTML]="displayMessage.flagSegPrincipalCondutor"></p></li>
-              <li *ngIf="displayMessage.flagPontosCarteira"> <p [innerHTML]="displayMessage.flagPontosCarteira"></p></li>
-              <li *ngIf="displayMessage.estadoCivilId"> <p [innerHTML]="displayMessage.estadoCivilId"></p></li>
-              <li *ngIf="displayMessage.tipoResidenciaId"> <p [innerHTML]="displayMessage.tipoResidenciaId"></p></li>
-              <li *ngIf="displayMessage.sexoId"> <p [innerHTML]="displayMessage.sexoId"></p></li>
-              <li *ngIf="displayMessage.tempoHabilitacaoId"> <p [innerHTML]="displayMessage.tempoHabilitacaoId"></p></li>
-              <li *ngIf="displayMessage.distanciaTrabalhoId"> <p [innerHTML]="displayMessage.distanciaTrabalhoId"></p></li>
-              <li *ngIf="displayMessage.quantidadeVeiculoId"> <p [innerHTML]="displayMessage.quantidadeVeiculoId"></p></li>
+              <li *ngIf="displayMessage.tipoSeguroId">
+                <p [innerHTML]="displayMessage.tipoSeguroId"></p>
+              </li>
+              <li *ngIf="displayMessage.tipoCalculoId">
+                <p [innerHTML]="displayMessage.tipoCalculoId"></p>
+              </li>
+              <li *ngIf="displayMessage.dataVigenciaInicial">
+                <p [innerHTML]="displayMessage.dataVigenciaInicial"></p>
+              </li>
+              <li *ngIf="displayMessage.dataVigenciaFinal">
+                <p [innerHTML]="displayMessage.dataVigenciaFinal"></p>
+              </li>
+              <li *ngIf="displayMessage.nome">
+                <p [innerHTML]="displayMessage.nome"></p>
+              </li>
+              <li *ngIf="displayMessage.sobrenome">
+                <p [innerHTML]="displayMessage.sobrenome"></p>
+              </li>
+              <li *ngIf="displayMessage.email">
+                <p [innerHTML]="displayMessage.email"></p>
+              </li>
+              <li *ngIf="displayMessage.cpf">
+                <p [innerHTML]="displayMessage.cpf"></p>
+              </li>
+              <li *ngIf="displayMessage.telefone">
+                <p [innerHTML]="displayMessage.telefone"></p>
+              </li>
+              <li *ngIf="displayMessage.rg">
+                <p [innerHTML]="displayMessage.rg"></p>
+              </li>
+              <li *ngIf="displayMessage.dataNascimento">
+                <p [innerHTML]="displayMessage.dataNascimento"></p>
+              </li>
+              <li *ngIf="displayMessage.profissaoId">
+                <p [innerHTML]="displayMessage.profissaoId"></p>
+              </li>
+              <li *ngIf="displayMessage.paisResidenciaId">
+                <p [innerHTML]="displayMessage.paisResidenciaId"></p>
+              </li>
+              <li *ngIf="displayMessage.logradouro">
+                <p [innerHTML]="displayMessage.logradouro"></p>
+              </li>
+              <li *ngIf="displayMessage.numero">
+                <p [innerHTML]="displayMessage.numero"></p>
+              </li>
+              <li *ngIf="displayMessage.bairro">
+                <p [innerHTML]="displayMessage.bairro"></p>
+              </li>
+              <li *ngIf="displayMessage.cep">
+                <p [innerHTML]="displayMessage.cep"></p>
+              </li>
+              <li *ngIf="displayMessage.cidade">
+                <p [innerHTML]="displayMessage.cidade"></p>
+              </li>
+              <li *ngIf="displayMessage.estado">
+                <p [innerHTML]="displayMessage.estado"></p>
+              </li>
+              <li *ngIf="displayMessage.marcaId">
+                <p [innerHTML]="displayMessage.marcaId"></p>
+              </li>
+              <li *ngIf="displayMessage.nomeModelo">
+                <p [innerHTML]="displayMessage.nomeModelo"></p>
+              </li>
+              <li *ngIf="displayMessage.flagRemarcado">
+                <p [innerHTML]="displayMessage.flagRemarcado"></p>
+              </li>
+              <li *ngIf="displayMessage.anoFabricacao">
+                <p [innerHTML]="displayMessage.anoFabricacao"></p>
+              </li>
+              <li *ngIf="displayMessage.anoModelo">
+                <p [innerHTML]="displayMessage.anoModelo"></p>
+              </li>
+              <li *ngIf="displayMessage.usoId">
+                <p [innerHTML]="displayMessage.usoId"></p>
+              </li>
+              <li *ngIf="displayMessage.impostoId">
+                <p [innerHTML]="displayMessage.impostoId"></p>
+              </li>
+              <li *ngIf="displayMessage.cepPernoite">
+                <p [innerHTML]="displayMessage.cepPernoite"></p>
+              </li>
+              <li *ngIf="displayMessage.flagBlindado">
+                <p [innerHTML]="displayMessage.flagBlindado"></p>
+              </li>
+              <li *ngIf="displayMessage.flagAdaptadoDeficiente">
+                <p [innerHTML]="displayMessage.flagAdaptadoDeficiente"></p>
+              </li>
+              <li *ngIf="displayMessage.flagKitGas">
+                <p [innerHTML]="displayMessage.flagKitGas"></p>
+              </li>
+              <li *ngIf="displayMessage.flagAlienado">
+                <p [innerHTML]="displayMessage.flagAlienado"></p>
+              </li>
+              <li *ngIf="displayMessage.flagAntiFurto">
+                <p [innerHTML]="displayMessage.flagAntiFurto"></p>
+              </li>
+              <li *ngIf="displayMessage.flagGararem">
+                <p [innerHTML]="displayMessage.flagGararem"></p>
+              </li>
+              <li *ngIf="displayMessage.relacaoSeguradoId">
+                <p [innerHTML]="displayMessage.relacaoSeguradoId"></p>
+              </li>
+              <li *ngIf="displayMessage.cpfPrincipalCondutor">
+                <p [innerHTML]="displayMessage.cpfPrincipalCondutor"></p>
+              </li>
+              <li *ngIf="displayMessage.nomePrincipalCondutor">
+                <p [innerHTML]="displayMessage.nomePrincipalCondutor"></p>
+              </li>
+              <li *ngIf="displayMessage.dataNascPrincipalCondutor">
+                <p [innerHTML]="displayMessage.dataNascPrincipalCondutor"></p>
+              </li>
+              <li *ngIf="displayMessage.flagResideMenorIdade">
+                <p [innerHTML]="displayMessage.flagResideMenorIdade"></p>
+              </li>
+              <li *ngIf="displayMessage.flagSegPrincipalCondutor">
+                <p [innerHTML]="displayMessage.flagSegPrincipalCondutor"></p>
+              </li>
+              <li *ngIf="displayMessage.flagPontosCarteira">
+                <p [innerHTML]="displayMessage.flagPontosCarteira"></p>
+              </li>
+              <li *ngIf="displayMessage.estadoCivilId">
+                <p [innerHTML]="displayMessage.estadoCivilId"></p>
+              </li>
+              <li *ngIf="displayMessage.tipoResidenciaId">
+                <p [innerHTML]="displayMessage.tipoResidenciaId"></p>
+              </li>
+              <li *ngIf="displayMessage.sexoId">
+                <p [innerHTML]="displayMessage.sexoId"></p>
+              </li>
+              <li *ngIf="displayMessage.tempoHabilitacaoId">
+                <p [innerHTML]="displayMessage.tempoHabilitacaoId"></p>
+              </li>
+              <li *ngIf="displayMessage.distanciaTrabalhoId">
+                <p [innerHTML]="displayMessage.distanciaTrabalhoId"></p>
+              </li>
+              <li *ngIf="displayMessage.quantidadeVeiculoId">
+                <p [innerHTML]="displayMessage.quantidadeVeiculoId"></p>
+              </li>
             </ul>
           </div>
         </div>

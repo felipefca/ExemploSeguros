@@ -1,4 +1,6 @@
-export class Item{
+import { Coberturas } from "app/cotacao/models/coberturas";
+
+export class Item {
     id: string;
     numChassi: string;
     flagRemarcado: boolean;
@@ -7,5 +9,6 @@ export class Item{
     produtoId: string;
     modeloId: string;
     usoId: string;
-    impostoId: string;
+    impostoId: string; 
+    listCoberturasItem: Coberturas[];
 }

@@ -18,6 +18,13 @@ export class CoberturaService extends BaseService {
             .map((res: Response) => <Coberturas[]>res.json())
             .catch(super.serviceError);
     }
+
+    verificarFlagBasica(produtoId: string): Observable<any> {
+        return this.http.get(this.UrlServiceV1 + "coberturas/VerifyFlagBasic/" + produtoId)
+            .map((res: Response) => res.json())
+            .catch(super.serviceError);
+    }
+
     private extractData(response: Response) {
         let body = response.json();
         return body.data || {};

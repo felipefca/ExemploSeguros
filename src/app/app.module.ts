@@ -13,6 +13,7 @@ import { CollapseModule } from 'ng2-Bootstrap/collapse';
 import { CarouselModule } from 'ng2-Bootstrap/carousel';
 import { TabsModule } from 'ng2-bootstrap/tabs';
 import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
+import { TooltipModule } from 'ng2-bootstrap/tooltip';
 
 // Others
 import { MyDatePickerModule } from "mydatepicker";
@@ -59,7 +60,6 @@ import { QuestionarioService } from "app/cotacao/services/questionario.service";
 import { PerfilService } from "app/cotacao/services/perfil.service";
 import { CoberturaService } from "app/cotacao/services/coberturas.service";
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -97,6 +97,7 @@ import { CoberturaService } from "app/cotacao/services/coberturas.service";
     CarouselModule.forRoot(),
     TabsModule.forRoot(),
     TypeaheadModule.forRoot(),
+    TooltipModule.forRoot(),
     RouterModule.forRoot(rootRouterConfig, {
       useHash: false
     })
