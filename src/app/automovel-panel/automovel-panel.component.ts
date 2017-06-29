@@ -153,7 +153,7 @@ export class AutomovelPanelComponent implements OnInit {
 
   // Coleções
   public anos: Array<string> = ['2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010'];
-  public valoresCobertura: Array<string> = ['150.000,00', '120.000,00', '100.000,00', '80.000,00', '65.000,00', '50.000,00', '30.000,00', '15.000,00', '5.000,00'];
+  public valoresCobertura: Array<string> = ['150.000,00', '120.000,00', '100.000,00', '80.000,00', '65.000,00', '50.000,00', '30.000,00', '15.000,00', '5.000,00', '0'];
 
   // Mascáras
   public maskCPF = [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
@@ -1154,7 +1154,10 @@ export class AutomovelPanelComponent implements OnInit {
         cobertura["Valor"] = parseFloat(this.elemCob.nativeElement.id);
       } else {
         var elemento = this.listSelectValCoberturas.find(item => item.Id === cob.coberturaId);
-        cobertura["Valor"] = parseFloat(elemento.Valor.replace(".", ""));
+        if (typeof elemento !== "undefined")
+          cobertura["Valor"] = parseFloat(elemento.Valor.replace(".", ""));
+        else
+          cobertura["Valor"] = 0;
       }
       objCoberturas.push(cobertura);
     })
@@ -1164,7 +1167,9 @@ export class AutomovelPanelComponent implements OnInit {
   selectedCobertura($event, cobId): void {
     var achou = this.listSelectValCoberturas.find(item => item.Id === cobId)
 
-    if (achou === "undefined") {
+    if (typeof achou !== "undefined") {
+      this.listSelectValCoberturas = this.listSelectValCoberturas.filter(item => item.Id !== cobId);
+    } else {
       var arrayCob = {};
       arrayCob["Id"] = cobId;
       arrayCob["Valor"] = $event.id;
