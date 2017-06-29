@@ -52,6 +52,12 @@ export class ItemService extends BaseService {
             .catch(super.serviceError);
     }
 
+    obterValorModelo(modeloId: string): Observable<any>  {
+        return this.http.get(this.UrlServiceV1 + "itens/ObterValorModelo/" + modeloId)
+            .map((res: Response) => res.json())
+            .catch(super.serviceError);
+    }
+
     private extractData(response: Response) {
         let body = response.json();
         return body.data || {};

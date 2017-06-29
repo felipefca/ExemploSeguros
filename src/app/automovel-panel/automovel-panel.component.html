@@ -161,7 +161,7 @@
                   <div class="form-actions">
                     <ul class="pager wizard">
                       <li class="previous">
-                        <button type="button" class="btn btn-primary" goToStep="2"><i class="fa fa-caret-left"></i> Anterior</button>
+                        <button type="button" class="btn btn-primary" goToStep="4"><i class="fa fa-caret-left"></i> Anterior</button>
                       </li>
                       <li class="next">
                         <button type="button" class="btn btn-primary" nextStep>Próximo <i class="fa fa-caret-right"></i></button>
@@ -710,7 +710,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let cob of listCoberturas">
+                        <tr *ngFor="let cob of listCoberturas" #elem [attr.id]="modelos.valor">
                           <td>
                             <b> {{cob.descricao}} </b>
                           </td>
@@ -720,7 +720,8 @@
                           <td *ngIf="cob.coberturaId != cobBasica">
                             <div class="form-group row" style="width: 280px; margin-left: -15px; margin-bottom: 0px; ">
                               <div class="col-sm-12">
-                                <ng-select #SelectCoberturas id="cob.coberturaId" [allowClear]="true" placeholder="Selecione o valor" [items]="valoresCobertura"></ng-select>
+                                <ng-select #SelectCoberturas [allowClear]="true" placeholder="Selecione o valor" [items]="valoresCobertura" (selected)="selectedCobertura($event, cob.coberturaId)"
+                                  (removed)="removedCoberturas($event, cob.coberturaId)"></ng-select>
                               </div>
                             </div>
                           </td>

@@ -96,12 +96,14 @@ export class AutomovelPanelComponent implements OnInit {
   @ViewChild('SelectQtdVeiculosId') public selectQtdVeic: SelectComponent
   @ViewChild('SelectDistTrabalhoId') public selectDistTrab: SelectComponent
   @ViewChild('SelectCoberturas') public selectCoberturas: SelectComponent
+  @ViewChild("elem", { read: ElementRef }) elemCob: ElementRef;
 
   private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
   // Coleção vazia
   public listModelos: string[] = [];
   public listCoberturas: any[] = [];
+  public listSelectValCoberturas = [];
   public errors: any[] = [];
   public errorsVeic: any[] = [];
   public cotacaoForm: FormGroup;
@@ -520,17 +522,7 @@ export class AutomovelPanelComponent implements OnInit {
       c.perfil.quantidadeVeiculoId = this.selectQtdVeic.activeOption.id;
 
       //Coberturas
-      var objCoberturas = [];
-
-      this.listCoberturas.forEach(cob => {
-        var cobertura = {};
-        cobertura["Id"] = undefined;
-        cobertura["CoberturaId"] = cob.coberturaId;
-        cobertura["Valor"] = parseFloat(this.selectCoberturas.activeOption.text);
-        objCoberturas.push(cobertura);
-      })
-
-      c.item.listCoberturasItem = objCoberturas;
+      c.item.listCoberturasItem = this.montarCoberturas(this.listCoberturas);
 
       this.cotacaoService.registrarCotacao(c)
         .subscribe(
@@ -1148,6 +1140,41 @@ export class AutomovelPanelComponent implements OnInit {
   closeErroSummary(event): void {
     this.errors = [];
     this.errorsSteps = false;
+  }
+
+  montarCoberturas(listCoberturas): any {
+    var objCoberturas = [];
+
+    listCoberturas.forEach(cob => {
+      var cobertura = {};
+      cobertura["Id"] = undefined;
+      cobertura["CoberturaId"] = cob.coberturaId;
+
+      if (this.cobBasica === cob.coberturaId) {
+        cobertura["Valor"] = parseFloat(this.elemCob.nativeElement.id);
+      } else {
+        var elemento = this.listSelectValCoberturas.find(item => item.Id === cob.coberturaId);
+        cobertura["Valor"] = parseFloat(elemento.Valor.replace(".", ""));
+      }
+      objCoberturas.push(cobertura);
+    })
+    return objCoberturas;
+  }
+
+  selectedCobertura($event, cobId): void {
+    var achou = this.listSelectValCoberturas.find(item => item.Id === cobId)
+
+    if (achou === "undefined") {
+      var arrayCob = {};
+      arrayCob["Id"] = cobId;
+      arrayCob["Valor"] = $event.id;
+
+      this.listSelectValCoberturas.push(arrayCob);
+    }
+  }
+
+  removedCoberturas($event, cobId): void {
+    this.listSelectValCoberturas = this.listSelectValCoberturas.filter(item => item.Id !== cobId);
   }
 }
 
