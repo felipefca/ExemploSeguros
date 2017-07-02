@@ -20,41 +20,41 @@ import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 
 // Models
-import { Cotacao } from "app/cotacao/models/cotacao";
-import { Endereco } from "app/cotacao/models/endereco";
-import { Cliente } from "app/cotacao/models/cliente";
-import { TipoSeguro } from "app/cotacao/models/tipoSeguro";
-import { TipoCalculo } from "app/cotacao/models/tipoCalculo";
-import { Profissao } from "app/cotacao/models/profissao";
-import { PaisResidencia } from "app/cotacao/models/paisResidencia";
-import { Item } from "app/cotacao/models/item";
-import { Imposto } from "app/cotacao/models/imposto";
-import { Marca } from "app/cotacao/models/marca";
-import { Uso } from "app/cotacao/models/uso";
-import { Modelo } from "app/cotacao/models/modelo";
-import { Questionario } from "app/cotacao/models/questionario";
-import { Rastreador } from "app/cotacao/models/rastreador";
-import { AntiFurto } from "app/cotacao/models/antiFurto";
-import { GaragemTrabalho } from "app/cotacao/models/garagemTrabalho";
-import { GaragemFaculdade } from "app/cotacao/models/garagemFaculdade";
-import { GaragemResidencia } from "app/cotacao/models/garagemResidencia";
-import { PropriedadeRastreador } from "app/cotacao/models/propriedadeRastreador";
-import { RelacaoSegurado } from "app/cotacao/models/relacaoSegurado";
-import { Perfil } from "app/cotacao/models/perfil";
-import { DistanciaTrabalho } from "app/cotacao/models/distanciaTrabalho";
-import { EstadoCivil } from "app/cotacao/models/estadoCivil";
-import { Sexo } from "app/cotacao/models/sexo";
-import { QuantidadeVeiculos } from "app/cotacao/models/quantidadeVeiculos";
-import { TempoHabilitacao } from "app/cotacao/models/tempoHabilitacao";
-import { TipoResidencia } from "app/cotacao/models/tipoResidencia";
+import { Cotacao } from "app/cotacoes/models/cotacao";
+import { Endereco } from "app/cotacoes/models/endereco";
+import { Cliente } from "app/cotacoes/models/cliente";
+import { TipoSeguro } from "app/cotacoes/models/tipoSeguro";
+import { TipoCalculo } from "app/cotacoes/models/tipoCalculo";
+import { Profissao } from "app/cotacoes/models/profissao";
+import { PaisResidencia } from "app/cotacoes/models/paisResidencia";
+import { Item } from "app/cotacoes/models/item";
+import { Imposto } from "app/cotacoes/models/imposto";
+import { Marca } from "app/cotacoes/models/marca";
+import { Uso } from "app/cotacoes/models/uso";
+import { Modelo } from "app/cotacoes/models/modelo";
+import { Questionario } from "app/cotacoes/models/questionario";
+import { Rastreador } from "app/cotacoes/models/rastreador";
+import { AntiFurto } from "app/cotacoes/models/antiFurto";
+import { GaragemTrabalho } from "app/cotacoes/models/garagemTrabalho";
+import { GaragemFaculdade } from "app/cotacoes/models/garagemFaculdade";
+import { GaragemResidencia } from "app/cotacoes/models/garagemResidencia";
+import { PropriedadeRastreador } from "app/cotacoes/models/propriedadeRastreador";
+import { RelacaoSegurado } from "app/cotacoes/models/relacaoSegurado";
+import { Perfil } from "app/cotacoes/models/perfil";
+import { DistanciaTrabalho } from "app/cotacoes/models/distanciaTrabalho";
+import { EstadoCivil } from "app/cotacoes/models/estadoCivil";
+import { Sexo } from "app/cotacoes/models/sexo";
+import { QuantidadeVeiculos } from "app/cotacoes/models/quantidadeVeiculos";
+import { TempoHabilitacao } from "app/cotacoes/models/tempoHabilitacao";
+import { TipoResidencia } from "app/cotacoes/models/tipoResidencia";
 
 // Services
-import { CotacaoService } from "app/cotacao/services/cotacao.services";
-import { ClienteService } from "app/cotacao/services/cliente.services";
-import { ItemService } from "app/cotacao/services/item.services";
-import { QuestionarioService } from "app/cotacao/services/questionario.service";
-import { PerfilService } from "app/cotacao/services/perfil.service";
-import { CoberturaService } from "app/cotacao/services/coberturas.service";
+import { CotacaoService } from "app/cotacoes/services/cotacao.services";
+import { ClienteService } from "app/cotacoes/services/cliente.services";
+import { ItemService } from "app/cotacoes/services/item.services";
+import { QuestionarioService } from "app/cotacoes/services/questionario.service";
+import { PerfilService } from "app/cotacoes/services/perfil.service";
+import { CoberturaService } from "app/cotacoes/services/coberturas.service";
 
 // Constantes
 const KmSufix = createNumberMask({
@@ -66,11 +66,12 @@ const KmSufix = createNumberMask({
 })
 
 @Component({
-  selector: 'app-automovel-panel',
-  templateUrl: './automovel-panel.component.html',
-  styleUrls: ['./automovel-panel.component.css']
+  selector: 'app-automovel',
+  templateUrl: './automovel.component.html',
+  styleUrls: ['./automovel.component.css']
 })
-export class AutomovelPanelComponent implements OnInit {
+export class AutomovelComponent implements OnInit {
+
   // Diretivas
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
   @ViewChild('SelectTipoSeguroId') public selectTS: SelectComponent
@@ -1182,4 +1183,3 @@ export class AutomovelPanelComponent implements OnInit {
     this.listSelectValCoberturas = this.listSelectValCoberturas.filter(item => item.Id !== cobId);
   }
 }
-

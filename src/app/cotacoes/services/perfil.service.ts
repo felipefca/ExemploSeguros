@@ -4,12 +4,12 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
 
-import { DistanciaTrabalho } from "app/cotacao/models/distanciaTrabalho";
-import { EstadoCivil } from "app/cotacao/models/estadoCivil";
-import { QuantidadeVeiculos } from "app/cotacao/models/quantidadeVeiculos";
-import { Sexo } from "app/cotacao/models/sexo";
-import { TempoHabilitacao } from "app/cotacao/models/tempoHabilitacao";
-import { TipoResidencia } from "app/cotacao/models/tipoResidencia";
+import { DistanciaTrabalho } from "app/cotacoes/models/distanciaTrabalho";
+import { EstadoCivil } from "app/cotacoes/models/estadoCivil";
+import { QuantidadeVeiculos } from "app/cotacoes/models/quantidadeVeiculos";
+import { Sexo } from "app/cotacoes/models/sexo";
+import { TempoHabilitacao } from "app/cotacoes/models/tempoHabilitacao";
+import { TipoResidencia } from "app/cotacoes/models/tipoResidencia";
 
 @Injectable()
 export class PerfilService extends BaseService {

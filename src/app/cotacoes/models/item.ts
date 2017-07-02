@@ -1,4 +1,4 @@
-import { Coberturas } from "app/cotacao/models/coberturas";
+import { Coberturas } from "app/cotacoes/models/coberturas";
 
 export class Item {
     id: string;

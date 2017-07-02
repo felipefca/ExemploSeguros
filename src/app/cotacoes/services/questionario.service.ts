@@ -4,14 +4,14 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
 
-import { AntiFurto } from "app/cotacao/models/antiFurto";
-import { GaragemFaculdade } from "app/cotacao/models/garagemFaculdade";
-import { GaragemTrabalho } from "app/cotacao/models/garagemTrabalho";
-import { GaragemResidencia } from "app/cotacao/models/garagemResidencia";
-import { PropriedadeRastreador } from "app/cotacao/models/propriedadeRastreador";
-import { Rastreador } from "app/cotacao/models/rastreador";
-import { RelacaoSegurado } from "app/cotacao/models/relacaoSegurado";
-import { Questionario } from "app/cotacao/models/questionario";
+import { AntiFurto } from "app/cotacoes/models/antiFurto";
+import { GaragemFaculdade } from "app/cotacoes/models/garagemFaculdade";
+import { GaragemTrabalho } from "app/cotacoes/models/garagemTrabalho";
+import { GaragemResidencia } from "app/cotacoes/models/garagemResidencia";
+import { PropriedadeRastreador } from "app/cotacoes/models/propriedadeRastreador";
+import { Rastreador } from "app/cotacoes/models/rastreador";
+import { RelacaoSegurado } from "app/cotacoes/models/relacaoSegurado";
+import { Questionario } from "app/cotacoes/models/questionario";
 
 @Injectable()
 export class QuestionarioService extends BaseService {

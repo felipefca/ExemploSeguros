@@ -4,10 +4,10 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
 
-import { Imposto } from "app/cotacao/models/imposto";
-import { Uso } from "app/cotacao/models/uso";
-import { Marca } from "app/cotacao/models/marca";
-import { Modelo } from "app/cotacao/models/modelo";
+import { Imposto } from "app/cotacoes/models/imposto";
+import { Uso } from "app/cotacoes/models/uso";
+import { Marca } from "app/cotacoes/models/marca";
+import { Modelo } from "app/cotacoes/models/modelo";
 
 @Injectable()
 export class ItemService extends BaseService {

@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { BaseService } from "app/services/base.service";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
 
-import { Cotacao } from "app/cotacao/models/cotacao";
-import { TipoSeguro } from "app/cotacao/models/tipoSeguro";
-import { TipoCalculo } from "app/cotacao/models/tipoCalculo";
+import { Cotacao } from "app/cotacoes/models/cotacao";
+import { TipoSeguro } from "app/cotacoes/models/tipoSeguro";
+import { TipoCalculo } from "app/cotacoes/models/tipoCalculo";
 
 import { Observable } from "rxjs/Observable";
 

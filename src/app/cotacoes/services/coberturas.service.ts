@@ -4,7 +4,7 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
 
-import { Coberturas } from "app/cotacao/models/coberturas";
+import { Coberturas } from "app/cotacoes/models/coberturas";
 
 @Injectable()
 export class CoberturaService extends BaseService {

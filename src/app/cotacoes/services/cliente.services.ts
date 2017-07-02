@@ -4,8 +4,8 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
 
-import { PaisResidencia } from "app/cotacao/models/paisResidencia";
-import { Profissao } from "app/cotacao/models/profissao";
+import { PaisResidencia } from "app/cotacoes/models/paisResidencia";
+import { Profissao } from "app/cotacoes/models/profissao";
 
 @Injectable()
 export class ClienteService extends BaseService {

@@ -1,4 +1,4 @@
-import { Endereco } from "app/cotacao/models/endereco";
+import { Endereco } from "app/cotacoes/models/endereco";
 
 export class Cliente {
     id: string;
