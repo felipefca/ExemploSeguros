@@ -8,7 +8,7 @@
         <section class="widget">
           <header>
             <h4>
-              <i class="fa fa-windows"></i> Cotação Automóvel
+              <i class="fa fa-car"></i> Cotação Automóvel
             </h4>
           </header>
           <legend class="section">
@@ -65,12 +65,13 @@
                     <div class="form-group row">
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Nome </font></label>
-                        <input type="text" id="nome" class="form-control" placeholder="Nome" formControlName="nome" [maxLength]="15" />
+                        <input type="text" id="nome" class="form-control" placeholder="Nome" formControlName="nome" [maxLength]="15" [(ngModel)]="nome"
+                        />
                       </div>
                       <div class="col-sm-6">
                         <label class="font-noraml"><font face="Eagle Lake"> Sobrenome </font></label>
                         <input type="text" id="sobrenome" class="form-control" placeholder="Sobrenome" formControlName="sobrenome" [maxLength]="45"
-                        />
+                          [(ngModel)]="sobrenome" />
                       </div>
                       <div class="col-sm-3">
                         <label class="font-noraml"><font face="Eagle Lake"> Data de Nascimento </font></label>
@@ -166,6 +167,7 @@
                       <li class="next">
                         <button type="button" class="btn btn-primary" nextStep>Próximo <i class="fa fa-caret-right"></i></button>
                       </li>
+                      <button type="button" class="btn btn-danger">TESTE</button>
                     </ul>
                   </div>
                 </wizard-step>
@@ -735,7 +737,7 @@
                       <li class="previous">
                         <button type="button" class="btn btn-primary" previousStep><i class="fa fa-caret-left"></i> Anterior</button>
                       </li>
-                      <button type="submit" class="btn btn-danger">Validate &amp; Submit</button>
+                      <button type="submit" class="btn btn-danger">Calcular</button>
                     </ul>
                   </div>
                 </wizard-step>
@@ -750,7 +752,7 @@
         <section widget class="widget">
           <header>
             <h4>
-              <i class="fa fa-windows"></i> Resumo do Seguro
+              <i class="fa fa-shopping-cart"></i> Resumo do Seguro
             </h4>
           </header>
           <br />
@@ -760,6 +762,30 @@
             </div>
             <div class="col-sm-6">
               <p class="text-muted">{{numCotacao}}</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label class="font-noraml"><font face="Eagle Lake"> <b> Segurado: </b></font></label>
+            </div>
+            <div class="col-sm-12">
+              <p class="text-muted">{{nome}} {{sobrenome}}</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label class="font-noraml"><font face="Eagle Lake"> <b> Endereço: </b></font></label>
+            </div>
+            <div class="col-sm-12">
+              <p class="text-muted"> {{logradouro}} </p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label class="font-noraml"><font face="Eagle Lake"> <b> Produto: </b></font></label>
+            </div>
+            <div class="col-sm-12">
+              <p class="text-muted">Automóvel</p>
             </div>
           </div>
         </section>

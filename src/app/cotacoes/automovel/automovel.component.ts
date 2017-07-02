@@ -441,7 +441,7 @@ export class AutomovelComponent implements OnInit {
   }
 
   adicionarCotacao() {
-
+    
     UnMasked.unMaskFormComponents(this.cotacaoForm);
     this.displayMessage = this.GenericValidator.processMessages(this.cotacaoForm);
 
