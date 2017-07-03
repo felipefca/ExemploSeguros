@@ -167,7 +167,6 @@
                       <li class="next">
                         <button type="button" class="btn btn-primary" nextStep>Próximo <i class="fa fa-caret-right"></i></button>
                       </li>
-                      <button type="button" class="btn btn-danger">TESTE</button>
                     </ul>
                   </div>
                 </wizard-step>
@@ -738,6 +737,9 @@
                         <button type="button" class="btn btn-primary" previousStep><i class="fa fa-caret-left"></i> Anterior</button>
                       </li>
                       <button type="submit" class="btn btn-danger">Calcular</button>
+                    </ul>
+                    <ul class="pager wizard" *ngIf="flagCalculou">
+                      <span style="color:red">Calculando. Aguarde um momento! <sk-three-bounce></sk-three-bounce> </span>
                     </ul>
                   </div>
                 </wizard-step>

@@ -145,6 +145,7 @@ export class AutomovelComponent implements OnInit {
   rastreadorSelecionado: boolean = false;
   garagemSelecionado: boolean = false;
   flagVeiculoSelecionado: boolean = false;
+  flagCalculou: boolean = false;
   errorsSteps: boolean = false;
   public data: any[];
   public rowsOnPage = 5;
@@ -441,11 +442,13 @@ export class AutomovelComponent implements OnInit {
   }
 
   adicionarCotacao() {
-    
+
     UnMasked.unMaskFormComponents(this.cotacaoForm);
     this.displayMessage = this.GenericValidator.processMessages(this.cotacaoForm);
 
     if (this.cotacaoForm.dirty && this.cotacaoForm.valid) {
+      this.flagCalculou = true;
+
       let user = this.cotacaoService.obterUsuario();
       let c = Object.assign({}, this.cotacao, this.cotacaoForm.value);
 
@@ -542,6 +545,7 @@ export class AutomovelComponent implements OnInit {
   }
 
   onError(error): void {
+    this.flagCalculou = false;
     this.errors = JSON.parse(error._body).errors;
     console.log(error);
   }

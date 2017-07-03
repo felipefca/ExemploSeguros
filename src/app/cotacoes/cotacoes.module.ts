@@ -22,6 +22,8 @@ import { ListacotacoesComponent } from './listacotacoes/listacotacoes.component'
 import { AutomovelComponent } from './automovel/automovel.component';
 import { MenucotacaoComponent } from './menucotacao/menucotacao.component';
 
+import { ThreeBounceComponent } from "app/utils/three-bounce";
+
 // Directives
 import { OnlyNumber } from "app/diretivas/OnlyNumber";
 
@@ -68,6 +70,7 @@ import { cotacoesRouterConfig } from "app/cotacoes/cotacoes.routes";
         ListacotacoesComponent,
         AutomovelComponent,
         MenucotacaoComponent,
+        ThreeBounceComponent,
         OnlyNumber,
         DataFilterPipe,
         MoedaPipe
