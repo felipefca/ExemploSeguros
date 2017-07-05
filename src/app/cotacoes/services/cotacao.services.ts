@@ -48,6 +48,12 @@ export class CotacaoService extends BaseService {
             .catch(super.serviceError);
     }
 
+    obterCotacao(cotacaoId: string): Observable<Cotacao> {
+        return this.http.get(this.UrlServiceV1 + "cotacoes/ObterCotacao/" + cotacaoId)
+            .map((res: Response) => <Cotacao[]>res.json())
+            .catch(super.serviceError);
+    }
+
     private extractData(response: Response) {
         let body = response.json();
         return body.data || {};

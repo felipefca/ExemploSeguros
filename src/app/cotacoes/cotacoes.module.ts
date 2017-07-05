@@ -21,6 +21,7 @@ import { ProdutosComponent } from "app/cotacoes/produtos/produtos.component";
 import { ListacotacoesComponent } from './listacotacoes/listacotacoes.component';
 import { AutomovelComponent } from './automovel/automovel.component';
 import { MenucotacaoComponent } from './menucotacao/menucotacao.component';
+import { ResultadoComponent } from "app/cotacoes/resultado/resultado.component";
 
 import { ThreeBounceComponent } from "app/utils/three-bounce";
 
@@ -71,6 +72,7 @@ import { cotacoesRouterConfig } from "app/cotacoes/cotacoes.routes";
         AutomovelComponent,
         MenucotacaoComponent,
         ThreeBounceComponent,
+        ResultadoComponent,
         OnlyNumber,
         DataFilterPipe,
         MoedaPipe

@@ -530,7 +530,7 @@ export class AutomovelComponent implements OnInit {
 
       this.cotacaoService.registrarCotacao(c)
         .subscribe(
-        result => { this.onSaveComplete() },
+        result => { this.onSaveComplete(result.id, result.numCotacao, result.premioTotal) },
         error => { this.onError(error) });
 
     } else {
@@ -539,9 +539,11 @@ export class AutomovelComponent implements OnInit {
     }
   }
 
-  onSaveComplete(): void {
+  onSaveComplete(id: string, numCotacao: string, premioTotal: number): void {
     this.cotacaoForm.reset();
     this.errors = [];
+
+    this.router.navigate(['/cotacoes/resultado', id, numCotacao]);
   }
 
   onError(error): void {

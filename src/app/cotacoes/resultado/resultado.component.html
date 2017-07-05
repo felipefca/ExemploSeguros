@@ -1,0 +1,69 @@
+<div class="container">
+  <br/>
+  <app-menucotacao></app-menucotacao>
+  <div class="row">
+    <div class="col-xl-8">
+      <div class="widget-body">
+        <section class="invoice-info well">
+          <div class="row">
+            <div class="col-sm-6 col-print-6">
+              <h4 class="details-title">Resultado da Cotação</h4>
+            </div>
+          </div>
+        </section>
+        <section widget class="widget">
+          <div class="widget-body">
+            <fieldset>
+              <div class="form-group row">
+                <div class="col-sm-2">
+                  <label class="font-noraml"><font face="Eagle Lake"> <b> Nº da Cotação: </b></font></label>
+                </div>
+                <div class="col-sm-10">
+                  <p class="text-muted">{{numCotacao}}</p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2">
+                  <label class="font-noraml"><font face="Eagle Lake"> <b> Nome do Segurado: </b></font></label>
+                </div>
+                <div class="col-sm-10">
+                  <p class="text-muted">{{cotacao.cliente.nome}} {{cotacao.cliente.sobreNome}} </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2">
+                  <label class="font-noraml"><font face="Eagle Lake"> <b> Veículo: </b></font></label>
+                  <p class="text-muted"></p>
+                </div>
+                <div class="col-sm-2">
+                  <span><img class="icon" [src]="'assets/img/marcas/' + modelos.marca.imagem" alt="Electricity" width="70" height="30"></span>
+                </div>
+                <div class="col-sm-10">
+                  <font face="Eagle Lake" size="2">
+                    {{modelos.descricao}} {{modelos.anoFabricacao}}/{{modelos.anoModelo}} R$: {{modelos.valor | moeda}}
+                  </font>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2">
+                  <label class="font-noraml"><font face="Eagle Lake"> <b> Franquia Contratada: </b></font></label>
+                </div>
+                <div class="col-sm-10">
+                  <p class="text-muted"> {{modelos.Franquia}} </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2">
+                  <label class="font-noraml"><font face="Eagle Lake"> <b> Prêmio Total: </b></font></label>
+                </div>
+                <div class="col-sm-10">
+                  <p class="text-muted"> {{cotacao.premioTotal}} </p>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
