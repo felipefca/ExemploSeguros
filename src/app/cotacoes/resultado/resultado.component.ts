@@ -16,6 +16,7 @@ export class ResultadoComponent implements OnInit {
 
   cotacaoId: string = "";
   numCotacao: string = "";
+  valFranquia: string = "";
   private sub: any;
   private modeloId: string;
   public cotacao: Cotacao;
@@ -58,10 +59,22 @@ export class ResultadoComponent implements OnInit {
       });
   }
 
+  obterFranquiaModelo(modeloId: string): void {
+    this.itemService.obterFranquiaModelo(modeloId)
+      .subscribe(
+      data => this.valFranquia = data,
+      response => {
+        if (response.status == 404) {
+          this.router.navigate(['NotFound']);
+        }
+      });
+  }
+
   preencherFormCotacao(cotacao: Cotacao): void {
     this.cotacao = cotacao;
     this.modeloId = cotacao.item.modeloId;
 
     this.obterDadosModelo(this.modeloId);
+    this.obterFranquiaModelo(this.modeloId);
   };
 }

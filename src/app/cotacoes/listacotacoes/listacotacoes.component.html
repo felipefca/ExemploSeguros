@@ -5,7 +5,7 @@
   <div class="widget-body">
     <table #tb2 class="table table-bordered table-lg mt-lg mb-0">
       <thead>
-        <tr>
+        <tr> 
           <th class="text-left">Número da Cotação</th>
           <th class="text-left">Produto</th>
           <th>Data de Cálculo</th>
@@ -16,12 +16,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>131233456</td>
+        <tr *ngFor='let cotacao of cotacoes'>
+          <td>{{cotacao.numCotacao}}</td>
           <td>Automóvel</td>
-          <td>10/02/2017 03:40:46</td>
-          <td>10/02/2017</td>
-          <td>10/02/2018</td>
+          <td>{{cotacao.dataCalculo | dataFilter}}</td>
+          <td>{{cotacao.dataVigenciaInicial | dataFilter}}</td>
+          <td>{{cotacao.dataVigenciaFinal | dataFilter}}</td>
           <td>ONIX HATCH EFFECT 1.4 8v SPE/4(Flex) A/G 4p</td>
           <td>button</td>
         </tr>
