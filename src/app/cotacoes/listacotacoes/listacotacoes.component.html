@@ -1,29 +1,40 @@
-<section widget class="widget">
+<section widget class="widget" *ngIf="cotacoes?.length > 0">
   <header>
     <h5>Cotações <span class="fw-semi-bold">Realizadas</span></h5>
   </header>
   <div class="widget-body">
     <table #tb2 class="table table-bordered table-lg mt-lg mb-0">
       <thead>
-        <tr> 
+        <tr>
           <th class="text-left">Número da Cotação</th>
           <th class="text-left">Produto</th>
           <th>Data de Cálculo</th>
-          <th class="text-left">Data de Vigência Inicial</th>
-          <th class="text-left">Data de Vigência Final</th>
-          <th class="text-left">Descrição</th>
+          <th class="text-left">Marca</th>
+          <th class="text-left">Descrição Veículo</th>
           <th class="text-left">Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor='let cotacao of cotacoes'>
+        <tr *ngFor='let cotacao of cotacoes' #elemModelo [attr.id]="cotacao.modeloId">
           <td>{{cotacao.numCotacao}}</td>
           <td>Automóvel</td>
-          <td>{{cotacao.dataCalculo | dataFilter}}</td>
-          <td>{{cotacao.dataVigenciaInicial | dataFilter}}</td>
-          <td>{{cotacao.dataVigenciaFinal | dataFilter}}</td>
-          <td>ONIX HATCH EFFECT 1.4 8v SPE/4(Flex) A/G 4p</td>
-          <td>button</td>
+          <td>{{cotacao.dataCalculo | date:'dd/MM/yyyy'}}</td>
+          <td>
+            <span><img class="icon" [src]="'assets/img/marcas/' + modelos.marca.imagem" alt="Electricity" width="70" height="30"></span>
+          </td>
+          <td>
+            <font face="Eagle Lake" size="2">
+              {{modelos.descricao}} {{modelos.anoFabricacao}}/{{modelos.anoModelo}} R$: {{modelos.valor | moeda}}
+            </font>
+          </td>
+          <td>
+            <button type="button" class="btn btn-default" id="btnSelectItem" tooltip="Re-Calcular (Em Construção)" (click)="selecionarItem($event, cotacao.id)">
+              <i class="fa fa-repeat"></i>
+            </button>
+            <button type="button" class="btn btn-danger" id="btnRemoverItem" tooltip="Remover (Em construção)" (click)="removerItem($event, cotacao.id)">
+              <i class="fa fa-remove"></i>
+            </button>
+          </td>
         </tr>
         <tr>
       </tbody>

@@ -37,7 +37,7 @@ import { AuthService } from "app/services/AuthService";
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     HttpModule,
     SharedModule,
     UsuarioModule,
@@ -50,7 +50,7 @@ import { AuthService } from "app/services/AuthService";
     })
   ],
   providers: [
-    UsuarioService, 
+    UsuarioService,
     AuthService,
     { provide: ToastOptions, useClass: ToastrCustomOption }
   ],

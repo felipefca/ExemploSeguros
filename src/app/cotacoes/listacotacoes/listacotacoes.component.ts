@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { CotacaoService } from "app/cotacoes/services/cotacao.services";
+import { ItemService } from "app/cotacoes/services/item.services";
 
 import { Cotacao } from "app/cotacoes/models/cotacao";
 import { Modelo } from "app/cotacoes/models/modelo";
@@ -12,10 +13,15 @@ import { Modelo } from "app/cotacoes/models/modelo";
 })
 export class ListacotacoesComponent implements OnInit {
 
-  public cotacoes: Cotacao[];
-  public errorMessage: string = "";
+  @ViewChild("elemModelo", { read: ElementRef }) elemMod: ElementRef;
 
-  constructor(private cotacaoService: CotacaoService) { }
+  public cotacoes: Cotacao[];
+  public modelos: Modelo[];
+  public errorMessage: string = "";
+  private modeloId: string;
+
+  constructor(private cotacaoService: CotacaoService,
+    private itemService: ItemService) { }
 
   ngOnInit() {
     let userId = this.cotacaoService.obterUsuario();
@@ -28,6 +34,30 @@ export class ListacotacoesComponent implements OnInit {
   }
 
   preencherCampos(cotacoes: Cotacao[]): void {
-    this.cotacoes = cotacoes;
+    if (cotacoes.length == 0) {
+      this.cotacoes = [];
+    } else {
+      this.cotacoes = cotacoes;
+
+      this.cotacoes.forEach(cot => {
+        this.obterDadosModelo(cot.item.modeloId);
+      })
+    }
   };
+
+  obterDadosModelo(modeloId: string): void {
+    this.itemService.obterDadosModeloSelecionado(modeloId)
+      .subscribe(
+      data => this.modelos = data,
+      error => this.errorMessage
+      );
+  }
+
+  selecionarItem($event, $id): void {
+
+  }
+
+  removerItem($event, $id): void {
+
+  }
 }

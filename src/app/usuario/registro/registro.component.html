@@ -52,13 +52,13 @@
           </button>
           <a class="forgot" href="#">Forgot Username or Password?</a>
         </div>
-        <div class="alert alert-danger" *ngIf="errors.length > 0">
-          <h4 id="msgRetorno">Opa! Alguma coisa não deu certo:</h4>
-          <ul>
-            <li *ngFor="let error of errors">{{ error }}</li>
-          </ul>
-        </div>
       </form>
     </div>
   </section>
+</div>
+<div class="alert alert-danger" *ngIf="errors.length > 0">
+  <h4 id="msgRetorno">Opa! Alguma coisa não deu certo:</h4>
+  <ul>
+    <li *ngFor="let error of errors">{{ error }}</li>
+  </ul>
 </div>
