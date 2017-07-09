@@ -11,6 +11,8 @@ import 'rxjs/add/observable/throw';
 
 import { Usuario } from "app/usuario/usuario";
 
+import { environment } from "environments/environment";
+
 export abstract class BaseService{
 
     public Token: string = "";
@@ -19,7 +21,8 @@ export abstract class BaseService{
         this.Token = localStorage.getItem('exs.token');
     }
 
-    protected UrlServiceV1: string = "http://localhost:1426/api/v1/"; 
+    protected UrlServiceV1: string = environment.urlServiceV1;
+    //protected UrlServiceV1: string = "http://localhost:1426/api/v1/"; 
 
     protected obterAuthHeader(): RequestOptions {
         let headers = new Headers({ 'Content-Type': 'application/json' });
