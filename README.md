@@ -13,3 +13,6 @@
 # Back End
 - .NET Core (C#, ASP.NET WebAPI)
 - 
+
+# Beta
+- Versão beta de testes
