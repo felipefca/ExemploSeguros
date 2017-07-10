@@ -4,6 +4,6 @@
 
 Aplicação de testes de uma cotação de automóvel para um seguro fictício. 
 
-## Aplicação
--> http://appangularseguros.azurewebsites.net/
+# Azure Deploy
+- http://appangularseguros.azurewebsites.net/
 
