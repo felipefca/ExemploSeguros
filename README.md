@@ -1,9 +1,12 @@
 # Angular 4 + WebApi + .NET Core
 
-*Exemplo Seguros
+- Exemplo Seguros
 
-Aplicação de testes de uma cotação de automóvel para um seguro fictício. 
+- Aplicação de testes de seguros fictícios. 
 
 # Azure Deploy
 - http://appangularseguros.azurewebsites.net/
+
+# Front End
+- Angular 4
 
