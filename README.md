@@ -12,8 +12,7 @@
 - Bootstrap 3
 
 # Back End
-- .NET Core (C#, ASP.NET WebAPI)
-- 
+- https://github.com/felipefca/ExemploSeguros-BackEnd
 
 # Beta
 - Versão beta de testes
