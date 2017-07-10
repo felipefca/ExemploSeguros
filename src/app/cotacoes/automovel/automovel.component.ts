@@ -99,7 +99,7 @@ export class AutomovelComponent implements OnInit {
   @ViewChild('SelectCoberturas') public selectCoberturas: SelectComponent
   @ViewChild("elem", { read: ElementRef }) elemCob: ElementRef;
 
-  private myDatePickerOptions = DateUtils.getMyDatePickerOptions();
+  public myDatePickerOptions = DateUtils.getMyDatePickerOptions();
 
   // Coleção vazia
   public listModelos: string[] = [];
@@ -140,6 +140,10 @@ export class AutomovelComponent implements OnInit {
 
   // Variáveis Auxiliáres
   meuCEP: any;
+  meuNome: string;
+  meuSobrenome: string;
+  meuLogradouro: string;
+  checkflagZeroKm: boolean;
   buscaVeiculo: boolean = false;
   antiFurtoSelecionado: boolean = false;
   rastreadorSelecionado: boolean = false;
@@ -152,6 +156,7 @@ export class AutomovelComponent implements OnInit {
   modeloId: string;
   numCotacao: any;
   cobBasica: string;
+  disabled: any;
 
   // Coleções
   public anos: Array<string> = ['2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010'];

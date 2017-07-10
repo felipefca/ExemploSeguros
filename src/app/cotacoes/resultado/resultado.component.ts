@@ -20,7 +20,7 @@ export class ResultadoComponent implements OnInit {
   private sub: any;
   private modeloId: string;
   public cotacao: Cotacao;
-  public modelos: Modelo[];
+  public modelos: any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,

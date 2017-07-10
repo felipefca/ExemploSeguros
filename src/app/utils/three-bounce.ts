@@ -60,7 +60,7 @@ import { Component, Input, OnDestroy } from "@angular/core";
 })
 
 export class ThreeBounceComponent implements OnDestroy {
-    private visible: boolean = true;
+    public visible: boolean = true;
     private timeout: any;
 
     @Input()

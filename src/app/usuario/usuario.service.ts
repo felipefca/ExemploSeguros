@@ -10,11 +10,14 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/throw';
 
 import { Usuario } from "app/usuario/usuario";
+import { BaseService } from "app/services/base.service";
 
 @Injectable()
-export class UsuarioService {
+export class UsuarioService extends BaseService {
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) {
+        super();
+    }
 
     registrarUsuario(usuario: Usuario): Observable<Usuario> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -22,7 +25,7 @@ export class UsuarioService {
 
         //let jsons = JSON.stringify(usuário);
         let response = this.http
-            .post("http://localhost:1426/api/v1/novo-usuario", usuario, options)
+            .post(this.UrlServiceV1 + "novo-usuario", usuario, options)
             .map(this.extractData)
             .catch(this.serviceError);
 
@@ -34,7 +37,7 @@ export class UsuarioService {
         let options = new RequestOptions({ headers: headers });
 
         let response = this.http
-            .post("http://localhost:1426/api/v1/conta", usuario, options)
+            .post(this.UrlServiceV1 + "conta", usuario, options)
             .map(this.extractData)
             .catch(this.serviceError);
 
