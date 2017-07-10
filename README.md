@@ -10,3 +10,6 @@
 # Front End
 - Angular 4
 
+# Back End
+- .NET Core (C#, ASP.NET WebAPI)
+- 
